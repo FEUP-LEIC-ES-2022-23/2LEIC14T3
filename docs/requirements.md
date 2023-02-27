@@ -5,8 +5,8 @@ In this section, you should describe all kinds of requirements for your module: 
 
 
 
-### ~~Use case model 
-The use cases were discontinued for the purpose of the project.~~
+### Use case model 
+~~The use cases were discontinued for the purpose of the project.~~
 
 ### User stories
 The user stories should be created as GitHub issues. Therefore, this section will *not* exist in your report, it is here only to explain how you should describe the requirements of the product as **user stories**. 
