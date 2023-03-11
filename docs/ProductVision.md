@@ -3,9 +3,7 @@
 
 ### Vision Statement
 
-Start by defining a clear and concise vision for your app, to help members of the team, contributors, and users into focusing their often disparate views into a concise, visual, and short textual form. It provides a "high concept" of the product for marketers, developers, and managers.
-
-A product vision describes the essential of the product and sets the direction to where a product is headed, and what the product will deliver in the future. 
+With our app, we want to enhance transparency, communication and feedback in the IT World, by providing a central hub where users can rate and give their opinion on all aspects concerning the IT Marketplace. All this, so you can make the best choices for your career! Feedback is a gift, so you better Rate IT!
 
 **We favor a catchy and concise statement, ideally one sentence.**
 
@@ -20,9 +18,8 @@ To learn more about how to write a good product vision, please see also:
 
 
 ### Main Features
-Indicate an  initial/tentative list of high-level features - high-level capabilities or desired services of the system that are necessary to deliver benefits to the users (cf. RUP).
- - Feature XPTO - Short description
- - Feature ABCD - Short description
+ - Feature Rate IT - Users typically assign a numerical (1-5) rating, which can then be used to calculate an overall score.
+ - Feature Search - A search feature is a tool that allows users to find specific events, companies, and formations based on their search queries. Users enter keywords  or phrases related to the subject being searched and the search tool returns a list of relevant results.
 ...
 
 ### Assumptions and dependencies
