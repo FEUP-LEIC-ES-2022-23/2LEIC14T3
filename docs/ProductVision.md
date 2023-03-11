@@ -28,7 +28,7 @@ To learn more about how to write a good product vision, please see also:
  - Feature Log in (as company user) - A company login feature allows authorized company users to access the app by entering their credentials, such as a username and password. This feature provides a secure and customized experience for company users, and enables them to access additional features of the app, such as event creation.
  - Feature Private Profile -  A private profile feature allows users to hide their reviews and personal information from other users on the app. This feature is accessed through the user's account settings and allows them to set their profile to private mode. The private profile feature is useful for users who wish to maintain their privacy and only share their reviews with a select group of people.
  - Feature Profile Editing - The profile editing feature is a tool that allows users to modify their profile information, including their profile picture, name, and username. By allowing users to modify their profile information, this feature enables them to keep their profiles up-to-date and reflective of their current preferences and identity.
-...
+
 
 ### Assumptions and dependencies
 Indicate an  initial/tentative list of assumptions and dependencies 
