@@ -7,13 +7,13 @@ You can find here details about the product (or mini-app or module), from a high
 * Business modeling 
   * [Product Vision](docs/ProductVision.md)
   * [Elevator Pitch]
-* [Requirements](docs/requirements.md)
-  * [User stories](docs/requirements.md#User-stories)
+* [Requirements]
+  * [User stories](https://github.com/FEUP-LEIC-ES-2022-23/2LEIC14T3/issues)
   * [Domain model](docs/requirements.md#Domain-model)
-* [Architecture and Design](docs/ArchitectureAndDesign.md)
-  * [Logical architecture]
-  * [Physical architecture]
-  * [Vertical prototype]
+* [Architecture and Design]
+  * [Logical architecture](docs/ArchitectureAndDesign.md#Logical-architecture)
+  * [Physical architecture](docs/ArchitectureAndDesign.md#Physical-architecture)
+  * [Vertical prototype](docs/ArchitectureAndDesign.md#Vertical-prototype)
 * [Implementation]
 * [Test]
 * [Configuration and change management]
