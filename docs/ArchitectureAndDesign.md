@@ -22,9 +22,8 @@ Our physical architecture is very simple. We just have two main entities feature
 Regarding technologies used, we programmed in Flutter along with Firebase to store data on reviews, companies, formations and events. We chose Firebase for our database server because it easily integrates with Flutter and is simple to set up.
 
 ### Vertical prototype
-To help on validating all the architectural, design and technological decisions made, we usually implement a vertical prototype, a thin vertical slice of the system.
+We decided to start our project development by created our app UI on FIGMA (all these mockups can be found in the User Stories). Then, we decided to get a better understanding of how to utilize Flutter, by implementing in Rate IT a subsection with the creators and developers that are going to make this project happen (Credits).
 
-In this subsection please describe which feature you have implemented, and how, together with a snapshot of the user interface, if applicable.
+Down bellow there's a little video of how this first version turned out:
 
-At this phase, instead of a complete user story, you can simply implement a feature that demonstrates thay you can use the technology, for example, show a screen with the app credits (name and authors).
-
+![Vertical Prototype](../images/verticalPrototype.mp4)
