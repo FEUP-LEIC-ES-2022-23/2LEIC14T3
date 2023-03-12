@@ -24,6 +24,6 @@ Regarding technologies used, we programmed in Flutter along with Firebase to sto
 ### Vertical prototype
 We decided to start our project development by created our app UI on FIGMA (all these mockups can be found in the User Stories). Then, we decided to get a better understanding of how to utilize Flutter, by implementing in Rate IT a subsection with the creators and developers that are going to make this project happen (Credits).
 
-Down bellow there's a little video of how this first version turned out:
+Down bellow there's a little gif of how this first version turned out:
 
-![Vertical Prototype](../images/verticalPrototype.mp4)
+![Vertical Prototype](../images/verticalPrototype.gif)
