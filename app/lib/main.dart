@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:my_app/rating.dart';
+
 
 void main() {
   runApp(MyApp());
@@ -63,13 +65,42 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: Text(
-        'Welcome to Rate IT!',
-        style: TextStyle(fontSize: 24),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          ElevatedButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => EventRatingPage()),
+              );
+            },
+            child: Text('Rate Event 1'),
+          ),
+          ElevatedButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => EventRatingPage()),
+              );
+            },
+            child: Text('Rate Event 2'),
+          ),
+          ElevatedButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => EventRatingPage()),
+              );
+            },
+            child: Text('Rate Event 3'),
+          ),
+        ],
       ),
     );
   }
 }
+
 
 class CreditsPage extends StatelessWidget {
   @override
