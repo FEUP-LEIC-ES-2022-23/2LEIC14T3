@@ -68,38 +68,75 @@ class HomePage extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          ElevatedButton(
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => EventRatingPage()),
-              );
-            },
-            child: Text('Rate Event 1'),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => EventRatingPage()),
+                  );
+                },
+                child: Text('Rate Event 1'),
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  // TODO: Implement see reviews functionality
+                },
+                child: Text('See Reviews'),
+              ),
+            ],
           ),
-          ElevatedButton(
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => EventRatingPage()),
-              );
-            },
-            child: Text('Rate Event 2'),
+          SizedBox(height: 16),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => EventRatingPage()),
+                  );
+                },
+                child: Text('Rate Event 2'),
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  // TODO: Implement see reviews functionality
+                },
+                child: Text('See Reviews'),
+              ),
+            ],
           ),
-          ElevatedButton(
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => EventRatingPage()),
-              );
-            },
-            child: Text('Rate Event 3'),
+          SizedBox(height: 16),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => EventRatingPage()),
+                  );
+                },
+                child: Text('Rate Event 3'),
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  // TODO: Implement see reviews functionality
+                },
+                child: Text('See Reviews'),
+              ),
+            ],
           ),
         ],
       ),
     );
   }
 }
+
+
 
 
 class CreditsPage extends StatelessWidget {
