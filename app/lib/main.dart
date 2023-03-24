@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:my_app/rating.dart';
+import 'package:my_app/rating_page.dart';
 
 
 void main() {
