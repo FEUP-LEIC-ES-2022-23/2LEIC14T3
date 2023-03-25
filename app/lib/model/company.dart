@@ -13,9 +13,11 @@ class Company{
     this.reviews = const [],
   });
 
-  addReview(Review review){
-    reviews.add(review);
-    averageRating = (averageRating + review.rating) ~/ reviews.length;
+  void addReview(Review review){
+    final List<Review> updatedReviews = List.from(reviews)..add(review);
+    final totalRating = updatedReviews.fold(0, (sum, review) => sum + review.rating);
+    averageRating = totalRating ~/ updatedReviews.length;
+    reviews = updatedReviews;
   }
 }
 

@@ -81,7 +81,7 @@ class _EventRatingPageState extends State<EventRatingPage> {
                 company.addReview(review);
 
                 Navigator.pop(context);
-                MaterialPageRoute(builder: (context) => HomePage());
+
 
 
               },
