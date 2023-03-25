@@ -1,5 +1,8 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:my_app/rating_page.dart';
+import 'package:my_app/reviews_page.dart';
 
 
 void main() {
@@ -28,7 +31,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   int _selectedIndex = 0;
-  final List<Widget> _pages = [    HomePage(),    CreditsPage(),  ];
+  final List<Widget> _pages = [    HomePage(),    CreditsPage()];
 
   void _onItemTapped(int index) {
     setState(() {
@@ -82,7 +85,20 @@ class HomePage extends StatelessWidget {
               ),
               ElevatedButton(
                 onPressed: () {
-                  // TODO: Implement see reviews functionality
+                  List<Review> reviews = List.generate(
+                    1,
+                        (index) => Review(
+                          title: 'AMAZING',
+                        author: 'JOHN DOW',
+                        rating: 5,
+                        review: 'THIS IS A REALLY NICE IT COMPANY LOVED IT',
+                        votes:0));
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => ReviewsPage(reviews: reviews),
+                    ),
+                  );
                 },
                 child: Text('See Reviews'),
               ),
