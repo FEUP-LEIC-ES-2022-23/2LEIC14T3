@@ -1,13 +1,21 @@
 import 'package:flutter/material.dart';
 
+import '../model/company.dart';
+import '../model/review.dart';
+import 'home_page.dart';
+
 class EventRatingPage extends StatefulWidget {
   @override
-  _EventRatingPageState createState() => _EventRatingPageState();
+  _EventRatingPageState createState() => _EventRatingPageState(company: Company(name: 'IT company'));
 }
 
 class _EventRatingPageState extends State<EventRatingPage> {
   int _rating = 0;
   String _review = '';
+
+  Company company;
+
+  _EventRatingPageState({required this.company});
 
   void _setRating(int value) {
     setState(() {
@@ -64,8 +72,18 @@ class _EventRatingPageState extends State<EventRatingPage> {
             SizedBox(height: 32),
             ElevatedButton(
               onPressed: () {
-                // TODO: Save the rating and review.
+                Review review = Review(
+                  title: 'Review',
+                  rating: _rating,
+                  review: _review,
+                  author: 'Anonymous');
+
+                company.addReview(review);
+
                 Navigator.pop(context);
+                MaterialPageRoute(builder: (context) => HomePage());
+
+
               },
               child: Text('Submit'),
             ),
@@ -92,4 +110,5 @@ class _EventRatingPageState extends State<EventRatingPage> {
       ),
     );
   }
+
 }

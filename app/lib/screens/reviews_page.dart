@@ -1,33 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:my_app/model/review.dart';
 import 'dart:math';
+import 'package:my_app/model/company.dart';
 
-class Review {
-  final String title;
-  final String review;
-  final String author;
-  final int rating;
-  int? votes;
-
-  Review({
-    required this.title,
-    required this.review,
-    required this.author,
-    required this.rating,
-    this.votes,
-  });
-
-  void upvote() {
-    votes = (votes ?? 0) + 1;
-  }
-
-  void downvote() {
-    votes = (votes ?? 0) - 1;
-  }
-}
 class ReviewsPage extends StatefulWidget {
-  final List<Review> reviews;
+  Company company;
 
-  const ReviewsPage({Key? key, required this.reviews}) : super(key: key);
+  ReviewsPage({required this.company});
 
   @override
   _ReviewsPageState createState() => _ReviewsPageState();
@@ -46,7 +25,7 @@ class _ReviewsPageState extends State<ReviewsPage> {
           color: Colors.white,
         ),
         child: ListView.builder(
-          itemCount: widget.reviews.length,
+          itemCount: widget.company.reviews.length,
           itemBuilder: (context, index) {
             return Container(
               padding: EdgeInsets.all(16),
@@ -59,17 +38,17 @@ class _ReviewsPageState extends State<ReviewsPage> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    '${widget.reviews[index].title}',
+                    '${widget.company.reviews[index].title}',
                     style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                   ),
                   SizedBox(height: 8),
                   Text(
-                    'By ${widget.reviews[index].author}',
+                    'By ${widget.company.reviews[index].author}',
                     style: TextStyle(fontSize: 18),
                   ),
                   SizedBox(height: 8),
                   Text(
-                    'Rating: ${widget.reviews[index].rating}',
+                    'Rating: ${widget.company.reviews[index].rating}',
                     style: TextStyle(fontSize: 18),
                   ),
                   SizedBox(height: 8),
@@ -78,7 +57,7 @@ class _ReviewsPageState extends State<ReviewsPage> {
                       IconButton(
                         onPressed: () {
                           setState(() {
-                            widget.reviews[index].upvote();
+                            widget.company.reviews[index].upvote();
                           });
                         },
                         icon: Icon(Icons.thumb_up),
@@ -87,20 +66,20 @@ class _ReviewsPageState extends State<ReviewsPage> {
                       IconButton(
                         onPressed: () {
                           setState(() {
-                            widget.reviews[index].downvote();
+                            widget.company.reviews[index].downvote();
                           });
                         },
                         icon: Icon(Icons.thumb_down),
                       ),
                       Text(
-                        '${widget.reviews[index].votes}',
+                        '${widget.company.reviews[index].votes}',
                         style: TextStyle(fontSize: 18),
                       ),
                     ],
                   ),
                   SizedBox(height: 8),
                   Text(
-                    '${widget.reviews[index].review}',
+                    '${widget.company.reviews[index].review}',
                     style: TextStyle(fontSize: 18),
                   ),
                 ],
