@@ -17,7 +17,7 @@ class _ReviewsPageState extends State<ReviewsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Reviews'),
+        title: Text('Reviews - ${widget.company.name} (${widget.company.averageRating.toStringAsFixed(2)})'),
       ),
       body: Container(
         padding: EdgeInsets.all(16),
@@ -72,7 +72,7 @@ class _ReviewsPageState extends State<ReviewsPage> {
                         icon: Icon(Icons.thumb_down),
                       ),
                       Text(
-                        '${widget.company.reviews[index].votes}',
+                        '${widget.company.reviews[index].votes ?? 0}',
                         style: TextStyle(fontSize: 18),
                       ),
                     ],

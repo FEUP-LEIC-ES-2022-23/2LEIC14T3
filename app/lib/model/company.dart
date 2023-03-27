@@ -4,20 +4,23 @@ import 'package:my_app/model/review.dart';
 
 class Company{
   final String name;
-  int averageRating;
+  double averageRating;
   List<Review> reviews;
 
   Company({
     required this.name,
     this.averageRating = 0,
-    this.reviews = const [],
+    required this.reviews,
   });
 
   void addReview(Review review){
-    final List<Review> updatedReviews = List.from(reviews)..add(review);
-    final totalRating = updatedReviews.fold(0, (sum, review) => sum + review.rating);
-    averageRating = totalRating ~/ updatedReviews.length;
-    reviews = updatedReviews;
+
+    double temp = averageRating;
+
+    reviews.add(review);
+
+    averageRating = (temp * (reviews.length - 1) + review.rating)/reviews.length ;
+
   }
 }
 

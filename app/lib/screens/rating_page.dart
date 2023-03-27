@@ -5,29 +5,24 @@ import '../model/review.dart';
 import 'home_page.dart';
 
 class EventRatingPage extends StatefulWidget {
-  @override
-  _EventRatingPageState createState() => _EventRatingPageState(company: Company(name: 'IT company'));
-}
-
-class _EventRatingPageState extends State<EventRatingPage> {
-  int _rating = 0;
-  String _review = '';
 
   Company company;
 
-  _EventRatingPageState({required this.company});
+  EventRatingPage({Key? key, required this.company}) : super(key: key);
 
-  void _setRating(int value) {
-    setState(() {
-      _rating = value;
-    });
-  }
 
-  void _setReview(String value) {
-    setState(() {
-      _review = value;
-    });
-  }
+  int _rating = 0;
+  String _review = "";
+
+
+  @override
+  _EventRatingPageState createState() => _EventRatingPageState();
+
+  void setReview(String value) {_review = value;}
+}
+
+class _EventRatingPageState extends State<EventRatingPage> {
+  int rating = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -67,20 +62,23 @@ class _EventRatingPageState extends State<EventRatingPage> {
                 border: OutlineInputBorder(),
               ),
               maxLines: 3,
-              onChanged: _setReview,
+              onChanged: widget.setReview,
             ),
             SizedBox(height: 32),
             ElevatedButton(
               onPressed: () {
                 Review review = Review(
                   title: 'Review',
-                  rating: _rating,
-                  review: _review,
-                  author: 'Anonymous');
+                  rating: widget._rating,
+                  review: widget._review,
+                  author: 'Anonymous',
+                 );
 
-                company.addReview(review);
 
-                Navigator.pop(context);
+
+                if(widget._rating > 0){
+                  widget.company.addReview(review);
+                  Navigator.pop(context);}
 
 
 
@@ -96,11 +94,14 @@ class _EventRatingPageState extends State<EventRatingPage> {
   Widget _buildStarButton(int value) {
     return ElevatedButton(
       onPressed: () {
-        _setRating(value);
+        setState(() {
+          widget._rating = value;
+        });
+
       },
       child: Icon(
         Icons.star,
-        color: value <= _rating ? Colors.amber : Colors.grey[400],
+        color: value <= widget._rating ? Colors.amber : Colors.grey[400],
       ),
       style: ElevatedButton.styleFrom(
         shape: CircleBorder(),

@@ -3,15 +3,21 @@ import 'package:my_app/screens/credits_page.dart';
 import 'package:my_app/screens/rating_page.dart';
 import 'package:my_app/model/review.dart';
 import 'package:my_app/screens/reviews_page.dart';
+import 'package:my_app/model/company.dart';
 
 import '../model/company.dart';
 
 class MyHomePage extends StatefulWidget {
   MyHomePage({Key? key}) : super(key: key);
 
+
+
   @override
   _MyHomePageState createState() => _MyHomePageState();
 }
+
+
+
 
 class _MyHomePageState extends State<MyHomePage> {
   int _selectedIndex = 0;
@@ -49,6 +55,11 @@ class _MyHomePageState extends State<MyHomePage> {
 }
 
 class HomePage extends StatelessWidget {
+
+  Company company = Company(name: 'Mockup ITeration 1', reviews:[
+  ]
+  );
+
   @override
   Widget build(BuildContext context) {
     return Center(
@@ -62,7 +73,7 @@ class HomePage extends StatelessWidget {
                 onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => EventRatingPage()),
+                    MaterialPageRoute(builder: (context) => EventRatingPage(company: company)),
                   );
                 },
                 child: Text('Rate Event 1'),
@@ -70,13 +81,10 @@ class HomePage extends StatelessWidget {
               ElevatedButton(
                 onPressed: () {
 
-
-
-
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => ReviewsPage(company: Company(name: "IT company"),),
+                      builder: (context) => ReviewsPage(company: company,),
                     ),
                   );
                 },
@@ -92,7 +100,7 @@ class HomePage extends StatelessWidget {
                 onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => EventRatingPage()),
+                    MaterialPageRoute(builder: (context) => EventRatingPage(company: company)),
                   );
                 },
                 child: Text('Rate Event 2'),
@@ -113,7 +121,7 @@ class HomePage extends StatelessWidget {
                 onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => EventRatingPage()),
+                    MaterialPageRoute(builder: (context) => EventRatingPage(company:company)),
                   );
                 },
                 child: Text('Rate Event 3'),
