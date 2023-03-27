@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "68369058437",
+    "project_id": "rate-it-42c0e",
+    "storage_bucket": "rate-it-42c0e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:68369058437:android:ac3d459a2494e4d25c37ec",
+        "android_client_info": {
+          "package_name": "com.example.rate_it"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "68369058437-dp03acs6lghf0knttfuv07lq4de212t5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCEkt1ab3NFNTzeUdjgMFc-HHfns2vFXEU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "68369058437-dp03acs6lghf0knttfuv07lq4de212t5.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
