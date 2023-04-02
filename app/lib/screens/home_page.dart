@@ -4,6 +4,7 @@ import 'package:my_app/screens/rating_page.dart';
 import 'package:my_app/model/review.dart';
 import 'package:my_app/screens/reviews_page.dart';
 import 'package:my_app/model/company.dart';
+import 'dart:math';
 
 import '../model/company.dart';
 
@@ -80,7 +81,6 @@ class HomePage extends StatelessWidget {
               ),
               ElevatedButton(
                 onPressed: () {
-
                   Navigator.push(
                     context,
                     MaterialPageRoute(
