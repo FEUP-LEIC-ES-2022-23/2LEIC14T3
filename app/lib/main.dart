@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:my_app/screens/home_page.dart';
+import 'package:rate_it/screens/home_page.dart';
 
 
 Future<void> main() async {

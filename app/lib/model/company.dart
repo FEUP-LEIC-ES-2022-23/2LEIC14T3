@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:my_app/model/review.dart';
+import 'package:rate_it/model/review.dart';
 
 
 class Company{

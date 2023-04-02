@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:my_app/model/review.dart';
+import 'package:rate_it/model/review.dart';
 import 'dart:math';
-import 'package:my_app/model/company.dart';
+import 'package:rate_it/model/company.dart';
 
 class ReviewsPage extends StatefulWidget {
   Company company;

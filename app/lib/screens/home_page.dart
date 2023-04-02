@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:my_app/screens/credits_page.dart';
-import 'package:my_app/screens/rating_page.dart';
-import 'package:my_app/model/review.dart';
-import 'package:my_app/screens/reviews_page.dart';
-import 'package:my_app/model/company.dart';
+import 'package:rate_it/screens/credits_page.dart';
+import 'package:rate_it/screens/rating_page.dart';
+import 'package:rate_it/model/review.dart';
+import 'package:rate_it/screens/reviews_page.dart';
+import 'package:rate_it/model/company.dart';
 import 'dart:math';
 import 'package:firebase_database/firebase_database.dart';
 
@@ -25,7 +25,11 @@ class _MyHomePageState extends State<MyHomePage> {
   int _selectedIndex = 0;
   final List<Widget> _pages = [    HomePage(),    CreditsPage()];
 
+  final databaseReference = FirebaseDatabase.instance.reference();
+  final nodeReference = FirebaseDatabase.instance.reference().child('test');
+
   void _onItemTapped(int index) {
+    nodeReference.set("Helloo ${Random().nextInt(100)}");
     setState(() {
       _selectedIndex = index;
     });
