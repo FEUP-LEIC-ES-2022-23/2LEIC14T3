@@ -18,7 +18,9 @@ class EventRatingPage extends StatefulWidget {
   @override
   _EventRatingPageState createState() => _EventRatingPageState();
 
-  void setReview(String value) {_review = value;}
+  void setReview(String value) {
+    _review = value;
+  }
 }
 
 class _EventRatingPageState extends State<EventRatingPage> {

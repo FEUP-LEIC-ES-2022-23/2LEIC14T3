@@ -5,6 +5,7 @@ import 'package:my_app/model/review.dart';
 import 'package:my_app/screens/reviews_page.dart';
 import 'package:my_app/model/company.dart';
 import 'dart:math';
+import 'package:firebase_database/firebase_database.dart';
 
 import '../model/company.dart';
 
@@ -60,7 +61,6 @@ class HomePage extends StatelessWidget {
   Company company = Company(name: 'Mockup ITeration 1', reviews:[
   ]
   );
-
   @override
   Widget build(BuildContext context) {
     return Center(
