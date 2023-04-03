@@ -6,15 +6,19 @@ import 'dart:io';
 
 import 'package:http/http.dart' as http;
 
-Future<Company> fetchCompanies({String query='a',int limit=10}) async {
+Future<List<Company>> fetchCompanies({String query='a',int limit=10, int page=1}) async {
   String apiKey = '80ab3270aee92b0b9b864fa3ae812ee9';
   String url = 'https://api.itjobs.pt/company/search.json?q=$query&api_key=$apiKey';
   url += '&limit=$limit';
+  url += '&page=$page';
   final response = await http.get(Uri.parse(url));
   if (response.statusCode == 200) {
-    // If the server did return a 200 OK response,
-    // then parse the JSON.
-    return Company.fromJson(jsonDecode(response.body));
+    List<dynamic> results = jsonDecode(response.body)['results'];
+    List<Company> companies = [];
+    for (var result in results) {
+      companies.add(Company.fromJson(result));
+    }
+    return companies;
   } else {
     // If the server did not return a 200 OK response,
     // then throw an exception.
@@ -56,17 +60,17 @@ class Company{
 
   factory Company.fromJson(Map<String, dynamic> json) {
     return Company(
-      name: json['results'][0]['name'],
-      logo: json['results'][0]['logo'],
-      description: json['results'][0]['description'],
-      address: json['results'][0]['address'],
-      phone: json['results'][0]['phone'],
-      fax: json['results'][0]['fax'],
-      email: json['results'][0]['email'],
-      url: json['results'][0]['url'],
-      url_twitter: json['results'][0]['url_twitter'],
-      url_facebook: json['results'][0]['url_facebook'],
-      url_linkedin: json['results'][0]['url_linkedin'],
+      name: json['name']??"",
+      logo: json['logo']??"",
+      description: json['description']??"",
+      address: json['address']??"",
+      phone: json['phone']?.toString()??"",
+      fax: json['fax']?.toString()??"",
+      email: json['email']??"",
+      url: json['url']??"",
+      url_twitter: json['url_twitter']??"",
+      url_facebook: json['url_facebook']??"",
+      url_linkedin: json['url_linkedin']??"",
       reviews: [],
     );
   }
