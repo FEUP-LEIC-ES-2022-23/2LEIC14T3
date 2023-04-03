@@ -22,14 +22,11 @@ class MyHomePage extends StatefulWidget {
 
 
 class _MyHomePageState extends State<MyHomePage> {
+
   int _selectedIndex = 0;
   final List<Widget> _pages = [    HomePage(),    CreditsPage()];
 
-  final databaseReference = FirebaseDatabase.instance.reference();
-  final nodeReference = FirebaseDatabase.instance.reference().child('test');
-
   void _onItemTapped(int index) {
-    nodeReference.set("Helloo ${Random().nextInt(100)}");
     setState(() {
       _selectedIndex = index;
     });
@@ -61,85 +58,54 @@ class _MyHomePageState extends State<MyHomePage> {
 }
 
 class HomePage extends StatelessWidget {
-
-  Company company = Company(name: 'Mockup ITeration 1', reviews:[
-  ]
-  );
+  late Future<List<Company>> futureCompanies = fetchCompanies(query: 'lol', limit: 10);
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              ElevatedButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => EventRatingPage(company: company)),
-                  );
-                },
-                child: Text('Rate Event 1'),
-              ),
-              ElevatedButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => ReviewsPage(company: company,),
-                    ),
-                  );
-                },
-                child: Text('See Reviews'),
-              ),
-            ],
-          ),
-          SizedBox(height: 16),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              ElevatedButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => EventRatingPage(company: company)),
-                  );
-                },
-                child: Text('Rate Event 2'),
-              ),
-              ElevatedButton(
-                onPressed: () {
-                  // TODO: Implement see reviews functionality
-                },
-                child: Text('See Reviews'),
-              ),
-            ],
-          ),
-          SizedBox(height: 16),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              ElevatedButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => EventRatingPage(company:company)),
-                  );
-                },
-                child: Text('Rate Event 3'),
-              ),
-              ElevatedButton(
-                onPressed: () {
-                  // TODO: Implement see reviews functionality
-                },
-                child: Text('See Reviews'),
-              ),
-            ],
-          ),
-        ],
-      ),
+      child: FutureBuilder(
+        future:futureCompanies,
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            List<Company> companies = snapshot.data!;
+            return Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                for(var company in companies)
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      ElevatedButton(
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => EventRatingPage(company: company)),
+                          );
+                        },
+                        child: Text(company.name),
+                      ),
+                      ElevatedButton(
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => ReviewsPage(company: company,),
+                            ),
+                          );
+                        },
+                        child: Text('See Reviews'),
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 16),
+              ],
+            );
+          } else if (snapshot.hasError) {
+            return Text('Error: ${snapshot.error}');
+          } else {
+            return Text('Loading...');
+          }
+        },
+      )
     );
   }
 }
