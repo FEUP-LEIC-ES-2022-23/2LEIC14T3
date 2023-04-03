@@ -22,14 +22,17 @@ class MyHomePage extends StatefulWidget {
 
 
 class _MyHomePageState extends State<MyHomePage> {
+  late Future<Company> futureCompany;
+  @override
+  void initState() {
+    super.initState();
+    futureCompany = fetchCompanies(query: 'micro', limit: 1);
+  }
+
   int _selectedIndex = 0;
   final List<Widget> _pages = [    HomePage(),    CreditsPage()];
 
-  final databaseReference = FirebaseDatabase.instance.reference();
-  final nodeReference = FirebaseDatabase.instance.reference().child('test');
-
   void _onItemTapped(int index) {
-    nodeReference.set("Helloo ${Random().nextInt(100)}");
     setState(() {
       _selectedIndex = index;
     });
