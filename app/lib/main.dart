@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:rate_it/firebase_options.dart';
 import 'package:rate_it/screens/home_page.dart';
 
 
@@ -9,7 +10,9 @@ Future<void> main() async {
 }
 
 class MyApp extends StatelessWidget {
-  final Future<FirebaseApp> _fbApp = Firebase.initializeApp();
+  final Future<FirebaseApp> _fbApp = Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform
+  );
   @override
   Widget build(BuildContext context) {
     return MaterialApp(

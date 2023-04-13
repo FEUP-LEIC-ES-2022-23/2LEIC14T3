@@ -23,14 +23,20 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
 
+
   int _selectedIndex = 0;
   final List<Widget> _pages = [    HomePage(),    CreditsPage()];
 
   void _onItemTapped(int index) {
+    DatabaseReference _testRef = FirebaseDatabase.instance.reference().child("test");
+    _testRef.set("Hello world ${Random().nextInt(100)}");
+
     setState(() {
       _selectedIndex = index;
     });
   }
+
+
 
   @override
   Widget build(BuildContext context) {
