@@ -28,6 +28,7 @@ Future<List<Company>> fetchCompanies({String query='a',int limit=10, int page=1}
 
 
 class Company{
+  final int id;
   final String name;
   String logo;
   String description;
@@ -43,6 +44,7 @@ class Company{
   List<Review> reviews;
 
   Company({
+    required this.id,
     required this.name,
     this.logo = "",
     this.description = "",
@@ -60,6 +62,7 @@ class Company{
 
   factory Company.fromJson(Map<String, dynamic> json) {
     return Company(
+      id: json['id'],
       name: json['name']??"",
       logo: json['logo']??"",
       description: json['description']??"",
