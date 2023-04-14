@@ -8,6 +8,10 @@ import 'dart:math';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:rate_it/widgets/top_tab_bar.dart';
 import 'package:rate_it/widgets/search_bar.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+
+
+
 
 import '../model/company.dart';
 
@@ -43,10 +47,9 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Row(
-          children: const [
-            SearchbarAnimationExample(),
-          ],
+        title: Center(
+          child:
+            RoundedSearchBar(hintText: "Search...", icon: const Icon(FontAwesomeIcons.search)),
         ),
         bottom: TopTabBar(),
       ),
