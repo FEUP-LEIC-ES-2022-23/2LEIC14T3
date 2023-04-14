@@ -6,6 +6,8 @@ import 'package:rate_it/screens/reviews_page.dart';
 import 'package:rate_it/model/company.dart';
 import 'dart:math';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:rate_it/widgets/top_tab_bar.dart';
+import 'package:rate_it/widgets/search_bar.dart';
 
 import '../model/company.dart';
 
@@ -22,7 +24,6 @@ class MyHomePage extends StatefulWidget {
 
 
 class _MyHomePageState extends State<MyHomePage> {
-
 
   int _selectedIndex = 0;
   final List<Widget> _pages = [    HomePage(),    CreditsPage()];
@@ -42,7 +43,12 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Rate IT'),
+        title: Row(
+          children: const [
+            SearchbarAnimationExample(),
+          ],
+        ),
+        bottom: TopTabBar(),
       ),
       body: _pages[_selectedIndex],
       bottomNavigationBar: BottomNavigationBar(

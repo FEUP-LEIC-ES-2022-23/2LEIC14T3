@@ -42,6 +42,8 @@ dependencies:
   firebase_ui_auth: ^1.1.17
   firebase_database: ^10.1.0
   http: ^0.13.5
+  font_awesome_flutter: ^10.4.0
+  searchbar_animation: ^0.0.4
 
 dev_dependencies:
   flutter_test:
