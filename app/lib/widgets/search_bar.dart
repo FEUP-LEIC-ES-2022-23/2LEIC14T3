@@ -14,9 +14,10 @@ class RoundedSearchBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double width = MediaQuery.of(context).size.width;
     return Container(
       height: 40.0,
-      width: 250.0,
+      width: width*2/3,
       decoration: BoxDecoration(
         color: Colors.grey[300],
         borderRadius: BorderRadius.circular(20.0),
