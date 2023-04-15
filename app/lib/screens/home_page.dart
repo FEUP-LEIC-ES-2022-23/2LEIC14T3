@@ -46,28 +46,63 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Center(
-          child:
-            RoundedSearchBar(hintText: "Search...", icon: const Icon(FontAwesomeIcons.search)),
+      drawerEdgeDragWidth: 50,
+      drawer: Drawer(
+        child: ListView(
+          children: [
+            const UserAccountsDrawerHeader(
+                accountName: Text("oi"),
+                accountEmail: Text("oi"),
+                currentAccountPicture: CircleAvatar(
+                  backgroundImage: AssetImage("assets/user_icon.png"),
+                  radius: 60,
+                ),
+                decoration: BoxDecoration(
+                  color: Colors.green,
+                ),
+            ),
+            ListTile(
+              leading: Icon(FontAwesomeIcons.house),
+              title: Text("Home"),
+              onTap: (){
+                _onItemTapped(0);
+              },
+            ),
+            ListTile(
+              leading: Icon(FontAwesomeIcons.peopleGroup),
+              title: Text("Credits"),
+              onTap: (){
+                _onItemTapped(1);
+              },
+            )
+          ],
         ),
-        bottom: TopTabBar(),
+      ),
+      appBar: AppBar(
+        title: Row(
+          children: [
+            Visibility(
+              visible: _selectedIndex == 0,
+                child: RoundedSearchBar(hintText: "Search...", icon: const Icon(FontAwesomeIcons.search))
+            ),
+            ButtonTheme(
+              child: ElevatedButton(
+                onPressed: (){
+
+                },
+                child: Icon(FontAwesomeIcons.user, size: 20,),
+                style: ElevatedButton.styleFrom(
+                  shape: CircleBorder(),
+                  primary: Colors.grey[300],
+                  onPrimary: Colors.black,
+
+                ),
+              ),
+            )
+          ],
+        ),
       ),
       body: _pages[_selectedIndex],
-      bottomNavigationBar: BottomNavigationBar(
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Home',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.people),
-            label: 'Credits',
-          ),
-        ],
-        currentIndex: _selectedIndex,
-        onTap: _onItemTapped,
-      ),
     );
   }
 }
@@ -76,43 +111,47 @@ class HomePage extends StatelessWidget {
   late Future<List<Company>> futureCompanies = fetchCompanies(query: 'lol', limit: 10);
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: FutureBuilder(
+    return Scaffold(
+      appBar: AppBar(
+        title: TopTabBar(),
+      ),
+      body: FutureBuilder(
         future:futureCompanies,
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             List<Company> companies = snapshot.data!;
-            return Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                for(var company in companies)
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      ElevatedButton(
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) => EventRatingPage(company: company)),
-                          );
-                        },
-                        child: Text(company.name),
-                      ),
-                      ElevatedButton(
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => ReviewsPage(company: company,),
-                            ),
-                          );
-                        },
-                        child: Text('See Reviews'),
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 16),
-              ],
+            return Center(
+              child: ListView(
+                children: [
+                  for(var company in companies)
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        ElevatedButton(
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => EventRatingPage(company: company)),
+                            );
+                          },
+                          child: Text(company.name),
+                        ),
+                        ElevatedButton(
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => ReviewsPage(company: company,),
+                              ),
+                            );
+                          },
+                          child: Text('See Reviews'),
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: 16),
+                ],
+              ),
             );
           } else if (snapshot.hasError) {
             return Text('Error: ${snapshot.error}');
@@ -120,7 +159,7 @@ class HomePage extends StatelessWidget {
             return Text('Loading...');
           }
         },
-      )
+      ),
     );
   }
 }
