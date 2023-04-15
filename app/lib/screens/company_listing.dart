@@ -8,6 +8,7 @@ import '../model/company.dart';
 
 class CompanyListing extends StatelessWidget {
   late Future<List<Company>> futureCompanies = fetchCompanies(query: 'lol', limit: 10);
+  CompanyListing({super.key});
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
