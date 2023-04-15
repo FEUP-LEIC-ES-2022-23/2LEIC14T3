@@ -12,6 +12,7 @@ class HomePage extends StatelessWidget {
       length: 3,
       child: Scaffold(
         appBar: AppBar(
+          automaticallyImplyLeading: false,
           title: const TabBar(
             tabs: [
               Tab(icon: Icon(FontAwesomeIcons.briefcase)),
