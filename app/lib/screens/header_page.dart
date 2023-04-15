@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:rate_it/screens/credits_page.dart';
 import 'dart:math';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:rate_it/screens/profile_page.dart';
 import 'package:rate_it/widgets/search_bar.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:rate_it/screens/home_page.dart';
@@ -21,7 +22,7 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
 
   int _selectedIndex = 0;
-  final List<Widget> _pages = [    HomePage(),    CreditsPage()];
+  final List<Widget> _pages = [    HomePage(),    CreditsPage(), ProfilePage()];
 
   void _onItemTapped(int index) {
     DatabaseReference _testRef = FirebaseDatabase.instance.reference().child("test");
@@ -41,7 +42,7 @@ class _MyHomePageState extends State<MyHomePage> {
       drawer: Drawer(
         child: ListView(
           children: [
-            const UserAccountsDrawerHeader(
+            UserAccountsDrawerHeader(
               accountName: Text("oi"),
               accountEmail: Text("oi"),
               currentAccountPicture: CircleAvatar(
@@ -51,6 +52,9 @@ class _MyHomePageState extends State<MyHomePage> {
               decoration: BoxDecoration(
                 color: Colors.green,
               ),
+              onDetailsPressed: (){
+                _onItemTapped(2);
+              },
             ),
             ListTile(
               leading: Icon(FontAwesomeIcons.house),
@@ -77,7 +81,7 @@ class _MyHomePageState extends State<MyHomePage> {
         actions: [
           IconButton(
               onPressed: (){
-
+                _onItemTapped(2);
               },
               icon: Icon(FontAwesomeIcons.user),
             padding: EdgeInsets.only(right: 20),
