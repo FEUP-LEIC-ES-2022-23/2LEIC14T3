@@ -33,7 +33,7 @@ class EventListing extends StatelessWidget {
         } else if (snapshot.hasError) {
           return Text('Error: ${snapshot.error}');
         } else {
-          return Text('Loading...');
+          return Center(child: CircularProgressIndicator());
         }
       },
     );

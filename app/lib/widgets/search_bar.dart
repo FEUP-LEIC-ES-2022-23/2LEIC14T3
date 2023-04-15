@@ -14,21 +14,19 @@ class RoundedSearchBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: Container(
-        height: 40.0,
-        decoration: BoxDecoration(
-          color: Colors.grey[300],
-          borderRadius: BorderRadius.circular(20.0),
-        ),
-        child: TextField(
-          controller: controller,
-          decoration: InputDecoration(
-            prefixIcon: icon,
-            hintText: hintText,
-            hintStyle: TextStyle(color: Colors.grey[600]),
-            border: InputBorder.none,
-          ),
+    return Container(
+      height: 40.0,
+      decoration: BoxDecoration(
+        color: Colors.grey[300],
+        borderRadius: BorderRadius.circular(20.0),
+      ),
+      child: TextField(
+        controller: controller,
+        decoration: InputDecoration(
+          prefixIcon: icon,
+          hintText: hintText,
+          hintStyle: TextStyle(color: Colors.grey[600]),
+          border: InputBorder.none,
         ),
       ),
     );
