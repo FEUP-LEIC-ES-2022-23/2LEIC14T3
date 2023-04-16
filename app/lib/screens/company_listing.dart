@@ -15,11 +15,11 @@ class CompanyListing extends StatelessWidget {
   late Future<List<Company>> futureCompanies;
 
   void initCompanies(){
-    if(searchResult!=""){
-      futureCompanies = fetchCompanies(query: searchResult, limit: 10);
+    if(searchResult.length>1){
+      futureCompanies = searchCompanies(searchResult);
     }
     else {
-      futureCompanies = fetchCompanies(query: "lol", limit: 10);
+      futureCompanies = fetchCompanies();
     }
   }
   @override

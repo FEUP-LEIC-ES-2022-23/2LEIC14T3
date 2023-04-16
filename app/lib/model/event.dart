@@ -26,6 +26,26 @@ Future<List<Event>> fetchEvents({int limit=10, int page=1}) async {
   }
 }
 
+Future<List<Event>> searchEvents(String query,{int limit=10, int page=1}) async {
+  String apiKey = '80ab3270aee92b0b9b864fa3ae812ee9';
+  String url = 'https://api.itjobs.pt/event/search.json?q=$query&api_key=$apiKey';
+  url += '&limit=$limit';
+  url += '&page=$page';
+  final response = await http.get(Uri.parse(url));
+  if (response.statusCode == 200) {
+    List<dynamic> results = jsonDecode(response.body)['results'];
+    List<Event> events = [];
+    for (var result in results) {
+      events.add(Event.fromJson(result));
+    }
+    return events;
+  } else {
+    // If the server did not return a 200 OK response,
+    // then throw an exception.
+    throw Exception('Failed to load Companies');
+  }
+}
+
 
 class Event{
   final int id;

@@ -11,11 +11,11 @@ class CourseListing extends StatelessWidget {
   late Future<List<Course>> futureCourses;
 
   void initCourses(){
-    if(searchResult!=""){
-      futureCourses = fetchCourses(limit: 10);
+    if(searchResult.length>1){
+      futureCourses = searchCourses(searchResult);
     }
     else {
-      futureCourses = fetchCourses(limit: 10);
+      futureCourses = fetchCourses();
     }
   }
 

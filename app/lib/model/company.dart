@@ -6,9 +6,29 @@ import 'dart:io';
 
 import 'package:http/http.dart' as http;
 
-Future<List<Company>> fetchCompanies({String query='a',int limit=10, int page=1}) async {
+Future<List<Company>> searchCompanies(String query,{int limit=10, int page=1}) async {
   String apiKey = '80ab3270aee92b0b9b864fa3ae812ee9';
   String url = 'https://api.itjobs.pt/company/search.json?q=$query&api_key=$apiKey';
+  url += '&limit=$limit';
+  url += '&page=$page';
+  final response = await http.get(Uri.parse(url));
+  if (response.statusCode == 200) {
+    List<dynamic> results = jsonDecode(response.body)['results'];
+    List<Company> companies = [];
+    for (var result in results) {
+      companies.add(Company.fromJson(result));
+    }
+    return companies;
+  } else {
+    // If the server did not return a 200 OK response,
+    // then throw an exception.
+    throw Exception('Failed to load Companies');
+  }
+}
+
+Future<List<Company>> fetchCompanies({int limit=10, int page=1}) async {
+  String apiKey = '80ab3270aee92b0b9b864fa3ae812ee9';
+  String url = 'https://api.itjobs.pt/company/search.json?api_key=$apiKey';
   url += '&limit=$limit';
   url += '&page=$page';
   final response = await http.get(Uri.parse(url));
