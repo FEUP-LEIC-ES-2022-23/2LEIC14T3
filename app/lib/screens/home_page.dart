@@ -6,6 +6,12 @@ import 'package:rate_it/screens/event_listing.dart';
 import 'course_listing.dart';
 
 class HomePage extends StatelessWidget {
+  final String searchResult;
+  const HomePage({
+    super.key,
+    required this.searchResult,
+  });
+
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -23,7 +29,7 @@ class HomePage extends StatelessWidget {
         ),
         body: TabBarView(
           children: [
-            CompanyListing(),
+            CompanyListing(searchResult: searchResult,),
             CourseListing(),
             EventListing(),
           ],

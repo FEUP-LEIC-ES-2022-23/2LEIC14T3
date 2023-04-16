@@ -21,19 +21,43 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
 
+  String searchResult = "";
   int _selectedIndex = 0;
-  final List<Widget> _pages = [    HomePage(),    CreditsPage(), ProfilePage()];
+  List<Widget> _pages = [];
+
+  TextEditingController _searchController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    _pages = [
+      HomePage(searchResult: searchResult),
+      CreditsPage(),
+      ProfilePage(),
+    ];
+  }
 
   void _onItemTapped(int index) {
     DatabaseReference _testRef = FirebaseDatabase.instance.reference().child("test");
     _testRef.set("Hello world ${Random().nextInt(100)}");
-
     setState(() {
       _selectedIndex = index;
     });
   }
 
+  void _onSearchSubmitted(String value) { // added this function
+    setState(() {
+      searchResult = value;
+      _searchController.clear();
+      updateCompanyListing();
+    });
+  }
 
+  void updateCompanyListing() {
+    setState(() {
+      _pages[0] = HomePage(searchResult: searchResult);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -76,7 +100,7 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         title: Visibility(
             visible: _selectedIndex == 0,
-            child: RoundedSearchBar(hintText: "Search...", icon: const Icon(FontAwesomeIcons.search))
+            child: RoundedSearchBar(controller: _searchController, onSubmitted: _onSearchSubmitted,),
         ),
         actions: [
           IconButton(

@@ -7,10 +7,26 @@ import 'package:rate_it/screens/reviews_page.dart';
 import '../model/company.dart';
 
 class CompanyListing extends StatelessWidget {
-  late Future<List<Company>> futureCompanies = fetchCompanies(query: 'lol', limit: 10);
-  CompanyListing({super.key});
+  final String searchResult;
+  CompanyListing({
+    super.key,
+    required this.searchResult,
+  });
+  late Future<List<Company>> futureCompanies;
+
+  void initCompanies(){
+    print("Search result: ");
+    print(searchResult);
+    if(searchResult!=""){
+      futureCompanies = fetchCompanies(query: searchResult, limit: 10);
+    }
+    else {
+      futureCompanies = fetchCompanies(query: "lol", limit: 10);
+    }
+  }
   @override
   Widget build(BuildContext context) {
+    initCompanies();
     return FutureBuilder(
         future:futureCompanies,
         builder: (context, snapshot) {
