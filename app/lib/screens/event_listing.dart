@@ -3,12 +3,26 @@ import 'package:flutter/material.dart';
 import '../model/event.dart';
 
 class EventListing extends StatelessWidget {
-  late Future<List<Event>> futureCompanies = fetchEvents(limit: 10);
-  EventListing({super.key});
+  final String searchResult;
+  EventListing({
+    super.key,
+    required this.searchResult,
+  });
+  late Future<List<Event>> futureEvents = fetchEvents(limit: 10);
+
+  void initEvents(){
+    if(searchResult!=""){
+      futureEvents = fetchEvents(limit: 10);
+    }
+    else {
+      futureEvents = fetchEvents(limit: 10);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future:futureCompanies,
+      future:futureEvents,
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           List<Event> events = snapshot.data!;

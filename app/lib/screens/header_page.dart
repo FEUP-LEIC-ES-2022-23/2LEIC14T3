@@ -21,8 +21,11 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
 
-  String searchResult = "";
+  String _companySearchResult = "";
+  String _courseSearchResult = "";
+  String _eventSearchResult = "";
   int _selectedIndex = 0;
+  int _tabIndex = 0;
   List<Widget> _pages = [];
 
   TextEditingController _searchController = TextEditingController();
@@ -31,7 +34,12 @@ class _MyHomePageState extends State<MyHomePage> {
   void initState() {
     super.initState();
     _pages = [
-      HomePage(searchResult: searchResult),
+      HomePage(
+        companySearchResult: _companySearchResult,
+        courseSearchResult: _courseSearchResult,
+        eventSearchResult: _eventSearchResult,
+        onTabChanged: _onTabChanged,
+      ),
       CreditsPage(),
       ProfilePage(),
     ];
@@ -41,21 +49,38 @@ class _MyHomePageState extends State<MyHomePage> {
     DatabaseReference _testRef = FirebaseDatabase.instance.reference().child("test");
     _testRef.set("Hello world ${Random().nextInt(100)}");
     setState(() {
-      _selectedIndex = index;
+      _tabIndex = index;
     });
   }
 
   void _onSearchSubmitted(String value) { // added this function
     setState(() {
-      searchResult = value;
+      if(_tabIndex == 0) {
+        _companySearchResult = value;
+      } else if(_tabIndex == 1) {
+        _courseSearchResult = value;
+      } else if(_tabIndex == 2) {
+        _eventSearchResult = value;
+      }
       _searchController.clear();
-      updateCompanyListing();
+      updateListing();
     });
   }
 
-  void updateCompanyListing() {
+  void updateListing() {
     setState(() {
-      _pages[0] = HomePage(searchResult: searchResult);
+      _pages[0] = HomePage(
+        companySearchResult: _companySearchResult,
+        courseSearchResult: _courseSearchResult,
+        eventSearchResult: _eventSearchResult,
+        onTabChanged: _onTabChanged,
+      );
+    });
+  }
+
+  void _onTabChanged(int index) { // added function to handle tab change
+    setState(() {
+      _tabIndex = index;
     });
   }
 

@@ -6,11 +6,17 @@ import 'package:rate_it/screens/event_listing.dart';
 import 'course_listing.dart';
 
 class HomePage extends StatelessWidget {
-  final String searchResult;
+  final String companySearchResult;
+  final String courseSearchResult;
+  final String eventSearchResult;
+  final ValueChanged<int> onTabChanged;
   const HomePage({
-    super.key,
-    required this.searchResult,
-  });
+    Key? key,
+    required this.companySearchResult,
+    required this.courseSearchResult,
+    required this.eventSearchResult,
+    required this.onTabChanged,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -19,19 +25,20 @@ class HomePage extends StatelessWidget {
       child: Scaffold(
         appBar: AppBar(
           automaticallyImplyLeading: false,
-          title: const TabBar(
-            tabs: [
+          title: TabBar(
+            tabs: const [
               Tab(icon: Icon(FontAwesomeIcons.briefcase)),
               Tab(icon: Icon(FontAwesomeIcons.graduationCap)),
               Tab(icon: Icon(FontAwesomeIcons.solidCalendarDays)),
             ],
+            onTap: onTabChanged,
           ),
         ),
         body: TabBarView(
           children: [
-            CompanyListing(searchResult: searchResult,),
-            CourseListing(),
-            EventListing(),
+            CompanyListing(searchResult: companySearchResult,),
+            CourseListing(searchResult: courseSearchResult,),
+            EventListing(searchResult: eventSearchResult,),
           ],
         ),
       ),

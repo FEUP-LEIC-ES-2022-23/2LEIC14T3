@@ -15,8 +15,6 @@ class CompanyListing extends StatelessWidget {
   late Future<List<Company>> futureCompanies;
 
   void initCompanies(){
-    print("Search result: ");
-    print(searchResult);
     if(searchResult!=""){
       futureCompanies = fetchCompanies(query: searchResult, limit: 10);
     }
