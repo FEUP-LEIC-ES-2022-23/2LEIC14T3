@@ -21,19 +21,68 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
 
+  String _companySearchResult = "";
+  String _courseSearchResult = "";
+  String _eventSearchResult = "";
   int _selectedIndex = 0;
-  final List<Widget> _pages = [    HomePage(),    CreditsPage(), ProfilePage()];
+  int _tabIndex = 0;
+  List<Widget> _pages = [];
+
+  TextEditingController _searchController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    _pages = [
+      HomePage(
+        companySearchResult: _companySearchResult,
+        courseSearchResult: _courseSearchResult,
+        eventSearchResult: _eventSearchResult,
+        onTabChanged: _onTabChanged,
+      ),
+      CreditsPage(),
+      ProfilePage(),
+    ];
+  }
 
   void _onItemTapped(int index) {
     DatabaseReference _testRef = FirebaseDatabase.instance.reference().child("test");
     _testRef.set("Hello world ${Random().nextInt(100)}");
-
     setState(() {
       _selectedIndex = index;
     });
   }
 
+  void _onSearchSubmitted(String value) { // added this function
+    setState(() {
+      if(_tabIndex == 0) {
+        _companySearchResult = value;
+      } else if(_tabIndex == 1) {
+        _courseSearchResult = value;
+      } else if(_tabIndex == 2) {
+        _eventSearchResult = value;
+      }
+      _searchController.clear();
+      updateListing();
+    });
+  }
 
+  void updateListing() {
+    setState(() {
+      _pages[0] = HomePage(
+        companySearchResult: _companySearchResult,
+        courseSearchResult: _courseSearchResult,
+        eventSearchResult: _eventSearchResult,
+        onTabChanged: _onTabChanged,
+      );
+    });
+  }
+
+  void _onTabChanged(int index) { // added function to handle tab change
+    setState(() {
+      _tabIndex = index;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +95,7 @@ class _MyHomePageState extends State<MyHomePage> {
               accountName: Text("oi"),
               accountEmail: Text("oi"),
               currentAccountPicture: CircleAvatar(
-                backgroundImage: AssetImage("assets/user_icon.png"),
+                backgroundImage: NetworkImage('https://source.unsplash.com/random/200x200?people'),
                 radius: 60,
               ),
               decoration: BoxDecoration(
@@ -76,7 +125,7 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         title: Visibility(
             visible: _selectedIndex == 0,
-            child: RoundedSearchBar(hintText: "Search...", icon: const Icon(FontAwesomeIcons.search))
+            child: RoundedSearchBar(controller: _searchController, onSubmitted: _onSearchSubmitted,),
         ),
         actions: [
           IconButton(
