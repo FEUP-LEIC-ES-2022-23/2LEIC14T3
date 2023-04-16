@@ -44,7 +44,7 @@ dependencies:
   http: ^0.13.5
   font_awesome_flutter: ^10.4.0
   searchbar_animation: ^0.0.4
-
+  flutter_gherkin: ^2.0.0
 dev_dependencies:
   flutter_test:
     sdk: flutter
