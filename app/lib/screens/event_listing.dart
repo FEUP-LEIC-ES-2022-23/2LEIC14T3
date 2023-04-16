@@ -1,34 +1,71 @@
 import 'package:flutter/material.dart';
-
 import '../model/event.dart';
+import '../screens/event_page.dart';
 
 class EventListing extends StatelessWidget {
-  late Future<List<Event>> futureCompanies = fetchEvents(limit: 10);
-  EventListing({super.key});
+  late Future<List<Event>> futureEvents = fetchEvents(limit: 10);
+
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future:futureCompanies,
+      future: futureEvents,
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           List<Event> events = snapshot.data!;
-          return Center(
-            child: ListView(
-              children: [
-                for(var event in events)
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      ElevatedButton(
-                        onPressed: () {
-                        },
-                        child: Text(event.title),
-                      ),
-                    ],
+          return ListView.builder(
+            itemCount: events.length,
+            itemBuilder: (BuildContext context, int index) {
+              return GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => EventScreen(event: events[index]),
+                    ),
+                  );
+                },
+                child: Card(
+                  margin: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                  color: Colors.blue[50],
+                  child: Padding(
+                    padding: EdgeInsets.all(16),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          events[index].title,
+                          style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        SizedBox(height: 8),
+                        Text(
+                          'Date: ${events[index].dateStart}',
+                          style: TextStyle(
+                            fontSize: 16,
+                          ),
+                        ),
+                        SizedBox(height: 8),
+                        Text(
+                          'Location: ${events[index].place}',
+                          style: TextStyle(
+                            fontSize: 16,
+                          ),
+                        ),
+                        SizedBox(height: 8),
+                        Text(
+                          'Email: ${events[index].email}',
+                          style: TextStyle(
+                            fontSize: 16,
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
-                SizedBox(height: 16),
-              ],
-            ),
+                ),
+              );
+            },
           );
         } else if (snapshot.hasError) {
           return Text('Error: ${snapshot.error}');
@@ -39,3 +76,4 @@ class EventListing extends StatelessWidget {
     );
   }
 }
+
