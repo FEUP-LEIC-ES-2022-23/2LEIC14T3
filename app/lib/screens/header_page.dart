@@ -49,7 +49,7 @@ class _MyHomePageState extends State<MyHomePage> {
     DatabaseReference _testRef = FirebaseDatabase.instance.reference().child("test");
     _testRef.set("Hello world ${Random().nextInt(100)}");
     setState(() {
-      _tabIndex = index;
+      _selectedIndex = index;
     });
   }
 
@@ -95,7 +95,7 @@ class _MyHomePageState extends State<MyHomePage> {
               accountName: Text("oi"),
               accountEmail: Text("oi"),
               currentAccountPicture: CircleAvatar(
-                backgroundImage: AssetImage("assets/user_icon.png"),
+                backgroundImage: NetworkImage('https://source.unsplash.com/random/200x200?people'),
                 radius: 60,
               ),
               decoration: BoxDecoration(
