@@ -26,6 +26,26 @@ Future<List<Course>> fetchCourses({int limit=10, int page=1}) async {
   }
 }
 
+Future<List<Course>> searchCourses(String query,{int limit=10, int page=1}) async {
+  String apiKey = '80ab3270aee92b0b9b864fa3ae812ee9';
+  String url = 'https://api.itjobs.pt/course/search.json?q=$query&api_key=$apiKey';
+  url += '&limit=$limit';
+  url += '&page=$page';
+  final response = await http.get(Uri.parse(url));
+  if (response.statusCode == 200) {
+    List<dynamic> results = jsonDecode(response.body)['results'];
+    List<Course> courses = [];
+    for (var result in results) {
+      courses.add(Course.fromJson(result));
+    }
+    return courses;
+  } else {
+    // If the server did not return a 200 OK response,
+    // then throw an exception.
+    throw Exception('Failed to load Companies');
+  }
+}
+
 
 class Course{
   final int id;

@@ -3,10 +3,25 @@ import '../model/event.dart';
 import '../screens/event_page.dart';
 
 class EventListing extends StatelessWidget {
-  late Future<List<Event>> futureEvents = fetchEvents(limit: 10);
+  final String searchResult;
+  EventListing({
+    super.key,
+    required this.searchResult,
+  });
+  late Future<List<Event>> futureEvents;
+
+  void initEvents(){
+    if(searchResult.length>1){
+      futureEvents = searchEvents(searchResult);
+    }
+    else {
+      futureEvents = fetchEvents();
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
+    initEvents();
     return FutureBuilder(
       future: futureEvents,
       builder: (context, snapshot) {
