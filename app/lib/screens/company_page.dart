@@ -9,7 +9,7 @@ import 'rating_page.dart';
 class CompanyScreen extends StatefulWidget {
   final Company company;
 
-  CompanyScreen({required this.company});
+  const CompanyScreen({super.key, required this.company});
 
   @override
   _CompanyScreenState createState() => _CompanyScreenState();
@@ -21,7 +21,7 @@ class _CompanyScreenState extends State<CompanyScreen> {
 
   @override
   void initState() {
-    _timer = Timer.periodic(Duration(milliseconds: 250), (timer) {
+    _timer = Timer.periodic(const Duration(milliseconds: 250), (timer) {
       updateAverageRating();
     });
     super.initState();
@@ -61,41 +61,41 @@ class _CompanyScreenState extends State<CompanyScreen> {
               children: [
                 Text(
                   widget.company.name,
-                  style: TextStyle(fontSize: 24.0, fontWeight: FontWeight.bold),
+                  style: const TextStyle(fontSize: 24.0, fontWeight: FontWeight.bold),
                 ),
-                SizedBox(height: 16.0),
+                const SizedBox(height: 16.0),
                 Text(
                   widget.company.description,
-                  style: TextStyle(fontSize: 16.0),
+                  style: const TextStyle(fontSize: 16.0),
                 ),
-                SizedBox(height: 16.0),
+                const SizedBox(height: 16.0),
                 Row(
                   children: [
-                    Icon(Icons.location_on),
-                    SizedBox(width: 8.0),
+                    const Icon(Icons.location_on),
+                    const SizedBox(width: 8.0),
                     Text(
                       widget.company.address,
-                      style: TextStyle(fontSize: 16.0),
+                      style: const TextStyle(fontSize: 16.0),
                     ),
                   ],
                 ),
-                SizedBox(height: 16.0),
+                const SizedBox(height: 16.0),
                 Row(
                   children: [
-                    Icon(Icons.star),
-                    SizedBox(width: 8.0),
+                    const Icon(Icons.star),
+                    const SizedBox(width: 8.0),
                     Text(
                       widget.company.averageRating.toStringAsFixed(1),
-                      style: TextStyle(fontSize: 16.0),
+                      style: const TextStyle(fontSize: 16.0),
                     ),
-                    SizedBox(width: 8.0),
+                    const SizedBox(width: 8.0),
                     Text(
                       '(${widget.company.reviews.length} reviews)',
-                      style: TextStyle(fontSize: 16.0),
+                      style: const TextStyle(fontSize: 16.0),
                     ),
                   ],
                 ),
-                SizedBox(height: 16.0),
+                const SizedBox(height: 16.0),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
@@ -108,7 +108,7 @@ class _CompanyScreenState extends State<CompanyScreen> {
                           ),
                         );
                       },
-                      child: Text('Rate this company'),
+                      child: const Text('Rate this company'),
 
                     ),
                     ElevatedButton(
@@ -120,7 +120,7 @@ class _CompanyScreenState extends State<CompanyScreen> {
                           ),
                         );
                       },
-                      child: Text('Check Reviews'),
+                      child: const Text('Check Reviews'),
                     ),
                   ],
 
