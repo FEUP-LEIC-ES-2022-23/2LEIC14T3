@@ -17,7 +17,6 @@ import 'package:rate_it/screens/profile_page.dart';
 
 
 void main() {
-  //dá erro (não reconhece o nome Francisco Campos)
   group('CreditsPage widget', () {
     testWidgets('should display a "Credits:" heading', (WidgetTester tester) async {
       await tester.pumpWidget(MaterialApp(home: CreditsPage()));
@@ -96,7 +95,6 @@ void main() {
     });
   });
 
-  //este teste funciona mas atribuindo um input
   group('Review', () {
     late Review review;
 
@@ -126,10 +124,6 @@ void main() {
     });
   });
 
-
 }
-
-
-  //____________________________________arranjar esta função
 
 
