@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:rate_it/screens/reviews_page.dart';
 import '../model/company.dart';
@@ -14,6 +16,30 @@ class CompanyScreen extends StatefulWidget {
 }
 
 class _CompanyScreenState extends State<CompanyScreen> {
+
+  Timer? _timer;
+
+  @override
+  void initState() {
+    _timer = Timer.periodic(Duration(milliseconds: 250), (timer) {
+      updateAverageRating();
+    });
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _timer?.cancel();
+    super.dispose();
+  }
+
+  void updateAverageRating() {
+    setState(() {
+      widget.company.averageRating = widget.company.reviews.fold(0, (sum, review) => sum + review.rating) / widget.company.reviews.length;
+      if(widget.company.averageRating.isNaN) widget.company.averageRating = 0;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
