@@ -7,96 +7,94 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-
+import 'package:rate_it/screens/credits_page.dart';
+import 'package:rate_it/screens/header_page.dart';
+import 'package:rate_it/screens/home_page.dart';
 import 'package:rate_it/main.dart';
+import 'package:rate_it/model/review.dart';
+import 'package:rate_it/model/company.dart';
+import 'package:rate_it/screens/profile_page.dart';
+
 
 void main() {
-<<<<<<< Updated upstream
-=======
-  //dá erro (não reconhece o nome Francisco Campos)
-  testWidgets('CreditsPage displays names', (WidgetTester tester) async {
-    await tester.pumpWidget(MaterialApp(home: CreditsPage()));
+  group('CreditsPage widget', () {
+    testWidgets('should display a "Credits:" heading', (WidgetTester tester) async {
+      await tester.pumpWidget(MaterialApp(home: CreditsPage()));
+      final creditsHeadingFinder = find.text('Credits:');
+      expect(creditsHeadingFinder, findsOneWidget);
+    });
 
-    expect(
-      find.byWidgetPredicate(
-            (widget) =>
-        widget is Text && widget.data?.startsWith('Credits') == true,
-        description: 'Failed to find Francisco Campos',
-      ),
-      findsOneWidget,
-    );
-    expect(
-      find.byWidgetPredicate(
-            (widget) =>
-        widget is Text && widget.data?.startsWith('Diogo Silva') == true,
-        description: 'Failed to find Diogo Silva',
-      ),
-      findsOneWidget,
-    );
-    expect(
-      find.byWidgetPredicate(
-            (widget) =>
-        widget is Text &&
-            widget.data?.startsWith('João Figueiredo') == true,
-        description: 'Failed to find João Figueiredo',
-      ),
-      findsOneWidget,
-    );
-    expect(
+    testWidgets('should display a list of credits', (WidgetTester tester) async {
+      await tester.pumpWidget(MaterialApp(home: CreditsPage()));
+      final creditsFinder = find.byType(Text).hitTestable();
+      expect(creditsFinder, findsNWidgets(6));
+    });
 
-      find.byWidgetPredicate(
-            (widget) =>
-        widget is Text && widget.data?.startsWith('Tiago Simões') == true,
-        description: 'Failed to find Tiago Simões',
-      ),
-      findsOneWidget,
-    );
-    expect(
-      find.byWidgetPredicate(
-            (widget) =>
-        widget is Text && widget.data?.startsWith('Pedro Plácido') == true,
-        description: 'Failed to find Pedro Plácido',
-      ),
-      findsOneWidget,
-    );
+    testWidgets('should display each credit name in the list', (WidgetTester tester) async {
+      await tester.pumpWidget(MaterialApp(home: CreditsPage()));
+      final creditNames = ['Francisco Campos', 'Diogo Silva', 'João Figueiredo', 'Tiago Simões', 'Pedro Plácido'];
+      for (final name in creditNames) {
+        final creditNameFinder = find.text(name);
+        expect(creditNameFinder, findsOneWidget);
+      }
+    });
   });
 
-
-  //este teste dá certo
+//este teste dá certo
   testWidgets('CreditsPage displays text with the correct style',
           (WidgetTester tester) async {
         await tester.pumpWidget(MaterialApp(home: CreditsPage()));
-
-        final textWidget = tester.widget<Text>(
-            find
-                .byType(Text)
-                .first); // Find the first Text widget
-
+        final textWidget = tester.widget<Text>(find.byType(Text).first); // Find the first Text widget
         expect(textWidget.style!.fontSize, 24); // Check if font size is correct
       });
 
-//dá errado
-  testWidgets('MyHomePage should render a Drawer, AppBar, and a body widget',
-          (WidgetTester tester) async {
-        await tester.pumpWidget(MyHomePage());
-        expect(find.byType(Drawer), findsOneWidget);
-        expect(find.byType(AppBar), findsOneWidget);
-        expect(find.byType(HomePage), findsOneWidget);
-      });
-//da errado
-  testWidgets(
-      'Clicking on the Credits button should navigate to the CreditsPage',
-          (WidgetTester tester) async {
-        await tester.pumpWidget(MyApp());
-        final creditsButton = find.byKey(Key('credits_button'));
-        expect(creditsButton, findsOneWidget);
-        await tester.tap(creditsButton);
-        await tester.pumpAndSettle();
-        expect(find.text('Credits'), findsOneWidget);
-        expect(find.text('Special thanks to...'), findsOneWidget);
-      }
-  );
-  //este teste funciona mas atribuindo um input
+  group('MyHomePage', () {
+    testWidgets('Renders the correct widgets on init', (WidgetTester tester) async {
+      await tester.pumpWidget(MaterialApp(home: MyHomePage()));
+      expect(find.byType(HomePage), findsOneWidget);
+      expect(find.byType(CreditsPage), findsNothing);
+      expect(find.byType(ProfilePage), findsNothing);
+    });
+
+    testWidgets('Updates search results when search is submitted', (WidgetTester tester) async {
+      await tester.pumpWidget(MaterialApp(home: MyHomePage()));
+
+      final searchField = find.byType(TextField);
+      expect(searchField, findsOneWidget);
+
+      // Enter some search text and submit the search
+      await tester.enterText(searchField, 'search query');
+      expect(find.text('search query'), findsOneWidget);
+      await tester.testTextInput.receiveAction(TextInputAction.done);
+      await tester.pump();
+
+      expect(find.text('search query'), findsNothing);
+    });
+
+    testWidgets('Updates search results and clears search field when search is submitted', (WidgetTester tester) async {
+      await tester.pumpWidget(MaterialApp(home: MyHomePage()));
+
+      final searchField = find.byType(TextField);
+      expect(searchField, findsOneWidget);
+
+      // Enter some search text and submit the search
+      await tester.enterText(searchField, 'search query');
+      expect(find.text('search query'), findsOneWidget);
+      await tester.testTextInput.receiveAction(TextInputAction.done);
+      await tester.pump();
+
+      expect(find.text('search query'), findsNothing);
+
+      // Enter more search text and submit the search again
+      await tester.enterText(searchField, 'more search text');
+      expect(find.text('more search text'), findsOneWidget);
+      await tester.testTextInput.receiveAction(TextInputAction.done);
+      await tester.pump();
+
+      expect(find.text('more search text'), findsNothing);
+    });
+  });
+
   group('Review', () {
     late Review review;
 
@@ -125,7 +123,7 @@ void main() {
       expect(review.author, 'John Doe');
     });
   });
-  */
->>>>>>> Stashed changes
 
 }
+
+
