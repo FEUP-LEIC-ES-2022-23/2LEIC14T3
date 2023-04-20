@@ -1,3 +1,4 @@
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 
 import '../model/company.dart';
@@ -25,7 +26,7 @@ class EventRatingPage extends StatefulWidget {
 
 class _EventRatingPageState extends State<EventRatingPage> {
   int rating = 0;
-
+  final _databaseRef = FirebaseDatabase.instance.ref();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -74,16 +75,22 @@ class _EventRatingPageState extends State<EventRatingPage> {
                   rating: widget._rating,
                   review: widget._review,
                   author: 'Anonymous',
+                  categoryIndex: 0,
+                  idEntity: widget.company.id,
                  );
-
-
 
                 if(widget._rating > 0){
                   widget.company.addReview(review);
+                  _databaseRef.child('reviews').push().set({
+                    'title': 'Review',
+                    'rating': widget._rating,
+                    'review': widget._review,
+                    'author': 'Anonymous',
+                    'entityId': widget.company.id, // Add the companyId field
+                    'categoryIndex': review.categoryIndex,
+                  });
+
                   Navigator.pop(context);}
-
-
-
               },
               child: Text('Submit'),
             ),
