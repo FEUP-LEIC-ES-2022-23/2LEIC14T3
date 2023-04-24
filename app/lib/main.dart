@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:rate_it/firebase_options.dart';
 import 'package:rate_it/screens/header_page.dart';
+import 'package:rate_it/screens/login_page.dart';
 
 
 Future<void> main() async {
@@ -29,7 +30,7 @@ class MyApp extends StatelessWidget {
             print('You have an error! ${snapshot.error.toString()}');
             return Text('Something went wrong!');
           } else if (snapshot.hasData) {
-            return MyHomePage();
+            return LoginPage(); ////
           } else {
             return Center(
               child: CircularProgressIndicator(),
