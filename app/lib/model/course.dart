@@ -48,6 +48,7 @@ Future<List<Course>> searchCourses(String query,{int limit=10, int page=1}) asyn
 
 
 class Course{
+  final int entityOrigin; //0 if itjobs; 1 if RateIT
   final int id;
   final String title;
   String description;
@@ -60,6 +61,7 @@ class Course{
   String updatedAt;
 
   Course({
+    required this.entityOrigin,
     required this.id,
     required this.title,
     this.description = "",
@@ -74,6 +76,7 @@ class Course{
 
   factory Course.fromJson(Map<String, dynamic> json) {
     return Course(
+      entityOrigin: 0,
       id: json['id'],
       title: json['title']??"",
       description: json['description']??"",

@@ -6,6 +6,8 @@ import 'dart:io';
 
 import 'package:http/http.dart' as http;
 
+import '../firebase/Database.dart';
+
 Future<List<Company>> searchCompanies(String query,{int limit=10, int page=1}) async {
   String apiKey = '80ab3270aee92b0b9b864fa3ae812ee9';
   String url = 'https://api.itjobs.pt/company/search.json?q=$query&api_key=$apiKey';
@@ -36,7 +38,9 @@ Future<List<Company>> fetchCompanies({int limit=10, int page=1}) async {
     List<dynamic> results = jsonDecode(response.body)['results'];
     List<Company> companies = [];
     for (var result in results) {
-      companies.add(Company.fromJson(result));
+      Company company = Company.fromJson(result);
+      company.setAverageRating();
+      companies.add(company);
     }
     return companies;
   } else {
@@ -48,6 +52,7 @@ Future<List<Company>> fetchCompanies({int limit=10, int page=1}) async {
 
 
 class Company{
+  final int entityOrigin; //0 if itjobs; 1 if RateIT
   final int id;
   final String name;
   String logo;
@@ -61,10 +66,11 @@ class Company{
   String url_facebook;
   String url_linkedin;
   double averageRating;
-  List<Review> reviews;
+  Future<List<Review>> reviews;
 
   Company({
     required this.id,
+    required this.entityOrigin,
     required this.name,
     this.logo = "",
     this.description = "",
@@ -82,6 +88,7 @@ class Company{
 
   factory Company.fromJson(Map<String, dynamic> json) {
     return Company(
+      entityOrigin: 0,
       id: json['id'],
       name: json['name']??"",
       logo: json['logo']??"",
@@ -94,16 +101,20 @@ class Company{
       url_twitter: json['url_twitter']??"",
       url_facebook: json['url_facebook']??"",
       url_linkedin: json['url_linkedin']??"",
-      reviews: [],
+      reviews: Database.fetchReviews(json['id'],0,0),
     );
   }
 
 
-
-  void addReview(Review review){
-    double temp = averageRating;
-    reviews.add(review);
-    averageRating = (temp * (reviews.length - 1) + review.rating)/reviews.length ;
+  void setAverageRating() async{
+    List<Review> rendReviews = await reviews;
+    int sum = 0;
+    for (Review r in rendReviews){
+      sum += r.rating;
+    }
+    if (sum != 0) {
+      averageRating = sum / rendReviews.length;
+    }
   }
 }
 
