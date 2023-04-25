@@ -81,7 +81,7 @@ class _EventRatingPageState extends State<EventRatingPage> {
                  );
 
                 if(widget._rating > 0){
-                  widget.company.addReview(review);
+                  widget.company.updateAverageRating(review); //TODO Maybe send this to database
                   Database.db.collection('reviews').add({
                     'title': 'Review',
                     'rating': widget._rating,

@@ -6,6 +6,8 @@ import 'dart:io';
 
 import 'package:http/http.dart' as http;
 
+import '../firebase/Database.dart';
+
 Future<List<Company>> searchCompanies(String query,{int limit=10, int page=1}) async {
   String apiKey = '80ab3270aee92b0b9b864fa3ae812ee9';
   String url = 'https://api.itjobs.pt/company/search.json?q=$query&api_key=$apiKey';
@@ -62,7 +64,7 @@ class Company{
   String url_facebook;
   String url_linkedin;
   double averageRating;
-  List<Review> reviews;
+  Future<List<Review>> reviews;
 
   Company({
     required this.id,
@@ -97,17 +99,18 @@ class Company{
       url_twitter: json['url_twitter']??"",
       url_facebook: json['url_facebook']??"",
       url_linkedin: json['url_linkedin']??"",
-      reviews: [],
+      reviews: Database.fetchReviews(json['id'],0,0),
     );
   }
 
 
 
-  void addReview(Review review){
+  void updateAverageRating(Review review) async{
+    List<Review> rendReviews = await reviews;
     double temp = averageRating;
-    reviews.add(review);
-    averageRating = (temp * (reviews.length - 1) + review.rating)/reviews.length ;
+    averageRating = (temp * (rendReviews.length - 1) + review.rating)/rendReviews.length ;
   }
+
 }
 
 
