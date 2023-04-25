@@ -22,16 +22,34 @@ class Database{
     return reviews;
   }
 
-  static void addReview(Review review){
-    Database.db.collection('reviews').add({
-      'title': review.title,
-      'rating': review.rating,
-      'review': review.review,
-      'author': review.author,
-      'idEntity': review.idEntity, // Add the companyId field
-      'categoryIndex': review.categoryIndex,
-      'entityOrigin': review.entityOrigin,
-      'votes': review.votes,
-    });
+  static Future<void> addReview(Review review) async {
+    QuerySnapshot querySnapshot = await db.collection("reviews").orderBy("id",descending: true).limit(1).get();
+    if(querySnapshot.docs.isEmpty){
+      db.collection('reviews').add({
+        'id': 1,
+        'title': review.title,
+        'rating': review.rating,
+        'review': review.review,
+        'author': review.author,
+        'idEntity': review.idEntity, // Add the companyId field
+        'categoryIndex': review.categoryIndex,
+        'entityOrigin': review.entityOrigin,
+        'votes': review.votes,
+      });
+    }
+    else{
+      Map<String, dynamic> latestReview = querySnapshot.docs[0].data() as Map<String, dynamic>;
+      db.collection('reviews').add({
+        'id': latestReview['id']+1,
+        'title': review.title,
+        'rating': review.rating,
+        'review': review.review,
+        'author': review.author,
+        'idEntity': review.idEntity, // Add the companyId field
+        'categoryIndex': review.categoryIndex,
+        'entityOrigin': review.entityOrigin,
+        'votes': review.votes,
+      });
+    }
   }
 }

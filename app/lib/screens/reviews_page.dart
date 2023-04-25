@@ -79,7 +79,7 @@ class _ReviewsPageState extends State<ReviewsPage> {
                             icon: Icon(Icons.thumb_down),
                           ),
                           Text(
-                            '${reviews[index].votes ?? 0}',
+                            '${reviews[index].votes}',
                             style: TextStyle(fontSize: 18),
                           ),
                         ],
