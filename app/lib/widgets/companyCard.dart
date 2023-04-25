@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 
+import '../firebase/Database.dart';
 import '../model/company.dart';
 import '../model/review.dart';
 import '../screens/company_page.dart';
 
-class CompanyCard extends StatelessWidget{
+class CompanyCard extends StatefulWidget{
   final Company company;
 
   const CompanyCard({
@@ -13,9 +14,14 @@ class CompanyCard extends StatelessWidget{
   });
 
   @override
+  State<CompanyCard> createState() => _CompanyCardState();
+}
+
+class _CompanyCardState extends State<CompanyCard> {
+  @override
   Widget build(BuildContext context) {
     return FutureBuilder<List<Review>>(
-      future: company.reviews,
+      future: widget.company.reviews,
       builder: (context, snapshot) {
         if (snapshot.hasData){
           List<Review> rendReviews = snapshot.data!;
@@ -27,9 +33,14 @@ class CompanyCard extends StatelessWidget{
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => CompanyScreen(company: company),
+                    builder: (context) => CompanyScreen(company: widget.company),
                   ),
-                );
+                ).then((_){
+                  setState(() {
+                    widget.company.reviews = Database.fetchReviews(widget.company.id, widget.company.entityOrigin, 0);
+                    widget.company.setAverageRating();
+                  });
+                });
               },
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
@@ -41,7 +52,7 @@ class CompanyCard extends StatelessWidget{
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            company.name,
+                            widget.company.name,
                             style: TextStyle(fontSize: 20.0,
                                 fontWeight: FontWeight.bold),
                           ),
@@ -52,7 +63,7 @@ class CompanyCard extends StatelessWidget{
                               SizedBox(width: 8.0),
                               Expanded(
                                 child: Text(
-                                  company.address,
+                                  widget.company.address,
                                   style: TextStyle(fontSize: 16.0),
                                 ),
                               ),
@@ -64,7 +75,7 @@ class CompanyCard extends StatelessWidget{
                               Icon(Icons.star),
                               SizedBox(width: 8.0),
                               Text(
-                                company.averageRating.toStringAsFixed(1),
+                                widget.company.averageRating.toStringAsFixed(1),
                                 style: TextStyle(fontSize: 16.0),
                               ),
                               SizedBox(width: 8.0),
@@ -80,7 +91,7 @@ class CompanyCard extends StatelessWidget{
                     Container(
                       height: 200,
                       width: 200,
-                      child: Image.network(company.logo),
+                      child: Image.network(widget.company.logo),
                     ),
                   ],
                 ),
@@ -95,5 +106,4 @@ class CompanyCard extends StatelessWidget{
       }
     );
   }
-
 }

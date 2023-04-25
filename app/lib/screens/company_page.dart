@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:rate_it/screens/reviews_page.dart';
+import '../firebase/Database.dart';
 import '../model/company.dart';
 import '../model/review.dart';
 import 'rating_page.dart';
@@ -90,7 +91,12 @@ class _CompanyScreenState extends State<CompanyScreen> {
                                   builder: (context) =>
                                       EventRatingPage(company: widget.company),
                                 ),
-                              );
+                              ).then((_){
+                                setState(() {
+                                  widget.company.reviews = Database.fetchReviews(widget.company.id, widget.company.entityOrigin, 0);
+                                  widget.company.setAverageRating();
+                                });
+                              });
                             },
                             child: Text('Rate this company'),
 
