@@ -6,5 +6,6 @@ import '../model/review.dart';
 
 class Database{
   static final FirebaseFirestore db = FirebaseFirestore.instance;
-
+  void test(){
+  }
 }

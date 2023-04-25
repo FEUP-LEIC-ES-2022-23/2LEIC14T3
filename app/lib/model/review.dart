@@ -6,6 +6,7 @@ class Review {
   final String author;
   final int rating;
   final int categoryIndex; //0 if company; 1 if course; 2 if event.
+  final int entityOrigin; //0 if itjobs; 1 if RateIT
   final int idEntity;
   int? votes;
 
@@ -16,6 +17,7 @@ class Review {
     required this.rating,
     required this.categoryIndex,
     required this.idEntity,
+    required this.entityOrigin,
     this.votes,
   });
 

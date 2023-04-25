@@ -48,6 +48,7 @@ Future<List<Event>> searchEvents(String query,{int limit=10, int page=1}) async 
 
 
 class Event{
+  final int entityOrigin; //0 if itjobs; 1 if RateIT
   final int id;
   final String title;
   String description;
@@ -60,6 +61,7 @@ class Event{
   String updatedAt;
 
   Event({
+    required this.entityOrigin,
     required this.id,
     required this.title,
     this.description = "",
@@ -74,6 +76,7 @@ class Event{
 
   factory Event.fromJson(Map<String, dynamic> json) {
     return Event(
+      entityOrigin: 0,
       id: json['id'],
       title: json['title']??"",
       description: json['description']??"",

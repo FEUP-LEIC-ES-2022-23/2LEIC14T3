@@ -48,6 +48,7 @@ Future<List<Company>> fetchCompanies({int limit=10, int page=1}) async {
 
 
 class Company{
+  final int entityOrigin; //0 if itjobs; 1 if RateIT
   final int id;
   final String name;
   String logo;
@@ -65,6 +66,7 @@ class Company{
 
   Company({
     required this.id,
+    required this.entityOrigin,
     required this.name,
     this.logo = "",
     this.description = "",
@@ -82,6 +84,7 @@ class Company{
 
   factory Company.fromJson(Map<String, dynamic> json) {
     return Company(
+      entityOrigin: 0,
       id: json['id'],
       name: json['name']??"",
       logo: json['logo']??"",

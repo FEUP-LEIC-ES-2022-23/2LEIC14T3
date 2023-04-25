@@ -77,6 +77,7 @@ class _EventRatingPageState extends State<EventRatingPage> {
                   author: 'Anonymous',
                   categoryIndex: 0,
                   idEntity: widget.company.id,
+                  entityOrigin: widget.company.entityOrigin,
                  );
 
                 if(widget._rating > 0){
