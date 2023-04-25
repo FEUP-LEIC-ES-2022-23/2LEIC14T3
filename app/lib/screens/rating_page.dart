@@ -1,6 +1,7 @@
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 
+import '../firebase/Database.dart';
 import '../model/company.dart';
 import '../model/review.dart';
 import 'home_page.dart';
@@ -26,7 +27,6 @@ class EventRatingPage extends StatefulWidget {
 
 class _EventRatingPageState extends State<EventRatingPage> {
   int rating = 0;
-  final _databaseRef = FirebaseDatabase.instance.ref();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -81,7 +81,7 @@ class _EventRatingPageState extends State<EventRatingPage> {
 
                 if(widget._rating > 0){
                   widget.company.addReview(review);
-                  _databaseRef.child('reviews').push().set({
+                  Database.db.collection('reviews').add({
                     'title': 'Review',
                     'rating': widget._rating,
                     'review': widget._review,
