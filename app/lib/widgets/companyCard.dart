@@ -20,12 +20,7 @@ class CompanyCard extends StatefulWidget{
 class _CompanyCardState extends State<CompanyCard> {
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<List<Review>>(
-      future: widget.company.reviews,
-      builder: (context, snapshot) {
-        if (snapshot.hasData){
-          List<Review> rendReviews = snapshot.data!;
-          return Card(
+    return Card(
             color: Colors.blue[50],
             margin: EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
             child: GestureDetector(
@@ -70,20 +65,36 @@ class _CompanyCardState extends State<CompanyCard> {
                             ],
                           ),
                           SizedBox(height: 8.0),
-                          Row(
-                            children: [
-                              Icon(Icons.star),
-                              SizedBox(width: 8.0),
-                              Text(
-                                widget.company.averageRating.toStringAsFixed(1),
-                                style: TextStyle(fontSize: 16.0),
-                              ),
-                              SizedBox(width: 8.0),
-                              Text(
-                                '(${rendReviews.length} reviews)',
-                                style: TextStyle(fontSize: 16.0),
-                              ),
-                            ],
+                          FutureBuilder<List<Review>>(
+                            future: widget.company.reviews,
+                            builder: (context, snapshot) {
+                              if (snapshot.hasData){
+                                List<Review> rendReviews = snapshot.data!;
+                                return Row(
+                                  children: [
+                                    Icon(Icons.star),
+                                    SizedBox(width: 8.0),
+                                    Text(
+                                      widget.company.averageRating
+                                          .toStringAsFixed(1),
+                                      style: TextStyle(fontSize: 16.0),
+                                    ),
+                                    SizedBox(width: 8.0),
+                                    Text(
+                                      '(${rendReviews.length} reviews)',
+                                      style: TextStyle(fontSize: 16.0),
+                                    ),
+                                  ],
+                                );
+                              }
+                              else if (snapshot.hasError) {
+                                print('You have an error! ${snapshot.error.toString()}');
+                                return Text('Something went wrong!');
+                              }
+                              else {
+                                return Center(child: LinearProgressIndicator(),);
+                              }
+                            }
                           ),
                         ],
                       ),
@@ -98,12 +109,5 @@ class _CompanyCardState extends State<CompanyCard> {
               ),
             ),
           );
-        } else if (snapshot.hasError) {
-          return Text('Error: ${snapshot.error}');
-        } else {
-          return Center(child: CircularProgressIndicator());
-        }
-      }
-    );
   }
 }
