@@ -38,7 +38,9 @@ Future<List<Company>> fetchCompanies({int limit=10, int page=1}) async {
     List<dynamic> results = jsonDecode(response.body)['results'];
     List<Company> companies = [];
     for (var result in results) {
-      companies.add(Company.fromJson(result));
+      Company company = Company.fromJson(result);
+      company.setAverageRating();
+      companies.add(company);
     }
     return companies;
   } else {
@@ -104,13 +106,16 @@ class Company{
   }
 
 
-
-  void updateAverageRating(Review review) async{
+  void setAverageRating() async{
     List<Review> rendReviews = await reviews;
-    double temp = averageRating;
-    averageRating = (temp * (rendReviews.length - 1) + review.rating)/rendReviews.length ;
+    int sum = 0;
+    for (Review r in rendReviews){
+      sum += r.rating;
+    }
+    if (sum != 0) {
+      averageRating = sum / rendReviews.length;
+    }
   }
-
 }
 
 

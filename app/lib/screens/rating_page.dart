@@ -78,20 +78,14 @@ class _EventRatingPageState extends State<EventRatingPage> {
                   categoryIndex: 0,
                   idEntity: widget.company.id,
                   entityOrigin: widget.company.entityOrigin,
+                  votes: 0,
                  );
 
                 if(widget._rating > 0){
-                  widget.company.updateAverageRating(review); //TODO Maybe send this to database
-                  Database.db.collection('reviews').add({
-                    'title': 'Review',
-                    'rating': widget._rating,
-                    'review': widget._review,
-                    'author': 'Anonymous',
-                    'entityId': widget.company.id, // Add the companyId field
-                    'categoryIndex': review.categoryIndex,
-                  });
+                  Database.addReview(review);
 
-                  Navigator.pop(context);}
+                  Navigator.pop(context);
+                }
               },
               child: Text('Submit'),
             ),
