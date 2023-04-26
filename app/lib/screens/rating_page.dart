@@ -69,7 +69,7 @@ class _EventRatingPageState extends State<EventRatingPage> {
             ),
             SizedBox(height: 32),
             ElevatedButton(
-              onPressed: () async {
+              onPressed: () {
                 Review review = Review(
                   title: 'Review',
                   rating: widget._rating,
@@ -82,7 +82,7 @@ class _EventRatingPageState extends State<EventRatingPage> {
                  );
 
                 if(widget._rating > 0){
-                  await Database.addReview(review);
+                  Database.addReview(review);
                   Navigator.pop(context);
                 }
               },

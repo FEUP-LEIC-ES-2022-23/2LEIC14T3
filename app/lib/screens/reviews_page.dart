@@ -3,6 +3,8 @@ import 'package:rate_it/model/review.dart';
 import 'dart:math';
 import 'package:rate_it/model/company.dart';
 
+import '../firebase/Database.dart';
+
 class ReviewsPage extends StatefulWidget {
   Company company;
 
@@ -63,6 +65,7 @@ class _ReviewsPageState extends State<ReviewsPage> {
                         children: [
                           IconButton(
                             onPressed: () {
+                              Database.updateVoteReview(reviews[index], 1);
                               setState(() {
                                 reviews[index].upvote();
                               });
@@ -72,6 +75,7 @@ class _ReviewsPageState extends State<ReviewsPage> {
                           SizedBox(width: 8),
                           IconButton(
                             onPressed: () {
+                              Database.updateVoteReview(reviews[index], -1);
                               setState(() {
                                 reviews[index].downvote();
                               });

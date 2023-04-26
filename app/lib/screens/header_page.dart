@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:rate_it/screens/credits_page.dart';
-import 'dart:math';
-import 'package:firebase_database/firebase_database.dart';
 import 'package:rate_it/screens/profile_page.dart';
 import 'package:rate_it/widgets/search_bar.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -46,8 +44,6 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   void _onItemTapped(int index) {
-    DatabaseReference _testRef = FirebaseDatabase.instance.reference().child("test");
-    _testRef.set("Hello world ${Random().nextInt(100)}");
     setState(() {
       _selectedIndex = index;
     });

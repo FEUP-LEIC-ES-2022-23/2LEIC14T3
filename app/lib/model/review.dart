@@ -1,9 +1,11 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class Review {
   String title;
   String review;
   String author;
+  String? reviewRef;
   int rating;
   int categoryIndex; //0 if company; 1 if course; 2 if event.
   int entityOrigin; //0 if itjobs; 1 if RateIT
@@ -19,6 +21,7 @@ class Review {
     required this.idEntity,
     required this.entityOrigin,
     required this.votes,
+    this.reviewRef,
   });
 
   void upvote() {
@@ -30,8 +33,9 @@ class Review {
   }
 }
 
-Review reviewFromMap(Map<String, dynamic> data){
+Review reviewFromMap(Map<String, dynamic> data, String id){
   Review review = Review(
+      reviewRef: id,
       title: data['title'],
       review: data['review'],
       author: data['author'],
