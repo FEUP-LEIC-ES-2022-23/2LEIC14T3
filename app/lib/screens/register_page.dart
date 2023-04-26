@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:rate_it/auth/Authentication.dart';
+import 'package:rate_it/auth/validation.dart';
+import 'package:rate_it/widgets/popup_message.dart';
 
 class RegisterPage extends StatefulWidget {
   @override
@@ -50,8 +53,11 @@ class _RegisterPageState extends State<RegisterPage> {
                   border: OutlineInputBorder(),
                 ),
                 validator: (value) {
-                  if (value == null || value.isEmpty) {
+                  if (Validation.emptyField(value)) {
                     return 'Please enter your email';
+                  }
+                  if (Validation.invalidEmail(value)){
+                    return 'Please insert valid email';
                   }
                   return null;
                 },
@@ -65,10 +71,10 @@ class _RegisterPageState extends State<RegisterPage> {
                   border: OutlineInputBorder(),
                 ),
                 validator: (value) {
-                  if (value == null || value.isEmpty) {
+                  if (Validation.emptyField(value)) {
                     return 'Please enter your password';
                   }
-                  if (value.length < 6) {
+                  if (Validation.shortPassword(value)) {
                     return 'Password must be at least 6 characters long';
                   }
                   return null;
@@ -76,17 +82,27 @@ class _RegisterPageState extends State<RegisterPage> {
               ),
               SizedBox(height: 32.0),
               ElevatedButton(
-                onPressed: () {
+                onPressed: () async {
                   if (_formKey.currentState!.validate()) {
-                    // perform registration
                     String name = _nameController.text;
-                    String email = _emailController.text;
                     String password = _passwordController.text;
-                    print('Name: $name, Email: $email, Password: $password');
+                    String email = _emailController.text;
+                    String msg = await Authentication.register(email, password);
+                    if (msg == "The account already exists for that email.") {
+                      showDialog(
+                        context: context,
+                        builder: (_) => PopupMessage(title: "Email",message: msg)
+                      );
+                    }
+                    else if (msg == "successful-register"){
+
+                      Navigator.pop(context);
+                    }
                   }
                 },
                 child: Text('Register'),
               ),
+
               SizedBox(height: 16.0),
               TextButton(
                 onPressed: () {
