@@ -24,7 +24,6 @@ class Database{
 
   static void addReview(Review review) {
       db.collection('reviews').add({
-        'id': 1,
         'title': review.title,
         'rating': review.rating,
         'review': review.review,
@@ -38,7 +37,7 @@ class Database{
 
   static void updateVoteReview(Review review, int vote) {
     try {
-      db.collection("reviews").doc(review.reviewRef as String?).update(
+      db.collection("reviews").doc(review.reviewRef).update(
           {"votes": FieldValue.increment(vote)}
       );
     } catch(e){
