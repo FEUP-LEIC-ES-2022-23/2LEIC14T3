@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:rate_it/screens/reviews_page.dart';
-import '../firebase/Database.dart';
+import '../firebase/database.dart';
 import '../model/company.dart';
 import '../model/review.dart';
 import 'rating_page.dart';

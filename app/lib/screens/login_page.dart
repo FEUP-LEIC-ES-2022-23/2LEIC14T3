@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:rate_it/auth/validation.dart';
+import 'package:rate_it/screens/header_page.dart';
+import '../auth/Authentication.dart';
 import '../screens/register_page.dart';
+import '../widgets/popup_message.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -36,8 +40,11 @@ class _LoginPageState extends State<LoginPage> {
                   border: OutlineInputBorder(),
                 ),
                 validator: (value) {
-                  if (value == null || value.isEmpty) {
+                  if (Validation.emptyField(value)) {
                     return 'Please enter your email';
+                  }
+                  else if (Validation.invalidEmail(value)) {
+                    return 'Invalid email format';
                   }
                   return null;
                 },
@@ -51,7 +58,7 @@ class _LoginPageState extends State<LoginPage> {
                   border: OutlineInputBorder(),
                 ),
                 validator: (value) {
-                  if (value == null || value.isEmpty) {
+                  if (Validation.emptyField(value)) {
                     return 'Please enter your password';
                   }
                   return null;
@@ -59,12 +66,33 @@ class _LoginPageState extends State<LoginPage> {
               ),
               SizedBox(height: 32.0),
               ElevatedButton(
-                onPressed: () {
+                onPressed: () async {
                   if (_formKey.currentState!.validate()) {
                     // perform login
                     String email = _emailController.text;
                     String password = _passwordController.text;
-                    print('Email: $email, Password: $password');
+                    String msg = await Authentication.login(email, password);
+                    if (msg == "No user found for that email."){
+                      showDialog(
+                          context: context,
+                          builder: (_) => PopupMessage(title: "Unknown User",message: msg)
+                      );
+                    }
+                    else if (msg == "Wrong password provided for that user."){
+                      showDialog(
+                          context: context,
+                          builder: (_) => PopupMessage(title: "Wrong Credentials",message: msg)
+                      );
+                    }
+                    else if (msg == "successful-login"){
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) =>
+                              MyHomePage(),
+                        ),
+                      );
+                    }
                   }
                 },
                 child: Text('Login'),
