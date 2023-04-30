@@ -1,11 +1,11 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:rate_it/screens/reviews_page.dart';
+import 'package:rate_it/screens/reviews_page_company.dart';
 import '../firebase/database.dart';
 import '../model/company.dart';
 import '../model/review.dart';
-import 'rating_page.dart';
+import 'rating_page_company.dart';
 
 
 class CompanyScreen extends StatefulWidget {
@@ -89,7 +89,7 @@ class _CompanyScreenState extends State<CompanyScreen> {
                                 context,
                                 MaterialPageRoute(
                                   builder: (context) =>
-                                      EventRatingPage(company: widget.company),
+                                      EventRatingPageCompany(company: widget.company),
                                 ),
                               ).then((_){
                                 setState(() {
@@ -107,7 +107,7 @@ class _CompanyScreenState extends State<CompanyScreen> {
                                 context,
                                 MaterialPageRoute(
                                   builder: (context) =>
-                                      ReviewsPage(company: widget.company),
+                                      ReviewsPageCompany(company: widget.company),
                                 ),
                               );
                             },

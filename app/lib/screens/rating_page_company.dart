@@ -6,11 +6,11 @@ import '../model/company.dart';
 import '../model/review.dart';
 import 'home_page.dart';
 
-class EventRatingPage extends StatefulWidget {
+class EventRatingPageCompany extends StatefulWidget {
 
   Company company;
 
-  EventRatingPage({Key? key, required this.company}) : super(key: key);
+  EventRatingPageCompany({Key? key, required this.company}) : super(key: key);
 
 
   int _rating = 0;
@@ -18,20 +18,20 @@ class EventRatingPage extends StatefulWidget {
 
 
   @override
-  _EventRatingPageState createState() => _EventRatingPageState();
+  _EventRatingPageCompanyState createState() => _EventRatingPageCompanyState();
 
   void setReview(String value) {
     _review = value;
   }
 }
 
-class _EventRatingPageState extends State<EventRatingPage> {
+class _EventRatingPageCompanyState extends State<EventRatingPageCompany> {
   int rating = 0;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Rate this Event'),
+        title: Text('Rate this Company'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -39,7 +39,7 @@ class _EventRatingPageState extends State<EventRatingPage> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'How many stars would you give this event?',
+              'How many stars would you give this company?',
               style: TextStyle(fontSize: 18),
             ),
             SizedBox(height: 16),
