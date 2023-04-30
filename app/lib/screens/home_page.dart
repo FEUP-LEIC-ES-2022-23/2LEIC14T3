@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:rate_it/screens/company_listing.dart';
-import 'package:rate_it/screens/event_listing.dart';
+import 'package:rate_it/screens/company/company_listing.dart';
+import 'package:rate_it/screens/event/event_listing.dart';
 
-import 'course_listing.dart';
+import 'course/course_listing.dart';
 
 class HomePage extends StatelessWidget {
   final String companySearchResult;

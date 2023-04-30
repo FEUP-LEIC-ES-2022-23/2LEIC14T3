@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import '../model/course.dart';
-import '../screens/course_page.dart';
-import '../widgets/courseCard.dart';
+import '../../model/course.dart';
+import 'course_page.dart';
+import '../../widgets/courseCard.dart';
 
 class CourseListing extends StatelessWidget {
 

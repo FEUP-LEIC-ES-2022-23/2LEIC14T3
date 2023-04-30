@@ -3,8 +3,8 @@ import 'package:rate_it/model/review.dart';
 import 'dart:math';
 import 'package:rate_it/model/company.dart';
 
-import '../firebase/database.dart';
-import '../model/course.dart';
+import '../../firebase/database.dart';
+import '../../model/course.dart';
 
 class ReviewsPageCourse extends StatefulWidget {
   Course course;

@@ -3,26 +3,27 @@ import 'package:rate_it/model/review.dart';
 import 'dart:math';
 import 'package:rate_it/model/company.dart';
 
-import '../firebase/database.dart';
+import '../../firebase/database.dart';
+import '../../model/event.dart';
 
-class ReviewsPageCompany extends StatefulWidget {
-  Company company;
+class ReviewsPageEvent extends StatefulWidget {
+  Event event;
 
-  ReviewsPageCompany({required this.company});
+  ReviewsPageEvent({required this.event});
 
   @override
-  _ReviewsPageCompanyState createState() => _ReviewsPageCompanyState();
+  _ReviewsPageEventState createState() => _ReviewsPageEventState();
 }
 
-class _ReviewsPageCompanyState extends State<ReviewsPageCompany> {
+class _ReviewsPageEventState extends State<ReviewsPageEvent> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Reviews - ${widget.company.name} (${widget.company.averageRating.toStringAsFixed(2)})'),
+        title: Text('Reviews - ${widget.event.title} (${widget.event.averageRating.toStringAsFixed(2)})'),
       ),
       body: FutureBuilder<List<Review>>(
-        future: widget.company.reviews,
+        future: widget.event.reviews,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Center(child: CircularProgressIndicator());

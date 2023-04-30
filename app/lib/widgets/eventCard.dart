@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import '../firebase/database.dart';
 import '../model/event.dart';
 import '../model/review.dart';
-import '../screens/course_page.dart';
-import '../screens/event_page.dart';
+import '../screens/course/course_page.dart';
+import '../screens/event/event_page.dart';
 
 class EventCard extends StatefulWidget{
   final Event event;

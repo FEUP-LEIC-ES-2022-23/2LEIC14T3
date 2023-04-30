@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import '../model/event.dart';
-import '../screens/event_page.dart';
-import '../widgets/eventCard.dart';
+import '../../model/event.dart';
+import 'event_page.dart';
+import '../../widgets/eventCard.dart';
 
 class EventListing extends StatelessWidget {
 

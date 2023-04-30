@@ -1,30 +1,29 @@
 import 'package:flutter/material.dart';
-import 'package:rate_it/screens/rating_page_course.dart';
-import 'package:rate_it/screens/reviews_page_course.dart';
-import '../model/course.dart';
-import 'package:rate_it/screens/reviews_page_company.dart';
-import '../firebase/database.dart';
-import '../model/review.dart';
-import 'rating_page_company.dart';
+import 'package:rate_it/screens/event/rating_page_event.dart';
+import 'package:rate_it/screens/event/reviews_page_event.dart';
+import '../../firebase/database.dart';
+import '../../model/event.dart';
+import '../../model/review.dart';
 
-class CourseScreen extends StatefulWidget {
-  final Course course;
+class EventScreen extends StatefulWidget {
+  final Event event;
 
-  CourseScreen({required this.course});
+  EventScreen({required this.event});
 
   @override
-  _CourseScreenState createState() => _CourseScreenState();
+  _EventScreenState createState() => _EventScreenState();
+
 }
 
-class _CourseScreenState extends State<CourseScreen> {
+class _EventScreenState extends State<EventScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.course.title),
+        title: Text(widget.event.title),
       ),
       body: FutureBuilder<List<Review>>(
-          future: widget.course.reviews,
+          future: widget.event.reviews,
           builder: (context, snapshot) {
             if (snapshot.hasData) {
               List<Review> renderedReviews = snapshot.data!;
@@ -38,14 +37,9 @@ class _CourseScreenState extends State<CourseScreen> {
                       children: [
                         SizedBox(height: 16.0),
                         Text(
-                          widget.course.title,
+                          widget.event.title,
                           style: TextStyle(
                               fontSize: 24.0, fontWeight: FontWeight.bold),
-                        ),
-                        SizedBox(height: 16.0),
-                        Text(
-                          widget.course.body,
-                          style: TextStyle(fontSize: 16.0),
                         ),
                         SizedBox(height: 16.0),
                         Row(
@@ -54,7 +48,7 @@ class _CourseScreenState extends State<CourseScreen> {
                             SizedBox(width: 8.0),
                             Expanded(
                               child: Text(
-                                '${widget.course.dateStart} -> ${widget.course.dateEnd}',
+                                '${widget.event.dateStart} -> ${widget.event.dateEnd}',
                                 style: TextStyle(fontSize: 16.0),
                               ),
                             ),
@@ -66,7 +60,7 @@ class _CourseScreenState extends State<CourseScreen> {
                             Icon(Icons.attach_money),
                             SizedBox(width: 8.0),
                             Text(
-                              widget.course.price == 0 ? 'Paid' : 'Free',
+                              widget.event.isPaid ? 'Paid' : 'Free',
                               style: TextStyle(fontSize: 16.0),
                             ),
                           ],
@@ -77,7 +71,7 @@ class _CourseScreenState extends State<CourseScreen> {
                             Icon(Icons.location_on),
                             SizedBox(width: 8.0),
                             Text(
-                              widget.course.place,
+                              widget.event.place,
                               style: TextStyle(fontSize: 16.0),
                             ),
                           ],
@@ -88,7 +82,7 @@ class _CourseScreenState extends State<CourseScreen> {
                             Icon(Icons.star),
                             SizedBox(width: 8.0),
                             Text(
-                              widget.course.averageRating.toStringAsFixed(1),
+                              widget.event.averageRating.toStringAsFixed(1),
                               style: TextStyle(fontSize: 16.0),
                             ),
                             SizedBox(width: 8.0),
@@ -108,16 +102,16 @@ class _CourseScreenState extends State<CourseScreen> {
                                   context,
                                   MaterialPageRoute(
                                     builder: (context) =>
-                                        EventRatingPageCourse(course: widget.course),
+                                          EventRatingPageEvent(event: widget.event),
                                   ),
                                 ).then((_){
                                   setState(() {
-                                    widget.course.reviews = Database.fetchReviews(widget.course.id, widget.course.entityOrigin, 1);
-                                    widget.course.setAverageRating();
+                                    widget.event.reviews = Database.fetchReviews(widget.event.id, widget.event.entityOrigin, 2);
+                                    widget.event.setAverageRating();
                                   });
                                 });
                               },
-                              child: Text('Rate this course'),
+                              child: Text('Rate this event'),
 
                             ),
                             ElevatedButton(
@@ -126,7 +120,7 @@ class _CourseScreenState extends State<CourseScreen> {
                                   context,
                                   MaterialPageRoute(
                                     builder: (context) =>
-                                        ReviewsPageCourse(course: widget.course),
+                                        ReviewsPageEvent(event: widget.event),
                                   ),
                                 );
                               },

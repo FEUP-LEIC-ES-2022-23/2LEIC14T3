@@ -1,16 +1,17 @@
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 
-import '../firebase/database.dart';
-import '../model/company.dart';
-import '../model/review.dart';
-import 'home_page.dart';
+import '../../firebase/database.dart';
+import '../../model/company.dart';
+import '../../model/event.dart';
+import '../../model/review.dart';
+import '../home_page.dart';
 
-class EventRatingPageCompany extends StatefulWidget {
+class EventRatingPageEvent extends StatefulWidget {
 
-  Company company;
+  Event event;
 
-  EventRatingPageCompany({Key? key, required this.company}) : super(key: key);
+  EventRatingPageEvent({Key? key, required this.event}) : super(key: key);
 
 
   int _rating = 0;
@@ -18,20 +19,20 @@ class EventRatingPageCompany extends StatefulWidget {
 
 
   @override
-  _EventRatingPageCompanyState createState() => _EventRatingPageCompanyState();
+  _EventRatingPageEventState createState() => _EventRatingPageEventState();
 
   void setReview(String value) {
     _review = value;
   }
 }
 
-class _EventRatingPageCompanyState extends State<EventRatingPageCompany> {
+class _EventRatingPageEventState extends State<EventRatingPageEvent> {
   int rating = 0;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Rate this Company'),
+        title: Text('Rate this Event'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -39,7 +40,7 @@ class _EventRatingPageCompanyState extends State<EventRatingPageCompany> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'How many stars would you give this company?',
+              'How many stars would you give this event?',
               style: TextStyle(fontSize: 18),
             ),
             SizedBox(height: 16),
@@ -75,9 +76,9 @@ class _EventRatingPageCompanyState extends State<EventRatingPageCompany> {
                   rating: widget._rating,
                   review: widget._review,
                   author: 'Anonymous',
-                  categoryIndex: 0,
-                  idEntity: widget.company.id,
-                  entityOrigin: widget.company.entityOrigin,
+                  categoryIndex: 2,
+                  idEntity: widget.event.id,
+                  entityOrigin: widget.event.entityOrigin,
                   votes: 0,
                  );
 

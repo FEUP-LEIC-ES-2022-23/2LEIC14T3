@@ -1,17 +1,17 @@
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 
-import '../firebase/database.dart';
-import '../model/company.dart';
-import '../model/event.dart';
-import '../model/review.dart';
-import 'home_page.dart';
+import '../../firebase/database.dart';
+import '../../model/company.dart';
+import '../../model/course.dart';
+import '../../model/review.dart';
+import '../home_page.dart';
 
-class EventRatingPageEvent extends StatefulWidget {
+class EventRatingPageCourse extends StatefulWidget {
 
-  Event event;
+  Course course;
 
-  EventRatingPageEvent({Key? key, required this.event}) : super(key: key);
+  EventRatingPageCourse({Key? key, required this.course}) : super(key: key);
 
 
   int _rating = 0;
@@ -19,20 +19,20 @@ class EventRatingPageEvent extends StatefulWidget {
 
 
   @override
-  _EventRatingPageEventState createState() => _EventRatingPageEventState();
+  _EventRatingPageCourseState createState() => _EventRatingPageCourseState();
 
   void setReview(String value) {
     _review = value;
   }
 }
 
-class _EventRatingPageEventState extends State<EventRatingPageEvent> {
+class _EventRatingPageCourseState extends State<EventRatingPageCourse> {
   int rating = 0;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Rate this Event'),
+        title: Text('Rate this Course'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -40,7 +40,7 @@ class _EventRatingPageEventState extends State<EventRatingPageEvent> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'How many stars would you give this event?',
+              'How many stars would you give this course?',
               style: TextStyle(fontSize: 18),
             ),
             SizedBox(height: 16),
@@ -76,9 +76,9 @@ class _EventRatingPageEventState extends State<EventRatingPageEvent> {
                   rating: widget._rating,
                   review: widget._review,
                   author: 'Anonymous',
-                  categoryIndex: 2,
-                  idEntity: widget.event.id,
-                  entityOrigin: widget.event.entityOrigin,
+                  categoryIndex: 1,
+                  idEntity: widget.course.id,
+                  entityOrigin: widget.course.entityOrigin,
                   votes: 0,
                  );
 

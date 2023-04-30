@@ -1,10 +1,10 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:rate_it/screens/reviews_page_company.dart';
-import '../firebase/database.dart';
-import '../model/company.dart';
-import '../model/review.dart';
+import 'package:rate_it/screens/company/reviews_page_company.dart';
+import '../../firebase/database.dart';
+import '../../model/company.dart';
+import '../../model/review.dart';
 import 'rating_page_company.dart';
 
 
