@@ -18,7 +18,9 @@ Future<List<Event>> fetchEvents({int limit=10, int page=1}) async {
     List<dynamic> results = jsonDecode(response.body)['results'];
     List<Event> events = [];
     for (var result in results) {
-      events.add(Event.fromJson(result));
+      Event event = Event.fromJson(result);
+      event.setAverageRating();
+      events.add(event);
     }
     return events;
   } else {
@@ -38,7 +40,9 @@ Future<List<Event>> searchEvents(String query,{int limit=10, int page=1}) async 
     List<dynamic> results = jsonDecode(response.body)['results'];
     List<Event> events = [];
     for (var result in results) {
-      events.add(Event.fromJson(result));
+      Event event = Event.fromJson(result);
+      event.setAverageRating();
+      events.add(event);
     }
     return events;
   } else {

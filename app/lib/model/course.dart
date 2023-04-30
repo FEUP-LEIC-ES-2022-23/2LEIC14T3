@@ -19,7 +19,9 @@ Future<List<Course>> fetchCourses({int limit=10, int page=1}) async {
     List<dynamic> results = jsonDecode(response.body)['results'];
     List<Course> courses = [];
     for (var result in results) {
-      courses.add(Course.fromJson(result));
+      Course course = Course.fromJson(result);
+      course.setAverageRating();
+      courses.add(course);
     }
     return courses;
   } else {
@@ -39,7 +41,9 @@ Future<List<Course>> searchCourses(String query,{int limit=10, int page=1}) asyn
     List<dynamic> results = jsonDecode(response.body)['results'];
     List<Course> courses = [];
     for (var result in results) {
-      courses.add(Course.fromJson(result));
+      Course course = Course.fromJson(result);
+      course.setAverageRating();
+      courses.add(course);
     }
     return courses;
   } else {

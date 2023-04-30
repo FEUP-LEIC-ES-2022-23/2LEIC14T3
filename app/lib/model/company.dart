@@ -18,7 +18,9 @@ Future<List<Company>> searchCompanies(String query,{int limit=10, int page=1}) a
     List<dynamic> results = jsonDecode(response.body)['results'];
     List<Company> companies = [];
     for (var result in results) {
-      companies.add(Company.fromJson(result));
+      Company company = Company.fromJson(result);
+      company.setAverageRating();
+      companies.add(company);
     }
     return companies;
   } else {
