@@ -44,7 +44,7 @@ class _CourseScreenState extends State<CourseScreen> {
                         ),
                         SizedBox(height: 16.0),
                         Text(
-                          widget.course.description,
+                          widget.course.body,
                           style: TextStyle(fontSize: 16.0),
                         ),
                         SizedBox(height: 16.0),
@@ -66,7 +66,7 @@ class _CourseScreenState extends State<CourseScreen> {
                             Icon(Icons.attach_money),
                             SizedBox(width: 8.0),
                             Text(
-                              widget.course.isPaid ? 'Paid' : 'Free',
+                              widget.course.price == 0 ? 'Paid' : 'Free',
                               style: TextStyle(fontSize: 16.0),
                             ),
                           ],
@@ -112,7 +112,7 @@ class _CourseScreenState extends State<CourseScreen> {
                                   ),
                                 ).then((_){
                                   setState(() {
-                                    widget.course.reviews = Database.fetchReviews(widget.course.id, widget.course.entityOrigin, 0);
+                                    widget.course.reviews = Database.fetchReviews(widget.course.id, widget.course.entityOrigin, 1);
                                     widget.course.setAverageRating();
                                   });
                                 });

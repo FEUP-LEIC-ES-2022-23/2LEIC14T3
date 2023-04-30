@@ -32,7 +32,7 @@ class _CourseCardState extends State<CourseCard> {
                   ),
                 ).then((_){
                   setState(() {
-                    widget.course.reviews = Database.fetchReviews(widget.course.id, widget.course.entityOrigin, 0);
+                    widget.course.reviews = Database.fetchReviews(widget.course.id, widget.course.entityOrigin, 1);
                     widget.course.setAverageRating();
                   });
                 });

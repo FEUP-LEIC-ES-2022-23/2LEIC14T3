@@ -106,7 +106,7 @@ class _EventScreenState extends State<EventScreen> {
                                   ),
                                 ).then((_){
                                   setState(() {
-                                    widget.event.reviews = Database.fetchReviews(widget.event.id, widget.event.entityOrigin, 0);
+                                    widget.event.reviews = Database.fetchReviews(widget.event.id, widget.event.entityOrigin, 2);
                                     widget.event.setAverageRating();
                                   });
                                 });

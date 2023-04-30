@@ -93,7 +93,7 @@ class Event{
       url: json['url']??"",
       isPaid: json['isPaid']??false,
       updatedAt: json['updateAt']??"",
-      reviews: Database.fetchReviews(json['id'],0,0),
+      reviews: Database.fetchReviews(json['id'],0,2),
     );
   }
   void setAverageRating() async{

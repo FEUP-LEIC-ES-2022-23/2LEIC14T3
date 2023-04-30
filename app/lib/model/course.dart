@@ -115,7 +115,7 @@ class Course{
       body: json['description']??"",
       dateStart: json['dateStart']??"",
       dateEnd: json['dateEnd']??"",
-      price: json['price']??"",
+      price: json['price']??0,
       place: json['place']??"",
       courseTypeId: json['courseTypeId']??0,
       hours: json['hours']??0,
@@ -126,10 +126,11 @@ class Course{
       isFunded: json['isFunded'],
       contactName: json['contactName']??"",
       contactEmail: json['contactEmail']??"",
-      contactPhone: json['contactPhone']??"",
+      contactPhone: json['contactPhone'].toString()??"",
       requirements: json['requirements']??"",
       publishedAt: json['requirements']??"",
       updatedAt: json['updatedAt']??"",
+      reviews: Database.fetchReviews(json['id'], 0, 1),
     );
   }
   void setAverageRating() async{
