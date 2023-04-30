@@ -91,7 +91,7 @@ class Event{
       place: json['place']??"",
       email: json['email']??"",
       url: json['url']??"",
-      isPaid: json['url_twitter']??false,
+      isPaid: json['isPaid']??false,
       updatedAt: json['updateAt']??"",
       reviews: Database.fetchReviews(json['id'],0,0),
     );

@@ -29,7 +29,6 @@ class CourseListing extends StatelessWidget {
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           List<Course> courses = snapshot.data!;
-
           return ListView.builder(
             itemCount: courses.length,
             itemBuilder: (context, index) {
