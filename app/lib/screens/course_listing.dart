@@ -58,7 +58,7 @@ class CourseListing extends StatelessWidget {
                           ),
                           SizedBox(height: 8.0),
                           Text(
-                            course.description,
+                            course.body,
                             style: TextStyle(fontSize: 16.0),
                           ),
                           SizedBox(height: 8.0),
@@ -78,7 +78,7 @@ class CourseListing extends StatelessWidget {
                           ),
                           SizedBox(height: 8.0),
                           Text(
-                            'Email: ${course.email}',
+                            'Email: ${course.contactEmail}',
                             style: TextStyle(fontSize: 16.0),
                           ),
                           SizedBox(height: 8.0),
@@ -88,7 +88,7 @@ class CourseListing extends StatelessWidget {
                           ),
                           SizedBox(height: 8.0),
                           Text(
-                            'Paid: ${course.isPaid}',
+                            'Price: ${course.price}',
                             style: TextStyle(fontSize: 16.0),
                           ),
                           SizedBox(height: 8.0),

@@ -82,10 +82,10 @@ class Event{
       description: json['description']??"",
       dateStart: json['dateStart']??"",
       dateEnd: json['dateEnd']??"",
-      place: json['fax']??"",
+      place: json['place']??"",
       email: json['email']??"",
       url: json['url']??"",
-      isPaid: json['url_twitter']??false,
+      isPaid: json['isPaid']??false,
       updatedAt: json['updateAt']??"",
     );
   }

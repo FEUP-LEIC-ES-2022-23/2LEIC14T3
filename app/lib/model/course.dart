@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:rate_it/model/company.dart';
 import 'package:rate_it/model/review.dart';
 import 'dart:async';
 import 'dart:convert';
@@ -50,27 +51,51 @@ Future<List<Course>> searchCourses(String query,{int limit=10, int page=1}) asyn
 class Course{
   final int entityOrigin; //0 if itjobs; 1 if RateIT
   final int id;
-  final String title;
-  String description;
+  Company company;
+  String title;
+  String body;
   String dateStart;
   String dateEnd;
+  int price;
   String place;
-  String email;
+  int courseTypeId;
+  int hours;
+  String schedule;
+  String target;
+  bool isPresencial;
+  bool isCertified;
+  bool isFunded;
   String url;
-  bool isPaid;
+  String contactName;
+  String contactEmail;
+  String contactPhone;
+  String requirements;
+  String publishedAt;
   String updatedAt;
 
   Course({
     required this.entityOrigin,
     required this.id,
-    required this.title,
-    this.description = "",
+    required this.company,
+    this.title = "",
+    this.body = "",
     this.dateStart = "",
     this.dateEnd = "",
+    this.price = 0,
     this.place = "",
-    this.email = "",
+    this.courseTypeId = 0,
+    this.hours = 0,
+    this.schedule = "",
+    this.target = "",
+    this.isPresencial = false,
+    this.isCertified = false,
+    this.isFunded = false,
     this.url = "",
-    this.isPaid = false,
+    this.contactName = "",
+    this.contactEmail = "",
+    this.contactPhone = "",
+    this.requirements = "",
+    this.publishedAt = "",
     this.updatedAt = "",
   });
 
@@ -79,14 +104,25 @@ class Course{
       entityOrigin: 0,
       id: json['id'],
       title: json['title']??"",
-      description: json['description']??"",
+      company: Company.fromJson(json['company']),
+      body: json['description']??"",
       dateStart: json['dateStart']??"",
       dateEnd: json['dateEnd']??"",
-      place: json['fax']??"",
-      email: json['email']??"",
-      url: json['url']??"",
-      isPaid: json['url_twitter']??false,
-      updatedAt: json['updateAt']??"",
+      price: json['price']??"",
+      place: json['place']??"",
+      courseTypeId: json['courseTypeId']??0,
+      hours: json['hours']??0,
+      schedule: json['schedule']??"|",
+      target: json['target']??"",
+      isPresencial: json['isPresencial'],
+      isCertified: json['isCertified'],
+      isFunded: json['isFunded'],
+      contactName: json['contactName']??"",
+      contactEmail: json['contactEmail']??"",
+      contactPhone: json['contactPhone']??"",
+      requirements: json['requirements']??"",
+      publishedAt: json['requirements']??"",
+      updatedAt: json['updatedAt']??"",
     );
   }
 }
