@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:rate_it/screens/rating_page.dart';
-import 'package:rate_it/screens/reviews_page.dart';
+import 'package:rate_it/screens/rating_page_company.dart';
+import 'package:rate_it/screens/reviews_page_company.dart';
 import 'package:rate_it/screens/company_page.dart';
 
 import '../model/company.dart';

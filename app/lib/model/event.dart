@@ -6,6 +6,8 @@ import 'dart:io';
 
 import 'package:http/http.dart' as http;
 
+import '../firebase/database.dart';
+
 Future<List<Event>> fetchEvents({int limit=10, int page=1}) async {
   String apiKey = '80ab3270aee92b0b9b864fa3ae812ee9';
   String url = 'https://api.itjobs.pt/event/list.json?api_key=$apiKey';
@@ -59,6 +61,8 @@ class Event{
   String url;
   bool isPaid;
   String updatedAt;
+  double averageRating;
+  Future<List<Review>> reviews;
 
   Event({
     required this.entityOrigin,
@@ -72,6 +76,8 @@ class Event{
     this.url = "",
     this.isPaid = false,
     this.updatedAt = "",
+    this.averageRating = 0,
+    required this.reviews,
   });
 
   factory Event.fromJson(Map<String, dynamic> json) {
@@ -87,6 +93,17 @@ class Event{
       url: json['url']??"",
       isPaid: json['isPaid']??false,
       updatedAt: json['updateAt']??"",
+      reviews: Database.fetchReviews(json['id'],0,0),
     );
+  }
+  void setAverageRating() async{
+    List<Review> rendReviews = await reviews;
+    int sum = 0;
+    for (Review r in rendReviews){
+      sum += r.rating;
+    }
+    if (sum != 0) {
+      averageRating = sum / rendReviews.length;
+    }
   }
 }

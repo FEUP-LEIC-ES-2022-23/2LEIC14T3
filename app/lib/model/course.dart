@@ -7,6 +7,8 @@ import 'dart:io';
 
 import 'package:http/http.dart' as http;
 
+import '../firebase/database.dart';
+
 Future<List<Course>> fetchCourses({int limit=10, int page=1}) async {
   String apiKey = '80ab3270aee92b0b9b864fa3ae812ee9';
   String url = 'https://api.itjobs.pt/course/list.json?api_key=$apiKey';
@@ -72,6 +74,9 @@ class Course{
   String requirements;
   String publishedAt;
   String updatedAt;
+  double averageRating;
+  Future<List<Review>> reviews;
+
 
   Course({
     required this.entityOrigin,
@@ -97,6 +102,8 @@ class Course{
     this.requirements = "",
     this.publishedAt = "",
     this.updatedAt = "",
+    this.averageRating = 0,
+    required this.reviews,
   });
 
   factory Course.fromJson(Map<String, dynamic> json) {
@@ -125,4 +132,15 @@ class Course{
       updatedAt: json['updatedAt']??"",
     );
   }
+  void setAverageRating() async{
+    List<Review> rendReviews = await reviews;
+    int sum = 0;
+    for (Review r in rendReviews){
+      sum += r.rating;
+    }
+    if (sum != 0) {
+      averageRating = sum / rendReviews.length;
+    }
+  }
 }
+

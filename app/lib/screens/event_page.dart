@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:rate_it/screens/rating_page_event.dart';
+import 'package:rate_it/screens/reviews_page_event.dart';
+import '../firebase/database.dart';
 import '../model/event.dart';
+import '../model/review.dart';
 
 class EventScreen extends StatefulWidget {
   final Event event;
@@ -18,20 +22,128 @@ class _EventScreenState extends State<EventScreen> {
       appBar: AppBar(
         title: Text(widget.event.title),
       ),
-      body: Center(
-        child: Column(
-          children: [
-            Text(widget.event.title),
-            Text(widget.event.description),
-            Text(widget.event.dateStart.toString()),
-            Text(widget.event.dateEnd.toString()),
-            Text(widget.event.place),
-            Text(widget.event.email),
-            Text(widget.event.url),
-            Text(widget.event.isPaid.toString()),
-            Text(widget.event.updatedAt.toString()),
-          ],
-        ),
+      body: FutureBuilder<List<Review>>(
+          future: widget.event.reviews,
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              List<Review> renderedReviews = snapshot.data!;
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        SizedBox(height: 16.0),
+                        Text(
+                          widget.event.title,
+                          style: TextStyle(
+                              fontSize: 24.0, fontWeight: FontWeight.bold),
+                        ),
+                        SizedBox(height: 16.0),
+                        Row(
+                          children: [
+                            Icon(Icons.calendar_month_sharp),
+                            SizedBox(width: 8.0),
+                            Expanded(
+                              child: Text(
+                                '${widget.event.dateStart} -> ${widget.event.dateEnd}',
+                                style: TextStyle(fontSize: 16.0),
+                              ),
+                            ),
+                          ],
+                        ),
+                        SizedBox(height: 16.0),
+                        Row(
+                          children: [
+                            Icon(Icons.attach_money),
+                            SizedBox(width: 8.0),
+                            Text(
+                              widget.event.isPaid ? 'Paid' : 'Free',
+                              style: TextStyle(fontSize: 16.0),
+                            ),
+                          ],
+                        ),
+                        SizedBox(height: 16.0),
+                        Row(
+                          children: [
+                            Icon(Icons.location_on),
+                            SizedBox(width: 8.0),
+                            Text(
+                              widget.event.place,
+                              style: TextStyle(fontSize: 16.0),
+                            ),
+                          ],
+                        ),
+                        SizedBox(height: 16.0),
+                        Row(
+                          children: [
+                            Icon(Icons.star),
+                            SizedBox(width: 8.0),
+                            Text(
+                              widget.event.averageRating.toStringAsFixed(1),
+                              style: TextStyle(fontSize: 16.0),
+                            ),
+                            SizedBox(width: 8.0),
+                            Text(
+                              '(${renderedReviews.length} reviews)',
+                              style: TextStyle(fontSize: 16.0),
+                            ),
+                          ],
+                        ),
+                        SizedBox(height: 16.0),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            ElevatedButton(
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) =>
+                                          EventRatingPageEvent(event: widget.event),
+                                  ),
+                                ).then((_){
+                                  setState(() {
+                                    widget.event.reviews = Database.fetchReviews(widget.event.id, widget.event.entityOrigin, 0);
+                                    widget.event.setAverageRating();
+                                  });
+                                });
+                              },
+                              child: Text('Rate this event'),
+
+                            ),
+                            ElevatedButton(
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) =>
+                                        ReviewsPageEvent(event: widget.event),
+                                  ),
+                                );
+                              },
+                              child: Text('Check Reviews'),
+                            ),
+                          ],
+
+                        ),
+
+                      ],
+                    ),
+                  ),
+                ],
+              );
+            }
+            else if (snapshot.hasError) {
+              print('You have an error! ${snapshot.error.toString()}');
+              return Text('Something went wrong!');
+            }
+            else {
+              return Center( child: CircularProgressIndicator(),);
+            }
+          }
       ),
     );
   }
