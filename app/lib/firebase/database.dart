@@ -46,7 +46,7 @@ class Database{
     }
   }
 
-  Future<User?> getUser(String uid) async {
+  Future<User?> fetchUser(String uid) async {
     Query query = db.collection("users");
     query = query.where("uid", isEqualTo: uid);
     User? user;
@@ -59,6 +59,20 @@ class Database{
       return user;
     }
     return null;
+  }
+
+  static void addUser(User user) {
+    db.collection('users').add({
+      'uid': user.uid,
+      'username': user.username,
+      'firstName': user.firstName,
+      'lastName': user.lastName,
+      'email': user.email,
+      'photoURL': user.photoURL,
+      'description': user.description,
+      'dateOfBirth': user.dateOfBirth,
+      'nReviews': user.nReviews
+    });
   }
 
   static Future<bool> isUsernameInUse(String username) async {

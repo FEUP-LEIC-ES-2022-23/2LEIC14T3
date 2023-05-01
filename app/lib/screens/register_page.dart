@@ -3,6 +3,10 @@ import 'package:rate_it/auth/Authentication.dart';
 import 'package:rate_it/auth/validation.dart';
 import 'package:rate_it/widgets/popup_message.dart';
 
+import '../firebase/database.dart';
+import '../model/user.dart';
+import 'header_page.dart';
+
 class RegisterPage extends StatefulWidget {
   @override
   _RegisterPageState createState() => _RegisterPageState();
@@ -15,15 +19,11 @@ class _RegisterPageState extends State<RegisterPage> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   final _usernameController = TextEditingController();
-  bool usedUsername = false;
+  bool usedUsername = true;
 
-  Future<String?> validateUsername(String value) async {
-    if (Validation.emptyField(value)) {
-      return 'Please enter your username';
-    } else if (await Validation.usedUsername(value)){
-      return '$value is already in use';
-    }
-    return null;
+  bool validateUsername(String value) {
+    Validation.usedUsername(value).then((val){usedUsername = val;});
+    return usedUsername;
   }
 
   @override
@@ -97,10 +97,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   if (Validation.emptyField(value)) {
                     return 'Please enter your username';
                   }
-                  setState(() async {
-                    usedUsername = await Validation.usedUsername(value!);
-                  });
-                  if(usedUsername){
+                  if(validateUsername(value!)){
                     return '$value already in use';
                   }
                   return null;
@@ -148,6 +145,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   if (_formKey.currentState!.validate()) {
                     String firstName = _firstNameController.text;
                     String lastName = _lastNameController.text;
+                    String username = _usernameController.text;
                     String password = _passwordController.text;
                     String email = _emailController.text;
                     String msg = await Authentication.register(email, password);
@@ -158,8 +156,18 @@ class _RegisterPageState extends State<RegisterPage> {
                       );
                     }
                     else if (msg == "successful-register"){
-
-                      Navigator.pop(context);
+                      User user = User(
+                          uid: Authentication.auth.currentUser!.uid,
+                          firstName: firstName, lastName: lastName,
+                          username: username,
+                          email: email);
+                      Database.addUser(user);
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => MyHomePage(),
+                        ),
+                      );
                     }
                   }
                 },

@@ -6,10 +6,6 @@ class Authentication{
   static final FirebaseAuth auth = FirebaseAuth.instance;
   static String uEmail="", uPassword="";
 
-  static currentUid() {
-    return auth.currentUser;
-  }
-
   static Future<String> register(String email, String password) async {
     await Firebase.initializeApp();
     try {
