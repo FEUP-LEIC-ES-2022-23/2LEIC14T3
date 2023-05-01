@@ -14,6 +14,17 @@ class _RegisterPageState extends State<RegisterPage> {
   final _lastNameController = TextEditingController();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
+  final _usernameController = TextEditingController();
+  bool usedUsername = false;
+
+  Future<String?> validateUsername(String value) async {
+    if (Validation.emptyField(value)) {
+      return 'Please enter your username';
+    } else if (await Validation.usedUsername(value)){
+      return '$value is already in use';
+    }
+    return null;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -39,6 +50,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       padding: const EdgeInsets.only(right: 8.0),
                       child: TextFormField(
                         controller: _firstNameController,
+                        keyboardType: TextInputType.name,
                         decoration: InputDecoration(
                           labelText: 'First Name',
                           border: OutlineInputBorder(),
@@ -57,6 +69,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       padding: const EdgeInsets.only(left: 8.0),
                       child: TextFormField(
                         controller: _lastNameController,
+                        keyboardType: TextInputType.name,
                         decoration: InputDecoration(
                           labelText: 'Last Name',
                           border: OutlineInputBorder(),
@@ -72,7 +85,27 @@ class _RegisterPageState extends State<RegisterPage> {
                   ),
                 ],
               ),
+              SizedBox(height: 16.0),
 
+              TextFormField(
+                controller: _usernameController,
+                decoration: InputDecoration(
+                  labelText: 'Username',
+                  border: OutlineInputBorder(),
+                ),
+                validator: (value) {
+                  if (Validation.emptyField(value)) {
+                    return 'Please enter your username';
+                  }
+                  setState(() async {
+                    usedUsername = await Validation.usedUsername(value!);
+                  });
+                  if(usedUsername){
+                    return '$value already in use';
+                  }
+                  return null;
+                },
+              ),
               SizedBox(height: 16.0),
               TextFormField(
                 controller: _emailController,

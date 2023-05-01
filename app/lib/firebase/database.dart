@@ -60,4 +60,11 @@ class Database{
     }
     return null;
   }
+
+  static Future<bool> isUsernameInUse(String username) async {
+    Query query = db.collection("users");
+    query = query.where("username", isEqualTo: username);
+    QuerySnapshot querySnapshot = await query.get();
+    return querySnapshot.docs.isNotEmpty;
+  }
 }
