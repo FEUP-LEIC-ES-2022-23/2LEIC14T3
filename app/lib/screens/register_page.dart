@@ -19,12 +19,16 @@ class _RegisterPageState extends State<RegisterPage> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   final _usernameController = TextEditingController();
-  bool usedUsername = true;
+  bool usedUsername = false;
 
-  bool validateUsername(String value) {
-    Validation.usedUsername(value).then((val){usedUsername = val;});
-    return usedUsername;
+  Future<void> checkUsername(String value) async {
+    bool ans = await Validation.usedUsername(value);
+    setState(() {
+      usedUsername = ans;
+    });
+
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -97,7 +101,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   if (Validation.emptyField(value)) {
                     return 'Please enter your username';
                   }
-                  if(validateUsername(value!)){
+                  if(usedUsername){
                     return '$value already in use';
                   }
                   return null;
@@ -142,6 +146,7 @@ class _RegisterPageState extends State<RegisterPage> {
               SizedBox(height: 32.0),
               ElevatedButton(
                 onPressed: () async {
+                  await checkUsername(_usernameController.text);
                   if (_formKey.currentState!.validate()) {
                     String firstName = _firstNameController.text;
                     String lastName = _lastNameController.text;
