@@ -53,7 +53,7 @@ class _ReviewsPageEventState extends State<ReviewsPageEvent> {
                       ),
                       SizedBox(height: 8),
                       Text(
-                        'By ${reviews[index].author}',
+                        'By ${reviews[index].authorId}',
                         style: TextStyle(fontSize: 18),
                       ),
                       SizedBox(height: 8),

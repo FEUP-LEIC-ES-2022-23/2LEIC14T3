@@ -1,6 +1,7 @@
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 
+import '../../auth/Authentication.dart';
 import '../../firebase/database.dart';
 import '../../model/company.dart';
 import '../../model/course.dart';
@@ -75,7 +76,8 @@ class _EventRatingPageCourseState extends State<EventRatingPageCourse> {
                   title: 'Review',
                   rating: widget._rating,
                   review: widget._review,
-                  author: 'Anonymous',
+                  authorId: Authentication.auth.currentUser!.uid,
+                  anonymous: false, //TODO MAKE A SWITCH TO CHANGE THIS STATE BEFORE SUBMIT
                   categoryIndex: 1,
                   idEntity: widget.course.id,
                   entityOrigin: widget.course.entityOrigin,

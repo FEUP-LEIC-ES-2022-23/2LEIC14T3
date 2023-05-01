@@ -1,6 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:rate_it/auth/Authentication.dart';
 
+import '../model/company.dart';
+import '../model/course.dart';
+import '../model/event.dart';
 import '../model/review.dart';
 import '../model/user.dart';
 
@@ -28,7 +32,7 @@ class Database{
         'title': review.title,
         'rating': review.rating,
         'review': review.review,
-        'author': review.author,
+        'authorId': review.authorId,
         'idEntity': review.idEntity, // Add the companyId field
         'categoryIndex': review.categoryIndex,
         'entityOrigin': review.entityOrigin,
@@ -62,8 +66,7 @@ class Database{
   }
 
   static void addUser(User user) {
-    db.collection('users').add({
-      'uid': user.uid,
+    db.collection('users').doc(user.uid).set({
       'username': user.username,
       'firstName': user.firstName,
       'lastName': user.lastName,
@@ -78,6 +81,36 @@ class Database{
   static Future<bool> isUsernameInUse(String username) async {
     Query query = db.collection("users");
     query = query.where("username", isEqualTo: username);
+    QuerySnapshot querySnapshot = await query.get();
+    return querySnapshot.docs.isNotEmpty;
+  }
+
+  static Future<bool> alreadyReviewedCompany(Company company) async {
+    Query query = db.collection("reviews");
+    query = query.where("idEntity", isEqualTo: company.id);
+    query = query.where("entityOrigin", isEqualTo: company.entityOrigin);
+    query = query.where("categoryIndex", isEqualTo: 0);
+    query = query.where("authorId", isEqualTo: Authentication.auth.currentUser!.uid);
+    QuerySnapshot querySnapshot = await query.get();
+    return querySnapshot.docs.isNotEmpty;
+  }
+
+  static Future<bool> alreadyReviewedCourse(Course course) async {
+    Query query = db.collection("reviews");
+    query = query.where("idEntity", isEqualTo: course.id);
+    query = query.where("entityOrigin", isEqualTo: course.entityOrigin);
+    query = query.where("categoryIndex", isEqualTo: 1);
+    query = query.where("authorId", isEqualTo: Authentication.auth.currentUser!.uid);
+    QuerySnapshot querySnapshot = await query.get();
+    return querySnapshot.docs.isNotEmpty;
+  }
+
+  static Future<bool> alreadyReviewedEvent(Event event) async {
+    Query query = db.collection("reviews");
+    query = query.where("idEntity", isEqualTo: event.id);
+    query = query.where("entityOrigin", isEqualTo: event.entityOrigin);
+    query = query.where("categoryIndex", isEqualTo: 2);
+    query = query.where("authorId", isEqualTo: Authentication.auth.currentUser!.uid);
     QuerySnapshot querySnapshot = await query.get();
     return querySnapshot.docs.isNotEmpty;
   }
