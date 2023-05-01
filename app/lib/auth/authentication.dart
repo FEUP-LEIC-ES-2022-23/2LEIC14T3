@@ -38,6 +38,10 @@ class Authentication{
       return e.code;
     }
     return "successful-login";
-    // print(auth.currentUser.uid);
   }
+
+  static Future<void> logout() async {
+    await FirebaseAuth.instance.signOut();
+  }
+
 }
