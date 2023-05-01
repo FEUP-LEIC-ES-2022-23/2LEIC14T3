@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 import '../model/review.dart';
+import '../model/user.dart';
 
 class Database{
   static final FirebaseFirestore db = FirebaseFirestore.instance;
@@ -43,5 +44,20 @@ class Database{
     } catch(e){
       print("Error in updateVoteReview: $e");
     }
+  }
+
+  Future<User?> getUser(String uid) async {
+    Query query = db.collection("users");
+    query = query.where("uid", isEqualTo: uid);
+    User? user;
+    QuerySnapshot querySnapshot = await query.get();
+    for (var doc in querySnapshot.docs){
+      Map<String, dynamic> userData = doc.data() as Map<String, dynamic>;
+      user = userFromMap(userData);
+    }
+    if(user != null) {
+      return user;
+    }
+    return null;
   }
 }
