@@ -1,7 +1,13 @@
 import 'package:flutter/material.dart';
 
+import '../model/user.dart';
+
 class ProfilePage extends StatelessWidget {
-  const ProfilePage({super.key});
+  const ProfilePage({
+    super.key,
+    required this.user,
+  });
+  final User user;
 
   @override
   Widget build(BuildContext context) {
@@ -15,14 +21,12 @@ class ProfilePage extends StatelessWidget {
             backgroundImage: NetworkImage('https://source.unsplash.com/random/200x200?people'),
           ),
           const SizedBox(height: 16),
-          const Text(
-            'John Smith',
+          Text('${user.firstName} ${user.lastName}',
             style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
           ),
+          Text('@${user.username}'),
           const SizedBox(height: 16),
-          const Text(
-            'I am a software engineer with 5 years of experience in mobile app development. '
-                'I am passionate about creating high-quality, user-friendly apps that solve real-world problems.',
+          Text('${user.description}',
             textAlign: TextAlign.center,
           ),
           const SizedBox(height: 16),
@@ -31,7 +35,7 @@ class ProfilePage extends StatelessWidget {
             children: [
               Icon(Icons.email),
               const SizedBox(width: 8),
-              const Text('john.smith@email.com'),
+              Text('${user.email}'),
             ],
           ),
           const SizedBox(height: 8),

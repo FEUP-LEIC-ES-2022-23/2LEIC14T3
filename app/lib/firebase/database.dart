@@ -51,30 +51,23 @@ class Database{
     }
   }
 
-  Future<User?> fetchUser(String uid) async {
-    Query query = db.collection("users");
-    query = query.where("uid", isEqualTo: uid);
-    User? user;
-    QuerySnapshot querySnapshot = await query.get();
-    for (var doc in querySnapshot.docs){
-      Map<String, dynamic> userData = doc.data() as Map<String, dynamic>;
-      user = userFromMap(userData);
-    }
-    if(user != null) {
-      return user;
-    }
-    return null;
+  static Future<User> getUser(String uid) async {
+    var val = await db.collection("users").doc(uid).get();
+    Map<String,dynamic> map = val.data()!;
+    User user = userFromMap(map);
+    return user;
   }
 
   static void addUser(User user) {
-    db.collection('users').doc(user.uid).set({
+    String uid = Authentication.auth.currentUser!.uid;
+    db.collection('users').doc(uid).set({
       'username': user.username,
       'firstName': user.firstName,
       'lastName': user.lastName,
       'email': user.email,
       'photoURL': user.photoURL,
       'description': user.description,
-      'dateOfBirth': user.dateOfBirth,
+      'phone': user.phone,
       'nReviews': user.nReviews
     });
   }

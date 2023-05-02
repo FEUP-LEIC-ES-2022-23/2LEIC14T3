@@ -7,6 +7,9 @@ import 'package:rate_it/widgets/search_bar.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:rate_it/screens/home_page.dart';
 
+import '../firebase/database.dart';
+import '../model/user.dart';
+
 class MyHomePage extends StatefulWidget {
   MyHomePage({Key? key}) : super(key: key);
 
@@ -41,7 +44,7 @@ class _MyHomePageState extends State<MyHomePage> {
         onTabChanged: _onTabChanged,
       ),
       CreditsPage(),
-      ProfilePage(),
+      ProfilePage(user: User(firstName: "",lastName: "",username: "",email: "")),
     ];
   }
 
@@ -82,6 +85,15 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
+  Future<void> _userProfile() async {
+    String uid = Authentication.auth.currentUser!.uid;
+    User user = await Database.getUser(uid);
+    setState(() {
+      _pages[2] = ProfilePage(user: user);
+    });
+    _onItemTapped(2);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -99,8 +111,8 @@ class _MyHomePageState extends State<MyHomePage> {
               decoration: BoxDecoration(
                 color: Colors.green,
               ),
-              onDetailsPressed: (){
-                _onItemTapped(2);
+              onDetailsPressed: () async {
+                await _userProfile();
               },
             ),
             ListTile(
@@ -140,8 +152,8 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
         actions: [
           IconButton(
-              onPressed: (){
-                _onItemTapped(2);
+              onPressed: () async{
+                await _userProfile();
               },
               icon: Icon(FontAwesomeIcons.user),
             padding: EdgeInsets.only(right: 20),

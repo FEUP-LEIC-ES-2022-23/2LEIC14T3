@@ -162,7 +162,6 @@ class _RegisterPageState extends State<RegisterPage> {
                     }
                     else if (msg == "successful-register"){
                       User user = User(
-                          uid: Authentication.auth.currentUser!.uid,
                           firstName: firstName, lastName: lastName,
                           username: username,
                           email: email);
