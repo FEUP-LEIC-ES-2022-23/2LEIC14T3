@@ -3,7 +3,7 @@ import 'package:rate_it/model/review.dart';
 import 'dart:math';
 import 'package:rate_it/model/company.dart';
 
-import '../../firebase/database.dart';
+import '../../firestore/database.dart';
 
 class ReviewsPageCompany extends StatefulWidget {
   Company company;

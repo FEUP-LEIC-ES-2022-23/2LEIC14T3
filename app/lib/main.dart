@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:rate_it/firebase/firebase_options.dart';
+import 'package:rate_it/firestore/firebase_options.dart';
 import 'package:rate_it/screens/header_page.dart';
 import 'package:rate_it/screens/login_page.dart';
 

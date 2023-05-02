@@ -7,7 +7,7 @@ import 'package:rate_it/widgets/search_bar.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:rate_it/screens/home_page.dart';
 
-import '../firebase/database.dart';
+import '../firestore/database.dart';
 import '../model/user.dart';
 
 class MyHomePage extends StatefulWidget {

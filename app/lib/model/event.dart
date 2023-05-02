@@ -6,7 +6,7 @@ import 'dart:io';
 
 import 'package:http/http.dart' as http;
 
-import '../firebase/database.dart';
+import '../firestore/database.dart';
 
 Future<List<Event>> fetchEvents({int limit=10, int page=1}) async {
   String apiKey = '80ab3270aee92b0b9b864fa3ae812ee9';

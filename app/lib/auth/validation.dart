@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../firebase/database.dart';
+import '../firestore/database.dart';
 
 class Validation{
   static bool emptyField(String? value){
