@@ -72,11 +72,12 @@ class _EventRatingPageCourseState extends State<EventRatingPageCourse> {
             SizedBox(height: 32),
             ElevatedButton(
               onPressed: () {
+                String author = Authentication.auth.currentUser!.uid;
                 Review review = Review(
                   title: 'Review',
                   rating: widget._rating,
                   review: widget._review,
-                  authorId: Authentication.auth.currentUser!.uid,
+                  authorId: author,
                   anonymous: false, //TODO MAKE A SWITCH TO CHANGE THIS STATE BEFORE SUBMIT
                   categoryIndex: 1,
                   idEntity: widget.course.id,

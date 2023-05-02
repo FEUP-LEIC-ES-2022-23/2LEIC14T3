@@ -103,19 +103,22 @@ class _CourseScreenState extends State<CourseScreen> {
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
                             ElevatedButton(
-                              onPressed: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) =>
-                                        EventRatingPageCourse(course: widget.course),
-                                  ),
-                                ).then((_){
-                                  setState(() {
-                                    widget.course.reviews = Database.fetchReviews(widget.course.id, widget.course.entityOrigin, 1);
-                                    widget.course.setAverageRating();
+                              onPressed: () async {
+                                bool reviewed = await Database.alreadyReviewedCourse(widget.course);
+                                if(!reviewed){
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) =>
+                                          EventRatingPageCourse(course: widget.course),
+                                    ),
+                                  ).then((_){
+                                    setState(() {
+                                      widget.course.reviews = Database.fetchReviews(widget.course.id, widget.course.entityOrigin, 1);
+                                      widget.course.setAverageRating();
+                                    });
                                   });
-                                });
+                                }
                               },
                               child: Text('Rate this course'),
 

@@ -37,6 +37,7 @@ class Database{
         'categoryIndex': review.categoryIndex,
         'entityOrigin': review.entityOrigin,
         'votes': review.votes,
+        'anonymous': review.anonymous,
       });
   }
 

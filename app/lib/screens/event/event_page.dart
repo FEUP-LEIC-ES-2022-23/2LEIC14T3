@@ -97,19 +97,22 @@ class _EventScreenState extends State<EventScreen> {
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
                             ElevatedButton(
-                              onPressed: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) =>
+                              onPressed: () async {
+                                bool reviewed = await Database.alreadyReviewedEvent(widget.event);
+                                if(!reviewed){
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) =>
                                           EventRatingPageEvent(event: widget.event),
-                                  ),
-                                ).then((_){
-                                  setState(() {
-                                    widget.event.reviews = Database.fetchReviews(widget.event.id, widget.event.entityOrigin, 2);
-                                    widget.event.setAverageRating();
+                                    ),
+                                  ).then((_){
+                                    setState(() {
+                                      widget.event.reviews = Database.fetchReviews(widget.event.id, widget.event.entityOrigin, 2);
+                                      widget.event.setAverageRating();
+                                    });
                                   });
-                                });
+                                }
                               },
                               child: Text('Rate this event'),
 
