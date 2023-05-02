@@ -3,6 +3,10 @@ import 'package:rate_it/auth/Authentication.dart';
 import 'package:rate_it/auth/validation.dart';
 import 'package:rate_it/widgets/popup_message.dart';
 
+import '../firebase/database.dart';
+import '../model/user.dart';
+import 'header_page.dart';
+
 class RegisterPage extends StatefulWidget {
   @override
   _RegisterPageState createState() => _RegisterPageState();
@@ -10,9 +14,21 @@ class RegisterPage extends StatefulWidget {
 
 class _RegisterPageState extends State<RegisterPage> {
   final _formKey = GlobalKey<FormState>();
-  final _nameController = TextEditingController();
+  final _firstNameController = TextEditingController();
+  final _lastNameController = TextEditingController();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
+  final _usernameController = TextEditingController();
+  bool usedUsername = false;
+
+  Future<void> checkUsername(String value) async {
+    bool ans = await Validation.usedUsername(value);
+    setState(() {
+      usedUsername = ans;
+    });
+
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -31,15 +47,62 @@ class _RegisterPageState extends State<RegisterPage> {
                 textAlign: TextAlign.center,
               ),
               SizedBox(height: 32.0),
+              Row(
+                children: [
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.only(right: 8.0),
+                      child: TextFormField(
+                        controller: _firstNameController,
+                        keyboardType: TextInputType.name,
+                        decoration: InputDecoration(
+                          labelText: 'First Name',
+                          border: OutlineInputBorder(),
+                        ),
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter your first name';
+                          }
+                          return null;
+                        },
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 8.0),
+                      child: TextFormField(
+                        controller: _lastNameController,
+                        keyboardType: TextInputType.name,
+                        decoration: InputDecoration(
+                          labelText: 'Last Name',
+                          border: OutlineInputBorder(),
+                        ),
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter your last name';
+                          }
+                          return null;
+                        },
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(height: 16.0),
+
               TextFormField(
-                controller: _nameController,
+                controller: _usernameController,
                 decoration: InputDecoration(
-                  labelText: 'Name',
+                  labelText: 'Username',
                   border: OutlineInputBorder(),
                 ),
                 validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter your name';
+                  if (Validation.emptyField(value)) {
+                    return 'Please enter your username';
+                  }
+                  if(usedUsername){
+                    return '$value already in use';
                   }
                   return null;
                 },
@@ -83,8 +146,11 @@ class _RegisterPageState extends State<RegisterPage> {
               SizedBox(height: 32.0),
               ElevatedButton(
                 onPressed: () async {
+                  await checkUsername(_usernameController.text);
                   if (_formKey.currentState!.validate()) {
-                    String name = _nameController.text;
+                    String firstName = _firstNameController.text;
+                    String lastName = _lastNameController.text;
+                    String username = _usernameController.text;
                     String password = _passwordController.text;
                     String email = _emailController.text;
                     String msg = await Authentication.register(email, password);
@@ -95,8 +161,17 @@ class _RegisterPageState extends State<RegisterPage> {
                       );
                     }
                     else if (msg == "successful-register"){
-
-                      Navigator.pop(context);
+                      User user = User(
+                          firstName: firstName, lastName: lastName,
+                          username: username,
+                          email: email);
+                      Database.addUser(user);
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => MyHomePage(),
+                        ),
+                      );
                     }
                   }
                 },

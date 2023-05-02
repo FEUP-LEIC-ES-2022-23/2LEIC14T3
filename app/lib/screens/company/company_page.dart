@@ -84,19 +84,25 @@ class _CompanyScreenState extends State<CompanyScreen> {
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
                           ElevatedButton(
-                            onPressed: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) =>
-                                      EventRatingPageCompany(company: widget.company),
-                                ),
-                              ).then((_){
-                                setState(() {
-                                  widget.company.reviews = Database.fetchReviews(widget.company.id, widget.company.entityOrigin, 0);
-                                  widget.company.setAverageRating();
+                            onPressed: () async {
+                              bool reviewed = await Database.alreadyReviewedCompany(widget.company);
+                              if(!reviewed) {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) =>
+                                        EventRatingPageCompany(
+                                            company: widget.company),
+                                  ),
+                                ).then((_) {
+                                  setState(() {
+                                    widget.company.reviews =
+                                        Database.fetchReviews(widget.company.id,
+                                            widget.company.entityOrigin, 0);
+                                    widget.company.setAverageRating();
+                                  });
                                 });
-                              });
+                              }
                             },
                             child: Text('Rate this company'),
 
