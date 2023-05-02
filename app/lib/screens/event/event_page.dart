@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:rate_it/screens/event/rating_page_event.dart';
 import 'package:rate_it/screens/event/reviews_page_event.dart';
-import '../../firebase/database.dart';
+import '../../firestore/database.dart';
 import '../../model/event.dart';
 import '../../model/review.dart';
 

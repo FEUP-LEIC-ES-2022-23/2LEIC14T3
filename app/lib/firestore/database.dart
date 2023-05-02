@@ -108,4 +108,10 @@ class Database{
     QuerySnapshot querySnapshot = await query.get();
     return querySnapshot.docs.isNotEmpty;
   }
+
+  static void updateUserPhotoURL(String uid, String url){
+    db.collection("users").doc(uid).update(
+        {"photoURL": url}
+    );
+  }
 }

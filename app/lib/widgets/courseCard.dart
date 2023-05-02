@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../firebase/database.dart';
+import '../firestore/database.dart';
 import '../model/course.dart';
 import '../model/review.dart';
 import '../screens/course/course_page.dart';

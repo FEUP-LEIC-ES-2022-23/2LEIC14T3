@@ -3,7 +3,7 @@ import 'package:rate_it/model/review.dart';
 import 'dart:math';
 import 'package:rate_it/model/company.dart';
 
-import '../../firebase/database.dart';
+import '../../firestore/database.dart';
 import '../../model/event.dart';
 
 class ReviewsPageEvent extends StatefulWidget {

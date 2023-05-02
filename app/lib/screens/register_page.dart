@@ -3,7 +3,7 @@ import 'package:rate_it/auth/Authentication.dart';
 import 'package:rate_it/auth/validation.dart';
 import 'package:rate_it/widgets/popup_message.dart';
 
-import '../firebase/database.dart';
+import '../firestore/database.dart';
 import '../model/user.dart';
 import 'header_page.dart';
 

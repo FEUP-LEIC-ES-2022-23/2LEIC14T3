@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../firebase/database.dart';
+import '../firestore/database.dart';
 import '../model/company.dart';
 import '../model/review.dart';
 import '../screens/company/company_page.dart';
