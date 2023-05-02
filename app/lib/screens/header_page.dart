@@ -30,6 +30,7 @@ class _MyHomePageState extends State<MyHomePage> {
   int _selectedIndex = 0;
   int _tabIndex = 0;
   List<Widget> _pages = [];
+  late Future<User> user;
 
   TextEditingController _searchController = TextEditingController();
 
@@ -44,8 +45,9 @@ class _MyHomePageState extends State<MyHomePage> {
         onTabChanged: _onTabChanged,
       ),
       CreditsPage(),
-      ProfilePage(user: User(firstName: "",lastName: "",username: "",email: "")),
     ];
+    String uid = Authentication.auth.currentUser!.uid;
+    user = Database.getUser(uid);
   }
 
   void _onItemTapped(int index) {
@@ -88,79 +90,95 @@ class _MyHomePageState extends State<MyHomePage> {
   Future<void> _userProfile() async {
     String uid = Authentication.auth.currentUser!.uid;
     User user = await Database.getUser(uid);
-    setState(() {
-      _pages[2] = ProfilePage(user: user);
-    });
-    _onItemTapped(2);
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) =>
+            ProfilePage(user: user),
+      ),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawerEdgeDragWidth: 50,
-      drawer: Drawer(
-        child: ListView(
-          children: [
-            UserAccountsDrawerHeader(
-              accountName: Text("oi"),
-              accountEmail: Text("oi"),
-              currentAccountPicture: CircleAvatar(
-                backgroundImage: NetworkImage('https://source.unsplash.com/random/200x200?people'),
-                radius: 60,
-              ),
-              decoration: BoxDecoration(
-                color: Colors.green,
-              ),
-              onDetailsPressed: () async {
-                await _userProfile();
-              },
-            ),
-            ListTile(
-              leading: Icon(FontAwesomeIcons.house),
-              title: Text("Home"),
-              onTap: (){
-                _onItemTapped(0);
-              },
-            ),
-            ListTile(
-              leading: Icon(FontAwesomeIcons.peopleGroup),
-              title: Text("Credits"),
-              onTap: (){
-                _onItemTapped(1);
-              },
-            ),
-            ListTile(
-              leading: Icon(FontAwesomeIcons.doorOpen),
-              title: Text("Log Out"),
-              onTap: () {
-                Authentication.logout();
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => LoginPage(),
+            drawerEdgeDragWidth: 50,
+            drawer: Drawer(
+              child: ListView(
+                children: [
+                  FutureBuilder(
+                    future: user,
+                    builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+                      if (snapshot.hasData){
+                        User rendUser = snapshot.data!;
+                        return UserAccountsDrawerHeader(
+                          accountName: Text('@${rendUser.username}'),
+                          accountEmail: Text(rendUser.email),
+                          currentAccountPicture: CircleAvatar(
+                            backgroundImage: NetworkImage(rendUser.photoURL),
+                            radius: 60,
+                          ),
+                          decoration: BoxDecoration(
+                            color: Colors.green,
+                          ),
+                          onDetailsPressed: () async {
+                            await _userProfile();
+                          },
+                        );
+                      }
+                      else if (snapshot.hasError){
+                      return Text('Something went wrong!');
+                      }
+                      else return Center(child:CircularProgressIndicator());
+                    },
                   ),
-                );
-              },
-            )
-          ],
-        ),
-      ),
-      appBar: AppBar(
-        title: Visibility(
-            visible: _selectedIndex == 0,
-            child: RoundedSearchBar(controller: _searchController, onSubmitted: _onSearchSubmitted,),
-        ),
-        actions: [
-          IconButton(
-              onPressed: () async{
-                await _userProfile();
-              },
-              icon: Icon(FontAwesomeIcons.user),
-            padding: EdgeInsets.only(right: 20),
-          )
-        ],
-      ),
-      body: _pages[_selectedIndex],
-    );
+                  ListTile(
+                    leading: Icon(FontAwesomeIcons.house),
+                    title: Text("Home"),
+                    onTap: () {
+                      _onItemTapped(0);
+                    },
+                  ),
+                  ListTile(
+                    leading: Icon(FontAwesomeIcons.peopleGroup),
+                    title: Text("Credits"),
+                    onTap: () {
+                      _onItemTapped(1);
+                    },
+                  ),
+                  ListTile(
+                    leading: Icon(FontAwesomeIcons.doorOpen),
+                    title: Text("Log Out"),
+                    onTap: () {
+                      Authentication.logout();
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => LoginPage(),
+                        ),
+                      );
+                    },
+                  )
+                ],
+              ),
+            ),
+            appBar: AppBar(
+              title: Visibility(
+                visible: _selectedIndex == 0,
+                child: RoundedSearchBar(
+                  controller: _searchController, onSubmitted: _onSearchSubmitted,),
+              ),
+              actions: [
+                IconButton(
+                  onPressed: () async {
+                    await _userProfile();
+                  },
+                  icon: Icon(FontAwesomeIcons.user),
+                  padding: EdgeInsets.only(right: 20),
+                )
+              ],
+            ),
+            body: _pages[_selectedIndex],
+          );
   }
 }
