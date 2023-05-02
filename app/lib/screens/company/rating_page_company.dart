@@ -8,15 +8,13 @@ import '../../model/review.dart';
 import '../home_page.dart';
 
 class EventRatingPageCompany extends StatefulWidget {
-
   Company company;
 
   EventRatingPageCompany({Key? key, required this.company}) : super(key: key);
 
-
   int _rating = 0;
   String _review = "";
-
+  bool _anonymous = false;
 
   @override
   _EventRatingPageCompanyState createState() => _EventRatingPageCompanyState();
@@ -28,6 +26,7 @@ class EventRatingPageCompany extends StatefulWidget {
 
 class _EventRatingPageCompanyState extends State<EventRatingPageCompany> {
   int rating = 0;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -69,6 +68,24 @@ class _EventRatingPageCompanyState extends State<EventRatingPageCompany> {
               onChanged: widget.setReview,
             ),
             SizedBox(height: 32),
+            Row(
+              children: [
+                Text(
+                  'Anonymous Review:',
+                  style: TextStyle(fontSize: 18),
+                ),
+                SizedBox(width: 16),
+                Switch(
+                  value: widget._anonymous,
+                  onChanged: (bool newValue) {
+                    setState(() {
+                      widget._anonymous = newValue;
+                    });
+                  },
+                ),
+              ],
+            ),
+            SizedBox(height: 32),
             ElevatedButton(
               onPressed: () {
                 String author = Authentication.auth.currentUser!.uid;
@@ -77,14 +94,14 @@ class _EventRatingPageCompanyState extends State<EventRatingPageCompany> {
                   rating: widget._rating,
                   review: widget._review,
                   authorId: author,
-                  anonymous: false, //TODO MAKE A SWITCH TO CHANGE THIS STATE BEFORE SUBMIT
+                  anonymous: widget._anonymous,
                   categoryIndex: 0,
                   idEntity: widget.company.id,
                   entityOrigin: widget.company.entityOrigin,
                   votes: 0,
-                 );
+                );
 
-                if(widget._rating > 0){
+                if (widget._rating > 0) {
                   Database.addReview(review);
                   Navigator.pop(context);
                 }
@@ -103,7 +120,6 @@ class _EventRatingPageCompanyState extends State<EventRatingPageCompany> {
         setState(() {
           widget._rating = value;
         });
-
       },
       child: Icon(
         Icons.star,
@@ -117,5 +133,4 @@ class _EventRatingPageCompanyState extends State<EventRatingPageCompany> {
       ),
     );
   }
-
 }
