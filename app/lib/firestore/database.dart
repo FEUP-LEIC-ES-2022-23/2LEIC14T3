@@ -61,6 +61,7 @@ class Database{
   static void addUser(User user) {
     String uid = Authentication.auth.currentUser!.uid;
     db.collection('users').doc(uid).set({
+      'uid': user.uid,
       'username': user.username,
       'firstName': user.firstName,
       'lastName': user.lastName,

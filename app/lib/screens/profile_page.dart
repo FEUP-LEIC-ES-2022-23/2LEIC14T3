@@ -24,6 +24,8 @@ class ProfilePage extends StatefulWidget {
 class _ProfilePageState extends State<ProfilePage> {
   PlatformFile? pickedFile;
 
+  String uid = Authentication.auth.currentUser!.uid;
+
   Future selectFile() async{
     final result = await FilePicker.platform.pickFiles();
     if (result == null) return;
@@ -38,12 +40,13 @@ class _ProfilePageState extends State<ProfilePage> {
       appBar: AppBar(
         title: Text("${widget.user.firstName}'s Profile"),
         actions: [
-          IconButton(
-            onPressed: () {
-              // TODO CHANGE NAME, CHANGE USERNAME, CHANGE PASSWORD, ...
-            },
-            icon: Icon(FontAwesomeIcons.gear),
-          ),
+          if(uid == widget.user.uid)
+            IconButton(
+              onPressed: () {
+                // TODO CHANGE NAME, CHANGE USERNAME, CHANGE PASSWORD, ...
+              },
+              icon: Icon(FontAwesomeIcons.gear),
+            ),
         ],
       ),
       body: Padding(
@@ -57,29 +60,29 @@ class _ProfilePageState extends State<ProfilePage> {
                   radius: 80,
                   backgroundImage: NetworkImage(widget.user.photoURL),
                 ),
-                Positioned(
-                  bottom: 0,
-                  right: 5,
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      shape: CircleBorder(),
-                        padding: EdgeInsets.all(10),
-                        backgroundColor: Colors.white30,
+                if (uid == widget.user.uid)
+                  Positioned(
+                    bottom: 0,
+                    right: 5,
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        shape: CircleBorder(),
+                          padding: EdgeInsets.all(10),
+                          backgroundColor: Colors.white30,
+                      ),
+                      onPressed: () async {
+                        await selectFile();
+                        CloudStorage cs = CloudStorage(pickedFile: pickedFile);
+                        String url = await cs.uploadImage();
+                        Database.updateUserPhotoURL(uid, url);
+                        setState(() {
+                          widget.user.photoURL = url;
+                        });
+                        // Add code to remove profile photo
+                      },
+                      child: Icon(FontAwesomeIcons.plus),
                     ),
-                    onPressed: () async {
-                      await selectFile();
-                      CloudStorage cs = CloudStorage(pickedFile: pickedFile);
-                      String url = await cs.uploadImage();
-                      String uid = Authentication.auth.currentUser!.uid;
-                      Database.updateUserPhotoURL(uid, url);
-                      setState(() {
-                        widget.user.photoURL = url;
-                      });
-                      // Add code to remove profile photo
-                    },
-                    child: Icon(FontAwesomeIcons.plus),
                   ),
-                ),
               ],
             ),
             const SizedBox(height: 16),

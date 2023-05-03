@@ -1,4 +1,5 @@
 class User {
+  String uid;
   String firstName;
   String lastName;
   String username;
@@ -9,6 +10,7 @@ class User {
   int nReviews;
 
   User({
+    required this.uid,
     required this.firstName,
     required this.lastName,
     required this.username,
@@ -22,6 +24,7 @@ class User {
 
 User userFromMap(Map<String, dynamic> data){
   User user = User(
+      uid: data['uid'],
       firstName: data['firstName'],
       lastName: data['lastName'],
       username: data['username'],
