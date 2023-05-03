@@ -115,4 +115,18 @@ class Database{
         {"photoURL": url}
     );
   }
+
+  static Future<List<Review>> getUserReviews(String uid, int categoryIndex) async {
+    Query query = db.collection("reviews");
+    query = query.where("categoryIndex", isEqualTo: categoryIndex);
+    query = query.where("authorId", isEqualTo: uid);
+    QuerySnapshot querySnapshot = await query.get();
+    List<Review> lr = [];
+    for(var doc in querySnapshot.docs){
+      Map<String, dynamic> reviewData = doc.data() as Map<String, dynamic>;
+      Review review = reviewFromMap(reviewData, doc.id);
+      lr.add(review);
+    }
+    return lr;
+  }
 }
