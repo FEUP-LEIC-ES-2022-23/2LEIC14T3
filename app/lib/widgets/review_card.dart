@@ -1,9 +1,13 @@
+import 'dart:ui';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:rate_it/screens/profile_page.dart';
 
 import '../auth/Authentication.dart';
 import '../firestore/database.dart';
 import '../model/review.dart';
+import '../model/user.dart';
 
 class ReviewCard extends StatefulWidget{
   final Review review;
@@ -17,6 +21,12 @@ class ReviewCard extends StatefulWidget{
 }
 
 class _ReviewCardState extends State<ReviewCard> {
+  late Future<User> authorUser;
+  @override
+  void initState() {
+    authorUser = Database.getUser(widget.review.authorId);
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -34,9 +44,37 @@ class _ReviewCardState extends State<ReviewCard> {
             style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
           ),
           SizedBox(height: 8),
-          Text(
-            'By ${widget.review.authorId}',
-            style: TextStyle(fontSize: 18),
+          FutureBuilder(
+            future: authorUser,
+            builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+              if (snapshot.hasData){
+                User reviewUser = snapshot.data!;
+                String uid = Authentication.auth.currentUser!.uid;
+                if(!widget.review.anonymous || widget.review.authorId == uid){
+                  return TextButton(
+                    style: TextButton.styleFrom(
+                      textStyle: const TextStyle(fontSize: 18),
+                    ),
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => ProfilePage(user: reviewUser)),
+                      );
+                    },
+                    child: Text('@${reviewUser.username}'),
+                  );
+                } else {
+                  return ImageFiltered(
+                    imageFilter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
+                    child: Text('@${reviewUser.username}'),
+                  );
+                }
+              }
+              else if (snapshot.hasError){
+                return Text("User couldn't be fetched");
+              }
+              else return LinearProgressIndicator();
+            },
           ),
           SizedBox(height: 8),
           Text(
