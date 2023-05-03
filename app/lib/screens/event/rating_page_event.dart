@@ -17,6 +17,7 @@ class EventRatingPageEvent extends StatefulWidget {
 
   int _rating = 0;
   String _review = "";
+  bool _anonymous = false;
 
 
   @override
@@ -70,6 +71,24 @@ class _EventRatingPageEventState extends State<EventRatingPageEvent> {
               onChanged: widget.setReview,
             ),
             SizedBox(height: 32),
+            Row(
+              children: [
+                Text(
+                  'Anonymous Review:',
+                  style: TextStyle(fontSize: 18),
+                ),
+                SizedBox(width: 16),
+                Switch(
+                  value: widget._anonymous,
+                  onChanged: (bool newValue) {
+                    setState(() {
+                      widget._anonymous = newValue;
+                    });
+                  },
+                ),
+              ],
+            ),
+            SizedBox(height: 32),
             ElevatedButton(
               onPressed: () {
                 String author = Authentication.auth.currentUser!.uid;
@@ -78,7 +97,7 @@ class _EventRatingPageEventState extends State<EventRatingPageEvent> {
                   rating: widget._rating,
                   review: widget._review,
                   authorId: author,
-                  anonymous: false, //TODO MAKE A SWITCH TO CHANGE THIS STATE BEFORE SUBMIT
+                  anonymous: widget._anonymous,
                   categoryIndex: 2,
                   idEntity: widget.event.id,
                   entityOrigin: widget.event.entityOrigin,
