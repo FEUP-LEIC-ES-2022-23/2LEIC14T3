@@ -61,6 +61,7 @@ class Database{
   static void addUser(User user) {
     String uid = Authentication.auth.currentUser!.uid;
     db.collection('users').doc(uid).set({
+      'uid': user.uid,
       'username': user.username,
       'firstName': user.firstName,
       'lastName': user.lastName,
@@ -113,5 +114,19 @@ class Database{
     db.collection("users").doc(uid).update(
         {"photoURL": url}
     );
+  }
+
+  static Future<List<Review>> getUserReviews(String uid, int categoryIndex) async {
+    Query query = db.collection("reviews");
+    query = query.where("categoryIndex", isEqualTo: categoryIndex);
+    query = query.where("authorId", isEqualTo: uid);
+    QuerySnapshot querySnapshot = await query.get();
+    List<Review> lr = [];
+    for(var doc in querySnapshot.docs){
+      Map<String, dynamic> reviewData = doc.data() as Map<String, dynamic>;
+      Review review = reviewFromMap(reviewData, doc.id);
+      lr.add(review);
+    }
+    return lr;
   }
 }

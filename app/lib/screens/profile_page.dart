@@ -24,6 +24,8 @@ class ProfilePage extends StatefulWidget {
 class _ProfilePageState extends State<ProfilePage> {
   PlatformFile? pickedFile;
 
+  String uid = Authentication.auth.currentUser!.uid;
+
   Future selectFile() async{
     final result = await FilePicker.platform.pickFiles();
     if (result == null) return;
@@ -34,87 +36,118 @@ class _ProfilePageState extends State<ProfilePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("${widget.user.firstName}'s Profile"),
-        actions: [
-          IconButton(
-            onPressed: () {
-              // TODO CHANGE NAME, CHANGE USERNAME, CHANGE PASSWORD, ...
-            },
-            icon: Icon(FontAwesomeIcons.gear),
-          ),
-        ],
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Stack(
-              children: [
-                CircleAvatar(
-                  radius: 80,
-                  backgroundImage: NetworkImage(widget.user.photoURL),
-                ),
-                Positioned(
-                  bottom: 0,
-                  right: 5,
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      shape: CircleBorder(),
-                        padding: EdgeInsets.all(10),
-                        backgroundColor: Colors.white30,
+    return DefaultTabController(
+      length: 3,
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text("${widget.user.firstName}'s Profile"),
+          actions: [
+            if(uid == widget.user.uid)
+              IconButton(
+                onPressed: () {
+                  // TODO CHANGE NAME, CHANGE USERNAME, CHANGE PASSWORD, ...
+                },
+                icon: Icon(FontAwesomeIcons.gear),
+              ),
+          ],
+        ),
+        body: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Stack(
+                children: [
+                  CircleAvatar(
+                    radius: 80,
+                    backgroundImage: NetworkImage(widget.user.photoURL),
+                  ),
+                  if (uid == widget.user.uid)
+                    Positioned(
+                      bottom: 0,
+                      right: 5,
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          shape: CircleBorder(),
+                            padding: EdgeInsets.all(10),
+                            backgroundColor: Colors.white30,
+                        ),
+                        onPressed: () async {
+                          await selectFile();
+                          CloudStorage cs = CloudStorage(pickedFile: pickedFile);
+                          String url = await cs.uploadImage();
+                          Database.updateUserPhotoURL(uid, url);
+                          setState(() {
+                            widget.user.photoURL = url;
+                          });
+                          // Add code to remove profile photo
+                        },
+                        child: Icon(FontAwesomeIcons.plus),
+                      ),
                     ),
-                    onPressed: () async {
-                      await selectFile();
-                      CloudStorage cs = CloudStorage(pickedFile: pickedFile);
-                      String url = await cs.uploadImage();
-                      String uid = Authentication.auth.currentUser!.uid;
-                      Database.updateUserPhotoURL(uid, url);
-                      setState(() {
-                        widget.user.photoURL = url;
-                      });
-                      // Add code to remove profile photo
-                    },
-                    child: Icon(FontAwesomeIcons.plus),
+                ],
+              ),
+              const SizedBox(height: 16),
+              Text(
+                '${widget.user.firstName} ${widget.user.lastName}',
+                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+              ),
+              Text('@${widget.user.username}'),
+              const SizedBox(height: 16),
+              Text(
+                '${widget.user.description}',
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: 16),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(Icons.email),
+                  const SizedBox(width: 8),
+                  Text('${widget.user.email}'),
+                ],
+              ),
+              const SizedBox(height: 8),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  if(widget.user.phone != "")
+                    Icon(Icons.phone),
+                  if(widget.user.phone != "")
+                    const SizedBox(width: 8),
+                  if(widget.user.phone != "")
+                    Text(widget.user.phone),
+                ],
+              ),
+              const SizedBox(height: 8),
+              SizedBox(
+                height: 50,
+                child: AppBar(
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(20.0),
+                      topRight: Radius.circular(20.0)
+                    )
+                  ),
+                  bottom: TabBar(
+                    tabs: const [
+                      Tab(icon: Icon(FontAwesomeIcons.briefcase)),
+                      Tab(icon: Icon(FontAwesomeIcons.graduationCap)),
+                      Tab(icon: Icon(FontAwesomeIcons.solidCalendarDays)),
+                    ],
                   ),
                 ),
-              ],
-            ),
-            const SizedBox(height: 16),
-            Text(
-              '${widget.user.firstName} ${widget.user.lastName}',
-              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-            ),
-            Text('@${widget.user.username}'),
-            const SizedBox(height: 16),
-            Text(
-              '${widget.user.description}',
-              textAlign: TextAlign.center,
-            ),
-            const SizedBox(height: 16),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(Icons.email),
-                const SizedBox(width: 8),
-                Text('${widget.user.email}'),
-              ],
-            ),
-            const SizedBox(height: 8),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                if(widget.user.phone != "")
-                  Icon(Icons.phone),
-                if(widget.user.phone != "")
-                  const SizedBox(width: 8),
-                if(widget.user.phone != "")
-                  Text(widget.user.phone),
-              ],
-            ),
-          ],
+              ),
+
+              // create widgets for each tab bar here
+              Expanded(
+                child: TabBarView(
+                  children: [
+                    Text("1"), Text("2"), Text("3")
+                  ],
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
