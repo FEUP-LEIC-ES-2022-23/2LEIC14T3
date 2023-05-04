@@ -14,12 +14,12 @@ import '../model/user.dart';
 import '../screens/settings-subclasses.dart';
 
 class ProfilePage extends StatefulWidget {
-  const ProfilePage({
+  ProfilePage({
     Key? key,
-    required this.user,
+    this.user,
   }) : super(key: key);
 
-  final User user;
+  User? user;
 
   @override
   State<ProfilePage> createState() => _ProfilePageState();
@@ -44,16 +44,21 @@ class _ProfilePageState extends State<ProfilePage> {
       length: 3,
       child: Scaffold(
         appBar: AppBar(
-          title: Text("${widget.user.firstName}'s Profile"),
+          title: Text("${widget.user!.firstName}'s Profile"),
           actions: [
-            if(uid == widget.user.uid)
+            if(uid == widget.user!.uid)
               IconButton(
                 onPressed: () {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
                       builder: (context) => SettingsPage(),
-                  ));
+                  )).then((_) async {
+                    User updated = await Database.getUser(uid);
+                    setState(() {
+                      widget.user = updated;
+                    });
+                  });
                 },
                 icon: Icon(FontAwesomeIcons.gear),
               ),
@@ -68,9 +73,9 @@ class _ProfilePageState extends State<ProfilePage> {
                 children: [
                   CircleAvatar(
                     radius: 80,
-                    backgroundImage: NetworkImage(widget.user.photoURL),
+                    backgroundImage: NetworkImage(widget.user!.photoURL),
                   ),
-                  if (uid == widget.user.uid)
+                  if (uid == widget.user!.uid)
                     Positioned(
                       bottom: 0,
                       right: 5,
@@ -86,7 +91,7 @@ class _ProfilePageState extends State<ProfilePage> {
                           String url = await cs.uploadImage();
                           Database.updateUserPhotoURL(uid, url);
                           setState(() {
-                            widget.user.photoURL = url;
+                            widget.user!.photoURL = url;
                           });
                           // Add code to remove profile photo
                         },
@@ -97,13 +102,13 @@ class _ProfilePageState extends State<ProfilePage> {
               ),
               const SizedBox(height: 16),
               Text(
-                '${widget.user.firstName} ${widget.user.lastName}',
+                '${widget.user!.firstName} ${widget.user!.lastName}',
                 style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
               ),
-              Text('@${widget.user.username}'),
+              Text('@${widget.user!.username}'),
               const SizedBox(height: 16),
               Text(
-                '${widget.user.description}',
+                '${widget.user!.description}',
                 textAlign: TextAlign.center,
               ),
               const SizedBox(height: 16),
@@ -112,19 +117,19 @@ class _ProfilePageState extends State<ProfilePage> {
                 children: [
                   Icon(Icons.email),
                   const SizedBox(width: 8),
-                  Text('${widget.user.email}'),
+                  Text('${widget.user!.email}'),
                 ],
               ),
               const SizedBox(height: 8),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  if(widget.user.phone != "")
+                  if(widget.user!.phone != "")
                     Icon(Icons.phone),
-                  if(widget.user.phone != "")
+                  if(widget.user!.phone != "")
                     const SizedBox(width: 8),
-                  if(widget.user.phone != "")
-                    Text(widget.user.phone),
+                  if(widget.user!.phone != "")
+                    Text(widget.user!.phone),
                 ],
               ),
               const SizedBox(height: 8),
@@ -152,7 +157,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   children: [
                     for (int i=0; i<3; i++)
                       FutureBuilder(
-                        future: Database.getUserReviews(widget.user.uid, i),
+                        future: Database.getUserReviews(widget.user!.uid, i),
                         builder: (context, snapshot) {
                           if (snapshot.hasData){
                             List<Review> reviews = snapshot.data!;
@@ -160,7 +165,7 @@ class _ProfilePageState extends State<ProfilePage> {
                               itemCount: reviews.length,
                               itemBuilder: (context, index) {
                                 Review review = reviews[index];
-                                if (widget.user.uid == uid || !review.anonymous) {
+                                if (widget.user!.uid == uid || !review.anonymous) {
                                   return ReviewCard(review: review);
                                 }
                               },

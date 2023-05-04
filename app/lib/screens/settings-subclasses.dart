@@ -72,7 +72,19 @@ class _ChangeNameState extends State<ChangeName> {
                   ),
                 ),
               ],
-              )
+              ),
+              ElevatedButton(
+                onPressed: () async {
+                  String uid = Authentication.auth.currentUser!.uid;
+                  if (_formKey.currentState!.validate()) {
+                    String firstName = _firstNameController.text;
+                    String lastName = _lastNameController.text;
+                    Database.updateName(uid, firstName, lastName);
+                    Navigator.pop(context);
+                  }
+                },
+                child: Text('Save changes'),
+              ),
             ]
           ),
         ),
