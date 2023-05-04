@@ -10,6 +10,7 @@ import 'package:rate_it/model/review.dart';
 import 'package:rate_it/widgets/review_card.dart';
 import '../firestore/database.dart';
 import '../model/user.dart';
+import '../screens/settings.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({
@@ -47,7 +48,12 @@ class _ProfilePageState extends State<ProfilePage> {
             if(uid == widget.user.uid)
               IconButton(
                 onPressed: () {
-                  // TODO CHANGE NAME, CHANGE USERNAME, CHANGE PASSWORD, ...
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                      builder: (context) =>
+                      SettingsPage(user: widget.user),
+                  ));
                 },
                 icon: Icon(FontAwesomeIcons.gear),
               ),
