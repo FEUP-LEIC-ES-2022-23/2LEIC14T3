@@ -1,7 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:rate_it/auth/Authentication.dart';
 import 'package:rate_it/screens/settings-subclasses.dart';
+
+import 'login_page.dart';
+
 
 class SettingsPage extends StatefulWidget {
   const SettingsPage({Key? key}) : super(key: key);
@@ -89,22 +93,40 @@ class _SettingsPageState extends State<SettingsPage> {
                   ],
                 ),
                 const Divider(),
-                const _SingleSection(
+                _SingleSection(
                   title: "Security",
                   children: [
                     _CustomListTile(
                         title: "Change Email", icon: FontAwesomeIcons.envelope),
                     _CustomListTile(
-                        title: "Change Username", icon: FontAwesomeIcons.user),
+                        title: "Change Username", icon: FontAwesomeIcons.user,
+                        onTap: (){
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => ChangeUsername(),
+                            ),
+                          );
+                        }),
+
                     _CustomListTile(
                         title: "Change Password", icon: FontAwesomeIcons.key),
                   ],
                 ),
                 const Divider(),
-                const _SingleSection(
+                _SingleSection(
                   children: [
                     _CustomListTile(
-                        title: "Sign out", icon: FontAwesomeIcons.arrowRightFromBracket),
+                        title: "Sign out", icon: FontAwesomeIcons.arrowRightFromBracket,
+                        onTap: (){
+                          Authentication.logout();
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => LoginPage(),
+                            ),
+                          );
+                        }
+                      ),
+
                   ],
                 ),
               ],

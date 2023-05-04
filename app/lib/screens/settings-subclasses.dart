@@ -141,6 +141,77 @@ class _ChangeBioState extends State<ChangeBio> {
   }
 }
 
+class ChangeUsername extends StatefulWidget {
+  const ChangeUsername({super.key});
+
+  @override
+  State<ChangeUsername> createState() => _ChangeUsernameState();
+}
+
+class _ChangeUsernameState extends State<ChangeUsername> {
+  final _formKey = GlobalKey<FormState>();
+  TextEditingController _usernameController = TextEditingController();
+
+  bool usedUsername = false;
+
+  Future<void> checkUsername(String value) async {
+    bool ans = await Validation.usedUsername(value);
+    setState(() {
+      usedUsername = ans;
+    });
+
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Change Username'),
+      ),
+      body: Form(
+        key: _formKey,
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                TextFormField(
+                  decoration: InputDecoration(
+                    labelText: 'Username',
+                    border: OutlineInputBorder(),
+                  ),
+                  controller: _usernameController,
+                  keyboardType: TextInputType.name,
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter your username';
+                    }                    if(usedUsername){
+                      return 'Username already taken';
+                    }
+                    return null;
+                  },
+                  onChanged: (value) {
+                    checkUsername(value);
+                  },
+                ),
+                ElevatedButton(
+                  onPressed: () async {
+                    String uid = Authentication.auth.currentUser!.uid;
+                    if (_formKey.currentState!.validate()) {
+                      String username = _usernameController.text;
+                      Database.updateUsername(uid, username);
+                      Navigator.pop(context);
+                    }
+                  },
+                  child: Text('Save changes'),
+                ),
+              ],
+            ),
+        ),
+      ),
+    );
+  }
+}
 
 class ChangePhone extends StatefulWidget {
   const ChangePhone({super.key});
