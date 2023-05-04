@@ -80,6 +80,16 @@ class Database{
     return querySnapshot.docs.isNotEmpty;
   }
 
+  static void updateUsername(String uid, String username) {
+      db.collection("users").doc(uid).update({"username": username});
+  }
+
+  static void updateName(String uid, String firstName, String lastName) {
+      db.collection("users").doc(uid).update({"firstName": firstName, "lastName": lastName});
+  }
+
+
+
   static Future<bool> alreadyReviewedCompany(Company company) async {
     Query query = db.collection("reviews");
     query = query.where("idEntity", isEqualTo: company.id);
