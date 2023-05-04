@@ -1,158 +1,153 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:rate_it/auth/Authentication.dart';
-import '../firestore/database.dart';
-import '../model/user.dart';
-import 'package:rate_it/auth/validation.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:rate_it/screens/settings-subclasses.dart';
 
 class SettingsPage extends StatefulWidget {
-  const SettingsPage({
-    Key? key,
-    required this.user,
-  }) : super(key: key);
-
-  final User user;
+  const SettingsPage({Key? key}) : super(key: key);
 
   @override
   State<SettingsPage> createState() => _SettingsPageState();
 }
 
 class _SettingsPageState extends State<SettingsPage> {
-  final _formKey = GlobalKey<FormState>();
-  TextEditingController _firstNameController = TextEditingController();
-  TextEditingController _lastNameController = TextEditingController();
-  TextEditingController _usernameController = TextEditingController();
-  TextEditingController _passwordController = TextEditingController();
-
-  bool usedUsername = false;
-
-  Future<void> checkUsername(String value) async {
-    bool ans = await Validation.usedUsername(value);
-    setState(() {
-      usedUsername = ans;
-    });
-
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    _firstNameController.text = widget.user.firstName;
-    _lastNameController.text = widget.user.lastName;
-    _usernameController.text = widget.user.username;
-  }
-
-
+  bool _isDark = false;
+  bool _isPriv = false;
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Settings'),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Form (
-          key: _formKey,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-
-              TextFormField(
-                controller: _firstNameController,
-                decoration: InputDecoration(
-                  hintText: 'Enter your first name',
-                  border: OutlineInputBorder(),
-
+    return Theme(
+      data: _isDark ? ThemeData.dark() : ThemeData.light(),
+      child: Scaffold(
+        appBar: AppBar(
+          title: const Text("Settings"),
+        ),
+        body: Center(
+          child: Container(
+            constraints: const BoxConstraints(maxWidth: 400),
+            child: ListView(
+              children: [
+                _SingleSection(
+                  title: "General",
+                  children: [
+                    _CustomListTile(
+                        title: "Dark Mode",
+                        icon: FontAwesomeIcons.moon,
+                        trailing: Switch(
+                            value: _isDark,
+                            onChanged: (value) {
+                              setState(() {
+                                _isDark = value;
+                              });
+                            })),
+                    _CustomListTile(
+                        title: "Private Profile",
+                        icon: FontAwesomeIcons.shieldHalved,
+                        trailing: Switch(
+                        value: _isPriv,
+                        onChanged: (value) {
+                          setState(() {
+                            _isPriv = value;
+                          });
+                      })
+                    ),
+                  ],
                 ),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter your first name';
-                  }
-                  return null;
-                },
-              ),
-              const SizedBox(height: 16),
-
-              const SizedBox(height: 8),
-              TextFormField(
-                controller: _lastNameController,
-                decoration: InputDecoration(
-                  hintText: 'Enter your last name',
-                  border: OutlineInputBorder(),
+                const Divider(),
+                _SingleSection(
+                  title: "Edit Profile",
+                  children: [
+                    _CustomListTile(
+                        title: "Change Name", icon: FontAwesomeIcons.addressCard,
+                        onTap: (){
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) =>
+                                  ChangeName(),
+                            ),
+                          );
+                      },
+                    ),
+                    _CustomListTile(
+                        title: "Change Biography", icon: FontAwesomeIcons.pencil),
+                    _CustomListTile(
+                        title: "Change Phone", icon: FontAwesomeIcons.phone),
+                  ],
                 ),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter your last name';
-                  }
-                  return null;
-                },
-              ),
-              const SizedBox(height: 16),
-
-              TextFormField(
-                controller: _usernameController,
-                decoration: InputDecoration(
-                  labelText: 'Username',
-                  border: OutlineInputBorder(),
+                const Divider(),
+                const _SingleSection(
+                  title: "Security",
+                  children: [
+                    _CustomListTile(
+                        title: "Change Email", icon: FontAwesomeIcons.envelope),
+                    _CustomListTile(
+                        title: "Change Username", icon: FontAwesomeIcons.user),
+                    _CustomListTile(
+                        title: "Change Password", icon: FontAwesomeIcons.key),
+                  ],
                 ),
-
-                validator: (value) {
-                  if (Validation.emptyField(value)) {
-                    return 'Please enter your password';
-                  }
-                  if (Validation.shortPassword(value)) {
-                    return 'Password must be at least 6 characters long';
-                  }
-                  return null;
-                },
-              ),
-              const SizedBox(height: 16),
-
-              TextFormField(
-                controller: _passwordController,
-                obscureText: true,
-                decoration: InputDecoration(
-                  hintText: 'Enter a new password',
-                  border: OutlineInputBorder(),
+                const Divider(),
+                const _SingleSection(
+                  children: [
+                    _CustomListTile(
+                        title: "Sign out", icon: FontAwesomeIcons.arrowRightFromBracket),
+                  ],
                 ),
-              ),
-              const SizedBox(height: 16),
-              ElevatedButton(
-                onPressed: () async {
-                  if (_formKey.currentState!.validate()) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text('Processing Data')),
-                    );
-                  }
-                  // Update user profile with new info
-                  String uid = Authentication.auth.currentUser!.uid;
-                  String firstName = _firstNameController.text;
-                  String lastName = _lastNameController.text;
-                  String username = _usernameController.text;
-                  String password = _passwordController.text;
-                  if (firstName != widget.user.firstName ||
-                      lastName != widget.user.lastName) {
-                    Database.updateName(uid, firstName, lastName);
-                    setState(() {
-                      widget.user.firstName = firstName;
-                      widget.user.lastName = lastName;
-                    });
-                  }
-                  if (username != widget.user.username) {
-                    await checkUsername(username);
-                    if(!usedUsername){
-                      Database.updateUsername(uid, username);
-                    }
-                  }
-                  if (password.isNotEmpty) {
-                    //Authentication.updatePassword(password);
-                  }
-                },
-                child: Text('Save Changes'),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
+    );
+  }
+}
+
+class _CustomListTile extends StatelessWidget {
+  final String title;
+  final IconData icon;
+  final Widget? trailing;
+  final void Function()? onTap;
+  const _CustomListTile(
+      {Key? key, required this.title, required this.icon, this.trailing, this.onTap})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      title: Text(title),
+      leading: Icon(icon),
+      trailing: trailing,
+      onTap: onTap,
+    );
+  }
+}
+
+class _SingleSection extends StatelessWidget {
+  final String? title;
+  final List<Widget> children;
+  const _SingleSection({
+    Key? key,
+    this.title,
+    required this.children,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        if (title != null)
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text(
+              title!,
+              style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+            ),
+          ),
+        Column(
+          children: children,
+        ),
+      ],
     );
   }
 }
