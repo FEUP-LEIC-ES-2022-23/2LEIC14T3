@@ -69,7 +69,6 @@ class Database{
       'photoURL': user.photoURL,
       'description': user.description,
       'phone': user.phone,
-      'nReviews': user.nReviews
     });
   }
 
@@ -88,7 +87,9 @@ class Database{
       db.collection("users").doc(uid).update({"firstName": firstName, "lastName": lastName});
   }
 
-
+  static void updateBio(String uid, String bio) {
+    db.collection("users").doc(uid).update({"description": bio});
+  }
 
   static Future<bool> alreadyReviewedCompany(Company company) async {
     Query query = db.collection("reviews");

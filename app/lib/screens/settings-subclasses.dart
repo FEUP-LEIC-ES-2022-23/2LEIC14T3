@@ -93,6 +93,55 @@ class _ChangeNameState extends State<ChangeName> {
   }
 }
 
+class ChangeBio extends StatefulWidget {
+  const ChangeBio({super.key});
+
+
+  @override
+  State<ChangeBio> createState() => _ChangeBioState();
+}
+
+class _ChangeBioState extends State<ChangeBio> {
+  TextEditingController _bioController = TextEditingController();
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Change Biography'),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              TextField(
+                decoration: InputDecoration(
+                  labelText: 'Biography',
+                  border: OutlineInputBorder(),
+                ),
+                controller: _bioController,
+                keyboardType: TextInputType.multiline,
+                minLines: 1,
+                maxLines: 5,
+              ),
+              ElevatedButton(
+                onPressed: () async {
+                  String uid = Authentication.auth.currentUser!.uid;
+                  String bio = _bioController.text;
+                  Database.updateBio(uid, bio);
+                  Navigator.pop(context);
+                },
+                child: Text('Save changes'),
+              ),
+            ],
+        ),
+      ),
+    );
+  }
+}
+
+
 class SettingsPage1 extends StatefulWidget {
   const SettingsPage1({
     Key? key,

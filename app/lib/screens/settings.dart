@@ -61,14 +61,21 @@ class _SettingsPageState extends State<SettingsPage> {
                         onTap: (){
                           Navigator.push(
                             context,
-                            MaterialPageRoute(builder: (context) =>
-                                  ChangeName(),
+                            MaterialPageRoute(builder: (context) => ChangeName(),
                             ),
                           );
                       },
                     ),
                     _CustomListTile(
-                        title: "Change Biography", icon: FontAwesomeIcons.pencil),
+                        title: "Change Biography", icon: FontAwesomeIcons.pencil,
+                      onTap: (){
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => ChangeBio(),
+                          ),
+                        );
+                      },
+                    ),
                     _CustomListTile(
                         title: "Change Phone", icon: FontAwesomeIcons.phone),
                   ],
