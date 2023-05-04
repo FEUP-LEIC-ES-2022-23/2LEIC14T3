@@ -6,6 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:rate_it/auth/Authentication.dart';
 import 'package:rate_it/cloud_storage/cloud_storage.dart';
+import 'package:rate_it/model/review.dart';
+import 'package:rate_it/widgets/review_card.dart';
 import '../firestore/database.dart';
 import '../model/user.dart';
 
@@ -142,7 +144,30 @@ class _ProfilePageState extends State<ProfilePage> {
               Expanded(
                 child: TabBarView(
                   children: [
-                    Text("1"), Text("2"), Text("3")
+                    for (int i=0; i<3; i++)
+                      FutureBuilder(
+                        future: Database.getUserReviews(widget.user.uid, i),
+                        builder: (context, snapshot) {
+                          if (snapshot.hasData){
+                            List<Review> reviews = snapshot.data!;
+                            return ListView.builder(
+                              itemCount: reviews.length,
+                              itemBuilder: (context, index) {
+                                Review review = reviews[index];
+                                if (widget.user.uid == uid || !review.anonymous) {
+                                  return ReviewCard(review: review);
+                                }
+                              },
+                            );
+                          }
+                          else if (snapshot.hasError) {
+                            return const Text('Something went wrong!');
+                          }
+                          else {
+                            return const CircularProgressIndicator();
+                          }
+                        },
+                      ),
                   ],
                 ),
               ),
