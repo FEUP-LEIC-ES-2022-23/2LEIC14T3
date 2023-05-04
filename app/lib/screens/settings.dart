@@ -67,7 +67,7 @@ class _SettingsPageState extends State<SettingsPage> {
                       },
                     ),
                     _CustomListTile(
-                        title: "Change Biography", icon: FontAwesomeIcons.pencil,
+                      title: "Change Biography", icon: FontAwesomeIcons.pencil,
                       onTap: (){
                         Navigator.push(
                           context,
@@ -77,7 +77,15 @@ class _SettingsPageState extends State<SettingsPage> {
                       },
                     ),
                     _CustomListTile(
-                        title: "Change Phone", icon: FontAwesomeIcons.phone),
+                      title: "Change Phone", icon: FontAwesomeIcons.phone,
+                      onTap: (){
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => ChangePhone(),
+                          ),
+                        );
+                      },
+                    ),
                   ],
                 ),
                 const Divider(),

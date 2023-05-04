@@ -142,6 +142,69 @@ class _ChangeBioState extends State<ChangeBio> {
 }
 
 
+class ChangePhone extends StatefulWidget {
+  const ChangePhone({super.key});
+
+
+  @override
+  State<ChangePhone> createState() => _ChangePhoneState();
+}
+
+class _ChangePhoneState extends State<ChangePhone> {
+  final _formKey = GlobalKey<FormState>();
+  TextEditingController _phoneController = TextEditingController();
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Change Biography'),
+      ),
+      body: Form(
+        key: _formKey,
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              TextFormField(
+                decoration: InputDecoration(
+                    labelText: 'Phone Number',
+                  border: OutlineInputBorder(),
+                ),
+                controller: _phoneController,
+                keyboardType: TextInputType.phone,
+                minLines: 1,
+                validator: (value){
+                  if (value == null || value.isEmpty) {
+                    return 'Please enter your phone number';
+                  }
+                  if(Validation.invalidPhone(value)){
+                    return 'Enter valid PT phone number';
+                  }
+                  return null;
+                },
+              ),
+              ElevatedButton(
+                onPressed: () async {
+                  if(_formKey.currentState!.validate()){
+                    String uid = Authentication.auth.currentUser!.uid;
+                    String phone = _phoneController.text;
+                    Database.updatePhone(uid, phone);
+                    Navigator.pop(context);
+                  }
+                },
+                child: Text('Save changes'),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+
 class SettingsPage1 extends StatefulWidget {
   const SettingsPage1({
     Key? key,

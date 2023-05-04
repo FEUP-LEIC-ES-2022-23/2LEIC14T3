@@ -91,6 +91,10 @@ class Database{
     db.collection("users").doc(uid).update({"description": bio});
   }
 
+  static void updatePhone(String uid, String phone) {
+    db.collection("users").doc(uid).update({"phone": phone});
+  }
+
   static Future<bool> alreadyReviewedCompany(Company company) async {
     Query query = db.collection("reviews");
     query = query.where("idEntity", isEqualTo: company.id);
