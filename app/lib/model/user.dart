@@ -7,6 +7,7 @@ class User {
   String phone;
   String description;
   String photoURL;
+  bool isPrivate;
 
   User({
     required this.uid,
@@ -17,6 +18,7 @@ class User {
     this.phone = "",
     this.photoURL = "",
     this.description = "",
+    this.isPrivate = false,
   });
 }
 
@@ -30,6 +32,7 @@ User userFromMap(Map<String, dynamic> data){
       phone: data['phone'],
       description: data['description'],
       photoURL: data['photoURL'],
+      isPrivate: data['isPrivate'],
   );
   return user;
 }

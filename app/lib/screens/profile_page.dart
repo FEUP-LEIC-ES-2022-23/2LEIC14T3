@@ -52,7 +52,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                      builder: (context) => SettingsPage(),
+                      builder: (context) => SettingsPage(user: widget.user!),
                   )).then((_) async {
                     User updated = await Database.getUser(uid);
                     setState(() {
@@ -132,7 +132,12 @@ class _ProfilePageState extends State<ProfilePage> {
                     Text(widget.user!.phone),
                 ],
               ),
+
               const SizedBox(height: 8),
+
+              if(widget.user!.isPrivate)
+
+
               SizedBox(
                 height: 50,
                 child: AppBar(
