@@ -25,14 +25,6 @@ class Review {
     required this.anonymous,
     this.reviewRef,
   });
-
-  void upvote() {
-    votes = votes + 1;
-  }
-
-  void downvote() {
-    votes = votes - 1;
-  }
 }
 
 Review reviewFromMap(Map<String, dynamic> data, String id){
