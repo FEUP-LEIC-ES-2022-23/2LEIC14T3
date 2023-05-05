@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:rate_it/screens/profile_page.dart';
+import 'package:rate_it/widgets/updownvotes.dart';
 
 import '../auth/Authentication.dart';
 import '../firestore/database.dart';
@@ -82,39 +83,7 @@ class _ReviewCardState extends State<ReviewCard> {
             style: TextStyle(fontSize: 18),
           ),
           SizedBox(height: 8),
-          Row(
-            children: [
-              IconButton(
-                onPressed: () {
-                  String currUser = Authentication.auth.currentUser!.uid;
-                  if (currUser != widget.review.authorId) {
-                    Database.updateVoteReview(widget.review, 1);
-                    setState(() {
-                      widget.review.upvote();
-                    });
-                  }
-                },
-                icon: Icon(Icons.thumb_up),
-              ),
-              SizedBox(width: 8),
-              IconButton(
-                onPressed: () {
-                  String currUser = Authentication.auth.currentUser!.uid;
-                  if (currUser != widget.review.authorId) {
-                    Database.updateVoteReview(widget.review, -1);
-                    setState(() {
-                      widget.review.downvote();
-                    });
-                  }
-                },
-                icon: Icon(Icons.thumb_down),
-              ),
-              Text(
-                '${widget.review.votes}',
-                style: TextStyle(fontSize: 18),
-              ),
-            ],
-          ),
+          UpDownVotes(review: widget.review),
           SizedBox(height: 8),
           Text(
             '${widget.review.review}',

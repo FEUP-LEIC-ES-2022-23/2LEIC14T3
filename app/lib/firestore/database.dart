@@ -41,14 +41,11 @@ class Database{
       });
   }
 
-  static void updateVoteReview(Review review, int vote) {
-    try {
+  static void updateVoteReview(Review review, int increment) {
       db.collection("reviews").doc(review.reviewRef).update(
-          {"votes": FieldValue.increment(vote)}
+          {"votes": FieldValue.increment(increment)}
       );
-    } catch(e){
-      print("Error in updateVoteReview: $e");
-    }
+
   }
 
   static Future<User> getUser(String uid) async {
@@ -69,7 +66,6 @@ class Database{
       'photoURL': user.photoURL,
       'description': user.description,
       'phone': user.phone,
-      'nReviews': user.nReviews
     });
   }
 
@@ -128,5 +124,29 @@ class Database{
       lr.add(review);
     }
     return lr;
+  }
+
+  static Future<int> getVoting(String reviewRef) async {
+    String uid = Authentication.auth.currentUser!.uid;
+    var query = db.collection("reviews").doc(reviewRef).collection("updownvotes").doc(uid);
+    var snapshot = await query.get();
+    if(snapshot.exists){
+      Map<String,dynamic> map = snapshot.data()!;
+      return map['voting'];
+    }
+    else {
+      return 0;
+    }
+  }
+
+  static void setVoting(String reviewRef, int voting){
+    String uid = Authentication.auth.currentUser!.uid;
+    if (voting != 0) {
+      db.collection('reviews').doc(reviewRef)
+        .collection("updownvotes").doc(uid).set({'voting': voting, 'uid':uid}, SetOptions(merge: true));
+    } else {
+      db.collection('reviews').doc(reviewRef)
+          .collection("updownvotes").doc(uid).delete();
+    }
   }
 }
