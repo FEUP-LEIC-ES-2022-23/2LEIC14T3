@@ -98,8 +98,8 @@ class _EventScreenState extends State<EventScreen> {
                           children: [
                             ElevatedButton(
                               onPressed: () async {
-                                bool reviewed = await Database.alreadyReviewedEvent(widget.event);
-                                if(!reviewed){
+                                Review? userReviewOnEvent = await Database.alreadyReviewedEvent(widget.event);
+                                if(userReviewOnEvent == null){
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(

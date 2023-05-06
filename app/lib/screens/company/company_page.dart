@@ -85,8 +85,8 @@ class _CompanyScreenState extends State<CompanyScreen> {
                         children: [
                           ElevatedButton(
                             onPressed: () async {
-                              bool reviewed = await Database.alreadyReviewedCompany(widget.company);
-                              if(!reviewed) {
+                              Review? userReviewonCompany = await Database.alreadyReviewedCompany(widget.company);
+                              if(userReviewonCompany == null) {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(

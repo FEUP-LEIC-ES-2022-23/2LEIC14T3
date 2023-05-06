@@ -104,8 +104,8 @@ class _CourseScreenState extends State<CourseScreen> {
                           children: [
                             ElevatedButton(
                               onPressed: () async {
-                                bool reviewed = await Database.alreadyReviewedCourse(widget.course);
-                                if(!reviewed){
+                                Review? userReviewOnCourse = await Database.alreadyReviewedCourse(widget.course);
+                                if(userReviewOnCourse == null){
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(

@@ -76,34 +76,49 @@ class Database{
     return querySnapshot.docs.isNotEmpty;
   }
 
-  static Future<bool> alreadyReviewedCompany(Company company) async {
+  static Future<Review?> alreadyReviewedCompany(Company company) async {
     Query query = db.collection("reviews");
     query = query.where("idEntity", isEqualTo: company.id);
     query = query.where("entityOrigin", isEqualTo: company.entityOrigin);
     query = query.where("categoryIndex", isEqualTo: 0);
     query = query.where("authorId", isEqualTo: Authentication.auth.currentUser!.uid);
     QuerySnapshot querySnapshot = await query.get();
-    return querySnapshot.docs.isNotEmpty;
+    Review? review;
+    for(var doc in querySnapshot.docs){
+      Map<String, dynamic> reviewData = doc.data() as Map<String, dynamic>;
+      review = reviewFromMap(reviewData, doc.id);
+    }
+    return review;
   }
 
-  static Future<bool> alreadyReviewedCourse(Course course) async {
+  static Future<Review?> alreadyReviewedCourse(Course course) async {
     Query query = db.collection("reviews");
     query = query.where("idEntity", isEqualTo: course.id);
     query = query.where("entityOrigin", isEqualTo: course.entityOrigin);
     query = query.where("categoryIndex", isEqualTo: 1);
     query = query.where("authorId", isEqualTo: Authentication.auth.currentUser!.uid);
     QuerySnapshot querySnapshot = await query.get();
-    return querySnapshot.docs.isNotEmpty;
+    Review? review;
+    for(var doc in querySnapshot.docs){
+      Map<String, dynamic> reviewData = doc.data() as Map<String, dynamic>;
+      review = reviewFromMap(reviewData, doc.id);
+    }
+    return review;
   }
 
-  static Future<bool> alreadyReviewedEvent(Event event) async {
+  static Future<Review?> alreadyReviewedEvent(Event event) async {
     Query query = db.collection("reviews");
     query = query.where("idEntity", isEqualTo: event.id);
     query = query.where("entityOrigin", isEqualTo: event.entityOrigin);
     query = query.where("categoryIndex", isEqualTo: 2);
     query = query.where("authorId", isEqualTo: Authentication.auth.currentUser!.uid);
     QuerySnapshot querySnapshot = await query.get();
-    return querySnapshot.docs.isNotEmpty;
+    Review? review;
+    for(var doc in querySnapshot.docs){
+      Map<String, dynamic> reviewData = doc.data() as Map<String, dynamic>;
+      review = reviewFromMap(reviewData, doc.id);
+    }
+    return review;
   }
 
   static void updateUserPhotoURL(String uid, String url){
