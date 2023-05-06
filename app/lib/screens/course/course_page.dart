@@ -127,6 +127,7 @@ class _CourseScreenState extends State<CourseScreen> {
                                       widget.course.reviews = Database.fetchReviews(widget.course.id, widget.course.entityOrigin, 1);
                                       widget.course.setAverageRating();
                                     });
+                                    _fetchReview();
                                   });
                                 },
                                 child: Text('Edit your review'),
@@ -142,6 +143,7 @@ class _CourseScreenState extends State<CourseScreen> {
                                       widget.course.reviews = Database.fetchReviews(widget.course.id, widget.course.entityOrigin, 1);
                                       widget.course.setAverageRating();
                                     });
+                                    _fetchReview();
                                   });
                                 },
                                 child: Text('Rate this course'),

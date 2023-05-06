@@ -107,6 +107,7 @@ class _CompanyScreenState extends State<CompanyScreen> {
                                         widget.company.reviews = Database.fetchReviews(widget.company.id, widget.company.entityOrigin, 0);
                                         widget.company.setAverageRating();
                                       });
+                                      _fetchReview();
                                     });
                                 },
                               child: Text('Edit your review'),
@@ -122,6 +123,7 @@ class _CompanyScreenState extends State<CompanyScreen> {
                                         widget.company.reviews = Database.fetchReviews(widget.company.id, widget.company.entityOrigin, 0);
                                         widget.company.setAverageRating();
                                       });
+                                      _fetchReview();
                                     });
                                 },
                               child: Text('Rate this company'),

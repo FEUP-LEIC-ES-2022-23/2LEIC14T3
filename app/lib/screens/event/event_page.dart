@@ -121,6 +121,7 @@ class _EventScreenState extends State<EventScreen> {
                                       widget.event.reviews = Database.fetchReviews(widget.event.id, widget.event.entityOrigin, 2);
                                       widget.event.setAverageRating();
                                     });
+                                    _fetchReview();
                                   });
                                 },
                                 child: Text('Edit your review'),
@@ -136,6 +137,7 @@ class _EventScreenState extends State<EventScreen> {
                                       widget.event.reviews = Database.fetchReviews(widget.event.id, widget.event.entityOrigin, 2);
                                       widget.event.setAverageRating();
                                     });
+                                    _fetchReview();
                                   });
                                 },
                                 child: Text('Rate this event'),

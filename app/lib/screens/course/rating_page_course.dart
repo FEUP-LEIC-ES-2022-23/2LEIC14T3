@@ -149,7 +149,7 @@ class _EventRatingPageCourseState extends State<EventRatingPageCourse> {
         review: widget._review,
         authorId: author,
         anonymous: widget._anonymous,
-        categoryIndex: 0,
+        categoryIndex: 1,
         idEntity: widget.course.id,
         entityOrigin: widget.course.entityOrigin,
         votes: 0,
