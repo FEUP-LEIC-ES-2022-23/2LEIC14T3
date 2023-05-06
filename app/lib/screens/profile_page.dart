@@ -157,6 +157,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                 if (widget.user.uid == uid || !review.anonymous) {
                                   return ReviewCard(review: review);
                                 }
+                                return null;
                               },
                             );
                           }
@@ -164,7 +165,7 @@ class _ProfilePageState extends State<ProfilePage> {
                             return const Text('Something went wrong!');
                           }
                           else {
-                            return const CircularProgressIndicator();
+                            return const Center(child:CircularProgressIndicator());
                           }
                         },
                       ),

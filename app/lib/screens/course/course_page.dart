@@ -9,6 +9,7 @@ import '../company/rating_page_company.dart';
 
 class CourseScreen extends StatefulWidget {
   final Course course;
+  Review? userReviewOnCourse;
 
   CourseScreen({required this.course});
 
@@ -17,6 +18,19 @@ class CourseScreen extends StatefulWidget {
 }
 
 class _CourseScreenState extends State<CourseScreen> {
+  @override
+  void initState() {
+    super.initState();
+    _fetchReview();
+  }
+
+  Future<void> _fetchReview() async {
+    Review? r = await Database.alreadyReviewedCourse(widget.course);
+    setState(() {
+      widget.userReviewOnCourse = r;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -102,27 +116,38 @@ class _CourseScreenState extends State<CourseScreen> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
-                            ElevatedButton(
-                              onPressed: () async {
-                                bool reviewed = await Database.alreadyReviewedCourse(widget.course);
-                                if(!reviewed){
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) =>
-                                          EventRatingPageCourse(course: widget.course),
-                                    ),
-                                  ).then((_){
+                            if (widget.userReviewOnCourse != null)
+                              ElevatedButton(
+                                onPressed: () {
+                                  Navigator.push(context,
+                                      MaterialPageRoute(
+                                        builder: (context) => EventRatingPageCourse(course: widget.course, review: widget.userReviewOnCourse),
+                                      )).then((_) {
                                     setState(() {
                                       widget.course.reviews = Database.fetchReviews(widget.course.id, widget.course.entityOrigin, 1);
                                       widget.course.setAverageRating();
                                     });
+                                    _fetchReview();
                                   });
-                                }
-                              },
-                              child: Text('Rate this course'),
-
-                            ),
+                                },
+                                child: Text('Edit your review'),
+                              ),
+                            if (widget.userReviewOnCourse == null)
+                              ElevatedButton(
+                                onPressed: () {
+                                  Navigator.push(context,
+                                      MaterialPageRoute(
+                                        builder: (context) => EventRatingPageCourse(course: widget.course),
+                                      )).then((_){
+                                    setState(() {
+                                      widget.course.reviews = Database.fetchReviews(widget.course.id, widget.course.entityOrigin, 1);
+                                      widget.course.setAverageRating();
+                                    });
+                                    _fetchReview();
+                                  });
+                                },
+                                child: Text('Rate this course'),
+                              ),
                             ElevatedButton(
                               onPressed: () {
                                 Navigator.push(

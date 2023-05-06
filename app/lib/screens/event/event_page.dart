@@ -7,6 +7,7 @@ import '../../model/review.dart';
 
 class EventScreen extends StatefulWidget {
   final Event event;
+  Review? userReviewOnEvent;
 
   EventScreen({required this.event});
 
@@ -16,6 +17,19 @@ class EventScreen extends StatefulWidget {
 }
 
 class _EventScreenState extends State<EventScreen> {
+  @override
+  void initState() {
+    super.initState();
+    _fetchReview();
+  }
+
+  Future<void> _fetchReview() async {
+    Review? r = await Database.alreadyReviewedEvent(widget.event);
+    setState(() {
+      widget.userReviewOnEvent = r;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -96,27 +110,38 @@ class _EventScreenState extends State<EventScreen> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
-                            ElevatedButton(
-                              onPressed: () async {
-                                bool reviewed = await Database.alreadyReviewedEvent(widget.event);
-                                if(!reviewed){
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) =>
-                                          EventRatingPageEvent(event: widget.event),
-                                    ),
-                                  ).then((_){
+                            if (widget.userReviewOnEvent != null)
+                              ElevatedButton(
+                                onPressed: () {
+                                  Navigator.push(context,
+                                      MaterialPageRoute(
+                                        builder: (context) => EventRatingPageEvent(event: widget.event, review: widget.userReviewOnEvent),
+                                      )).then((_) {
                                     setState(() {
                                       widget.event.reviews = Database.fetchReviews(widget.event.id, widget.event.entityOrigin, 2);
                                       widget.event.setAverageRating();
                                     });
+                                    _fetchReview();
                                   });
-                                }
-                              },
-                              child: Text('Rate this event'),
-
-                            ),
+                                },
+                                child: Text('Edit your review'),
+                              ),
+                            if (widget.userReviewOnEvent == null)
+                              ElevatedButton(
+                                onPressed: () {
+                                  Navigator.push(context,
+                                      MaterialPageRoute(
+                                        builder: (context) => EventRatingPageEvent(event: widget.event),
+                                      )).then((_){
+                                    setState(() {
+                                      widget.event.reviews = Database.fetchReviews(widget.event.id, widget.event.entityOrigin, 2);
+                                      widget.event.setAverageRating();
+                                    });
+                                    _fetchReview();
+                                  });
+                                },
+                                child: Text('Rate this event'),
+                              ),
                             ElevatedButton(
                               onPressed: () {
                                 Navigator.push(

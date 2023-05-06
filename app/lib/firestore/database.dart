@@ -76,34 +76,49 @@ class Database{
     return querySnapshot.docs.isNotEmpty;
   }
 
-  static Future<bool> alreadyReviewedCompany(Company company) async {
+  static Future<Review?> alreadyReviewedCompany(Company company) async {
     Query query = db.collection("reviews");
     query = query.where("idEntity", isEqualTo: company.id);
     query = query.where("entityOrigin", isEqualTo: company.entityOrigin);
     query = query.where("categoryIndex", isEqualTo: 0);
     query = query.where("authorId", isEqualTo: Authentication.auth.currentUser!.uid);
     QuerySnapshot querySnapshot = await query.get();
-    return querySnapshot.docs.isNotEmpty;
+    Review? review;
+    for(var doc in querySnapshot.docs){
+      Map<String, dynamic> reviewData = doc.data() as Map<String, dynamic>;
+      review = reviewFromMap(reviewData, doc.id);
+    }
+    return review;
   }
 
-  static Future<bool> alreadyReviewedCourse(Course course) async {
+  static Future<Review?> alreadyReviewedCourse(Course course) async {
     Query query = db.collection("reviews");
     query = query.where("idEntity", isEqualTo: course.id);
     query = query.where("entityOrigin", isEqualTo: course.entityOrigin);
     query = query.where("categoryIndex", isEqualTo: 1);
     query = query.where("authorId", isEqualTo: Authentication.auth.currentUser!.uid);
     QuerySnapshot querySnapshot = await query.get();
-    return querySnapshot.docs.isNotEmpty;
+    Review? review;
+    for(var doc in querySnapshot.docs){
+      Map<String, dynamic> reviewData = doc.data() as Map<String, dynamic>;
+      review = reviewFromMap(reviewData, doc.id);
+    }
+    return review;
   }
 
-  static Future<bool> alreadyReviewedEvent(Event event) async {
+  static Future<Review?> alreadyReviewedEvent(Event event) async {
     Query query = db.collection("reviews");
     query = query.where("idEntity", isEqualTo: event.id);
     query = query.where("entityOrigin", isEqualTo: event.entityOrigin);
     query = query.where("categoryIndex", isEqualTo: 2);
     query = query.where("authorId", isEqualTo: Authentication.auth.currentUser!.uid);
     QuerySnapshot querySnapshot = await query.get();
-    return querySnapshot.docs.isNotEmpty;
+    Review? review;
+    for(var doc in querySnapshot.docs){
+      Map<String, dynamic> reviewData = doc.data() as Map<String, dynamic>;
+      review = reviewFromMap(reviewData, doc.id);
+    }
+    return review;
   }
 
   static void updateUserPhotoURL(String uid, String url){
@@ -147,6 +162,29 @@ class Database{
     } else {
       db.collection('reviews').doc(reviewRef)
           .collection("updownvotes").doc(uid).delete();
+    }
+  }
+
+  static Future<void> updateReview(Review? review) async {
+    await deleteReviewUpDownvotes(review!);
+    db.collection("reviews").doc(review.reviewRef).set({
+      'title': review.title,
+      'rating': review.rating,
+      'review': review.review,
+      'authorId': review.authorId,
+      'idEntity': review.idEntity, // Add the companyId field
+      'categoryIndex': review.categoryIndex,
+      'entityOrigin': review.entityOrigin,
+      'votes': 0,
+      'anonymous': review.anonymous,
+    }, SetOptions(merge: true));
+  }
+
+  static Future<void> deleteReviewUpDownvotes(Review review) async {
+    Query query = db.collection("reviews").doc(review.reviewRef).collection("updownvotes");
+    QuerySnapshot snapshot = await query.get();
+    for(var doc in snapshot.docs){
+      await doc.reference.delete();
     }
   }
 }
