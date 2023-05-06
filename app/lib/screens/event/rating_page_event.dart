@@ -11,14 +11,13 @@ import '../home_page.dart';
 class EventRatingPageEvent extends StatefulWidget {
 
   Event event;
+  Review? review;
 
-  EventRatingPageEvent({Key? key, required this.event}) : super(key: key);
-
+  EventRatingPageEvent({Key? key, required this.event, this.review}) : super(key: key);
 
   int _rating = 0;
   String _review = "";
   bool _anonymous = false;
-
 
   @override
   _EventRatingPageEventState createState() => _EventRatingPageEventState();
@@ -29,12 +28,19 @@ class EventRatingPageEvent extends StatefulWidget {
 }
 
 class _EventRatingPageEventState extends State<EventRatingPageEvent> {
-  int rating = 0;
+
   @override
   Widget build(BuildContext context) {
+    if(widget.review != null){
+      setState(() {
+        widget._rating = widget.review!.rating;
+        widget._anonymous = widget.review!.anonymous;
+        widget._review = widget.review!.review;
+      });
+    }
     return Scaffold(
       appBar: AppBar(
-        title: Text('Rate this Event'),
+        title: Text('Rate this Company'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -42,7 +48,7 @@ class _EventRatingPageEventState extends State<EventRatingPageEvent> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'How many stars would you give this event?',
+              'How many stars would you give this company?',
               style: TextStyle(fontSize: 18),
             ),
             SizedBox(height: 16),
@@ -90,25 +96,7 @@ class _EventRatingPageEventState extends State<EventRatingPageEvent> {
             ),
             SizedBox(height: 32),
             ElevatedButton(
-              onPressed: () {
-                String author = Authentication.auth.currentUser!.uid;
-                Review review = Review(
-                  title: 'Review',
-                  rating: widget._rating,
-                  review: widget._review,
-                  authorId: author,
-                  anonymous: widget._anonymous,
-                  categoryIndex: 2,
-                  idEntity: widget.event.id,
-                  entityOrigin: widget.event.entityOrigin,
-                  votes: 0,
-                 );
-
-                if(widget._rating > 0){
-                  Database.addReview(review);
-                  Navigator.pop(context);
-                }
-              },
+              onPressed: releaseReviews,
               child: Text('Submit'),
             ),
           ],
@@ -123,7 +111,6 @@ class _EventRatingPageEventState extends State<EventRatingPageEvent> {
         setState(() {
           widget._rating = value;
         });
-
       },
       child: Icon(
         Icons.star,
@@ -138,4 +125,36 @@ class _EventRatingPageEventState extends State<EventRatingPageEvent> {
     );
   }
 
+  void releaseReviews(){
+    String author = Authentication.auth.currentUser!.uid;
+    if (widget.review != null){
+      setState(() {
+        widget.review!.review = widget._review;
+        widget.review!.anonymous = widget._anonymous;
+        widget.review!.rating = widget._rating;
+      });
+      if (widget._rating > 0){
+        Database.updateReview(widget.review);
+        Navigator.pop(context);
+      }
+    }
+    else{
+      Review newReview = Review(
+        title: 'Review',
+        rating: widget._rating,
+        review: widget._review,
+        authorId: author,
+        anonymous: widget._anonymous,
+        categoryIndex: 0,
+        idEntity: widget.event.id,
+        entityOrigin: widget.event.entityOrigin,
+        votes: 0,
+      );
+
+      if (widget._rating > 0) {
+        Database.addReview(newReview);
+        Navigator.pop(context);
+      }
+    }
+  }
 }

@@ -9,8 +9,9 @@ import '../home_page.dart';
 
 class EventRatingPageCompany extends StatefulWidget {
   Company company;
+  Review? review;
 
-  EventRatingPageCompany({Key? key, required this.company}) : super(key: key);
+  EventRatingPageCompany({Key? key, required this.company, this.review}) : super(key: key);
 
   int _rating = 0;
   String _review = "";
@@ -25,10 +26,16 @@ class EventRatingPageCompany extends StatefulWidget {
 }
 
 class _EventRatingPageCompanyState extends State<EventRatingPageCompany> {
-  int rating = 0;
 
   @override
   Widget build(BuildContext context) {
+    if(widget.review != null){
+      setState(() {
+        widget._rating = widget.review!.rating;
+        widget._anonymous = widget.review!.anonymous;
+        widget._review = widget.review!.review;
+      });
+    }
     return Scaffold(
       appBar: AppBar(
         title: Text('Rate this Company'),
@@ -87,25 +94,7 @@ class _EventRatingPageCompanyState extends State<EventRatingPageCompany> {
             ),
             SizedBox(height: 32),
             ElevatedButton(
-              onPressed: () {
-                String author = Authentication.auth.currentUser!.uid;
-                Review review = Review(
-                  title: 'Review',
-                  rating: widget._rating,
-                  review: widget._review,
-                  authorId: author,
-                  anonymous: widget._anonymous,
-                  categoryIndex: 0,
-                  idEntity: widget.company.id,
-                  entityOrigin: widget.company.entityOrigin,
-                  votes: 0,
-                );
-
-                if (widget._rating > 0) {
-                  Database.addReview(review);
-                  Navigator.pop(context);
-                }
-              },
+              onPressed: releaseReviews,
               child: Text('Submit'),
             ),
           ],
@@ -132,5 +121,38 @@ class _EventRatingPageCompanyState extends State<EventRatingPageCompany> {
         onPrimary: Colors.black,
       ),
     );
+  }
+
+  void releaseReviews(){
+    String author = Authentication.auth.currentUser!.uid;
+    if (widget.review != null){
+      setState(() {
+        widget.review!.review = widget._review;
+        widget.review!.anonymous = widget._anonymous;
+        widget.review!.rating = widget._rating;
+      });
+      if (widget._rating > 0){
+        Database.updateReview(widget.review);
+        Navigator.pop(context);
+      }
+    }
+    else{
+      Review newReview = Review(
+        title: 'Review',
+        rating: widget._rating,
+        review: widget._review,
+        authorId: author,
+        anonymous: widget._anonymous,
+        categoryIndex: 0,
+        idEntity: widget.company.id,
+        entityOrigin: widget.company.entityOrigin,
+        votes: 0,
+      );
+
+      if (widget._rating > 0) {
+        Database.addReview(newReview);
+        Navigator.pop(context);
+      }
+    }
   }
 }

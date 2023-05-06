@@ -149,4 +149,34 @@ class Database{
           .collection("updownvotes").doc(uid).delete();
     }
   }
+
+  static Future<void> updateReview(Review? review) async {
+    await deleteReviewUpDownvotes(review!);
+    db.collection("reviews").doc(review.reviewRef).set({
+      'title': review.title,
+      'rating': review.rating,
+      'review': review.review,
+      'authorId': review.authorId,
+      'idEntity': review.idEntity, // Add the companyId field
+      'categoryIndex': review.categoryIndex,
+      'entityOrigin': review.entityOrigin,
+      'votes': 0,
+      'anonymous': review.anonymous,
+    }, SetOptions(merge: true));
+  }
+
+  static Future<void> deleteReviewUpDownvotes(Review review) async {
+    Query query = db.collection("reviews").doc(review.reviewRef).collection("updownvotes");
+    QuerySnapshot snapshot = await query.get();
+    List<String> paths = [];
+    for(var doc in snapshot.docs){
+      if(doc.exists){
+        String path = doc.reference.path;
+        paths.add(path);
+      }
+    }
+    for(String path in paths){
+      db.doc(path).delete();
+    }
+  }
 }
