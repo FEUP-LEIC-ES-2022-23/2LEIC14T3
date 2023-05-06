@@ -16,6 +16,11 @@ class Validation{
     return !emailRegEx.hasMatch(value!);
   }
 
+  static bool invalidPhone(String value){
+    RegExp ptPhoneRegEx = RegExp(r'^(\+351)?[29]\d{8}$');
+    return !ptPhoneRegEx.hasMatch(value);
+  }
+
   static Future<bool> usedUsername(String value){
     return Database.isUsernameInUse(value);
   }
