@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:rate_it/screens/course/rating_page_course.dart';
+import 'package:rate_it/screens/course/review_button_course.dart';
 import 'package:rate_it/screens/course/reviews_page_course.dart';
 import '../../model/course.dart';
 import 'package:rate_it/screens/company/reviews_page_company.dart';
@@ -102,27 +103,7 @@ class _CourseScreenState extends State<CourseScreen> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
-                            ElevatedButton(
-                              onPressed: () async {
-                                Review? userReviewOnCourse = await Database.alreadyReviewedCourse(widget.course);
-                                if(userReviewOnCourse == null){
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) =>
-                                          EventRatingPageCourse(course: widget.course),
-                                    ),
-                                  ).then((_){
-                                    setState(() {
-                                      widget.course.reviews = Database.fetchReviews(widget.course.id, widget.course.entityOrigin, 1);
-                                      widget.course.setAverageRating();
-                                    });
-                                  });
-                                }
-                              },
-                              child: Text('Rate this course'),
-
-                            ),
+                            ReviewButtonCourse(course: widget.course),
                             ElevatedButton(
                               onPressed: () {
                                 Navigator.push(

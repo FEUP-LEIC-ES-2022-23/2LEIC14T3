@@ -183,15 +183,8 @@ class Database{
   static Future<void> deleteReviewUpDownvotes(Review review) async {
     Query query = db.collection("reviews").doc(review.reviewRef).collection("updownvotes");
     QuerySnapshot snapshot = await query.get();
-    List<String> paths = [];
     for(var doc in snapshot.docs){
-      if(doc.exists){
-        String path = doc.reference.path;
-        paths.add(path);
-      }
-    }
-    for(String path in paths){
-      db.doc(path).delete();
+      await doc.reference.delete();
     }
   }
 }

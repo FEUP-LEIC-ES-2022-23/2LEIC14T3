@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:rate_it/screens/company/review_button_company.dart';
 import 'package:rate_it/screens/company/reviews_page_company.dart';
 import '../../firestore/database.dart';
 import '../../model/company.dart';
@@ -83,30 +84,7 @@ class _CompanyScreenState extends State<CompanyScreen> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
-                          ElevatedButton(
-                            onPressed: () async {
-                              Review? userReviewonCompany = await Database.alreadyReviewedCompany(widget.company);
-                              if(userReviewonCompany == null) {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) =>
-                                        EventRatingPageCompany(
-                                            company: widget.company),
-                                  ),
-                                ).then((_) {
-                                  setState(() {
-                                    widget.company.reviews =
-                                        Database.fetchReviews(widget.company.id,
-                                            widget.company.entityOrigin, 0);
-                                    widget.company.setAverageRating();
-                                  });
-                                });
-                              }
-                            },
-                            child: Text('Rate this company'),
-
-                          ),
+                          ReviewButtonCompany(company: widget.company),
                           ElevatedButton(
                             onPressed: () {
                               Navigator.push(

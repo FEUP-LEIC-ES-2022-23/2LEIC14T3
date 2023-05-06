@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:rate_it/screens/event/rating_page_event.dart';
+import 'package:rate_it/screens/event/review_button_event.dart';
 import 'package:rate_it/screens/event/reviews_page_event.dart';
 import '../../firestore/database.dart';
 import '../../model/event.dart';
@@ -96,27 +97,7 @@ class _EventScreenState extends State<EventScreen> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
-                            ElevatedButton(
-                              onPressed: () async {
-                                Review? userReviewOnEvent = await Database.alreadyReviewedEvent(widget.event);
-                                if(userReviewOnEvent == null){
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) =>
-                                          EventRatingPageEvent(event: widget.event),
-                                    ),
-                                  ).then((_){
-                                    setState(() {
-                                      widget.event.reviews = Database.fetchReviews(widget.event.id, widget.event.entityOrigin, 2);
-                                      widget.event.setAverageRating();
-                                    });
-                                  });
-                                }
-                              },
-                              child: Text('Rate this event'),
-
-                            ),
+                            ReviewButtonEvent(event: widget.event),
                             ElevatedButton(
                               onPressed: () {
                                 Navigator.push(
