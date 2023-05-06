@@ -108,6 +108,8 @@ class Event{
     }
     if (sum != 0) {
       averageRating = sum / rendReviews.length;
+    } else {
+      averageRating = 0;
     }
   }
 }

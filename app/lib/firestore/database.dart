@@ -187,4 +187,9 @@ class Database{
       await doc.reference.delete();
     }
   }
+
+  static Future<void> deleteReview(Review review) async {
+    await deleteReviewUpDownvotes(review);
+    await db.collection("reviews").doc(review.reviewRef).delete();
+  }
 }

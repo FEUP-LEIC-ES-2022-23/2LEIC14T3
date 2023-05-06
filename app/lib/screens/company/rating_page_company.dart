@@ -1,5 +1,6 @@
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../../auth/Authentication.dart';
 import '../../firestore/database.dart';
@@ -97,10 +98,33 @@ class _EventRatingPageCompanyState extends State<EventRatingPageCompany> {
               ],
             ),
             SizedBox(height: 32),
-            ElevatedButton(
-              onPressed: releaseReviews,
-              child: Text('Submit'),
-            ),
+            Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  ElevatedButton(
+                    onPressed: releaseReview,
+                    child: Text('Submit'),
+                  ),
+                  if (widget.review != null)
+                    ElevatedButton(
+                      onPressed: deleteReview,
+                      style: ElevatedButton.styleFrom(
+                        primary: Colors.red,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10.0),
+                        ),
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(FontAwesomeIcons.trashCan, color: Colors.white),
+                          SizedBox(width: 8.0),
+                          Text('Delete Review', style: TextStyle(color: Colors.white)),
+                        ],
+                      ),
+                    )
+            ]
+            )
           ],
         ),
       ),
@@ -127,7 +151,7 @@ class _EventRatingPageCompanyState extends State<EventRatingPageCompany> {
     );
   }
 
-  Future<void> releaseReviews() async {
+  Future<void> releaseReview() async {
     String author = Authentication.auth.currentUser!.uid;
     if (widget.review != null){
       setState(() {
@@ -158,5 +182,9 @@ class _EventRatingPageCompanyState extends State<EventRatingPageCompany> {
         Navigator.pop(context);
       }
     }
+  }
+  Future<void> deleteReview() async {
+    await Database.deleteReview(widget.review!);
+    Navigator.pop(context);
   }
 }
