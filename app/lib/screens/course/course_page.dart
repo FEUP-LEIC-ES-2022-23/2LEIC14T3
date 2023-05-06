@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:rate_it/screens/course/rating_page_course.dart';
-import 'package:rate_it/screens/course/review_button_course.dart';
 import 'package:rate_it/screens/course/reviews_page_course.dart';
 import '../../model/course.dart';
 import 'package:rate_it/screens/company/reviews_page_company.dart';
@@ -10,6 +9,7 @@ import '../company/rating_page_company.dart';
 
 class CourseScreen extends StatefulWidget {
   final Course course;
+  Review? userReviewOnCourse;
 
   CourseScreen({required this.course});
 
@@ -18,6 +18,19 @@ class CourseScreen extends StatefulWidget {
 }
 
 class _CourseScreenState extends State<CourseScreen> {
+  @override
+  void initState() {
+    super.initState();
+    _fetchReview();
+  }
+
+  Future<void> _fetchReview() async {
+    Review? r = await Database.alreadyReviewedCourse(widget.course);
+    setState(() {
+      widget.userReviewOnCourse = r;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -103,7 +116,36 @@ class _CourseScreenState extends State<CourseScreen> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
-                            ReviewButtonCourse(course: widget.course),
+                            if (widget.userReviewOnCourse != null)
+                              ElevatedButton(
+                                onPressed: () {
+                                  Navigator.push(context,
+                                      MaterialPageRoute(
+                                        builder: (context) => EventRatingPageCourse(course: widget.course, review: widget.userReviewOnCourse),
+                                      )).then((_) {
+                                    setState(() {
+                                      widget.course.reviews = Database.fetchReviews(widget.course.id, widget.course.entityOrigin, 1);
+                                      widget.course.setAverageRating();
+                                    });
+                                  });
+                                },
+                                child: Text('Edit your review'),
+                              ),
+                            if (widget.userReviewOnCourse == null)
+                              ElevatedButton(
+                                onPressed: () {
+                                  Navigator.push(context,
+                                      MaterialPageRoute(
+                                        builder: (context) => EventRatingPageCourse(course: widget.course),
+                                      )).then((_){
+                                    setState(() {
+                                      widget.course.reviews = Database.fetchReviews(widget.course.id, widget.course.entityOrigin, 1);
+                                      widget.course.setAverageRating();
+                                    });
+                                  });
+                                },
+                                child: Text('Rate this course'),
+                              ),
                             ElevatedButton(
                               onPressed: () {
                                 Navigator.push(

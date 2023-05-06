@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:rate_it/screens/company/review_button_company.dart';
 import 'package:rate_it/screens/company/reviews_page_company.dart';
 import '../../firestore/database.dart';
 import '../../model/company.dart';
@@ -11,6 +10,7 @@ import 'rating_page_company.dart';
 
 class CompanyScreen extends StatefulWidget {
   final Company company;
+  Review? userReviewOnCompany;
 
   CompanyScreen({required this.company});
 
@@ -19,6 +19,18 @@ class CompanyScreen extends StatefulWidget {
 }
 
 class _CompanyScreenState extends State<CompanyScreen> {
+  @override
+  void initState() {
+    super.initState();
+    _fetchReview();
+  }
+
+  Future<void> _fetchReview() async {
+    Review? r = await Database.alreadyReviewedCompany(widget.company);
+    setState(() {
+      widget.userReviewOnCompany = r;
+    });
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -84,7 +96,36 @@ class _CompanyScreenState extends State<CompanyScreen> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
-                          ReviewButtonCompany(company: widget.company),
+                          if (widget.userReviewOnCompany != null)
+                            ElevatedButton(
+                              onPressed: () {
+                                Navigator.push(context,
+                                    MaterialPageRoute(
+                                      builder: (context) => EventRatingPageCompany(company: widget.company, review: widget.userReviewOnCompany),
+                                    )).then((_) {
+                                      setState(() {
+                                        widget.company.reviews = Database.fetchReviews(widget.company.id, widget.company.entityOrigin, 0);
+                                        widget.company.setAverageRating();
+                                      });
+                                    });
+                                },
+                              child: Text('Edit your review'),
+                            ),
+                          if (widget.userReviewOnCompany == null)
+                            ElevatedButton(
+                              onPressed: () {
+                                Navigator.push(context,
+                                    MaterialPageRoute(
+                                      builder: (context) => EventRatingPageCompany(company: widget.company),
+                                    )).then((_){
+                                      setState(() {
+                                        widget.company.reviews = Database.fetchReviews(widget.company.id, widget.company.entityOrigin, 0);
+                                        widget.company.setAverageRating();
+                                      });
+                                    });
+                                },
+                              child: Text('Rate this company'),
+                            ),
                           ElevatedButton(
                             onPressed: () {
                               Navigator.push(

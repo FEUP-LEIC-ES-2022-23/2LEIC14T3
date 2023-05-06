@@ -28,9 +28,8 @@ class EventRatingPageEvent extends StatefulWidget {
 }
 
 class _EventRatingPageEventState extends State<EventRatingPageEvent> {
-
   @override
-  Widget build(BuildContext context) {
+  void initState() {
     if(widget.review != null){
       setState(() {
         widget._rating = widget.review!.rating;
@@ -38,9 +37,14 @@ class _EventRatingPageEventState extends State<EventRatingPageEvent> {
         widget._review = widget.review!.review;
       });
     }
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Rate this Company'),
+        title: Text('Rate this Event'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -48,7 +52,7 @@ class _EventRatingPageEventState extends State<EventRatingPageEvent> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'How many stars would you give this company?',
+              'How many stars would you give this event?',
               style: TextStyle(fontSize: 18),
             ),
             SizedBox(height: 16),
@@ -125,7 +129,7 @@ class _EventRatingPageEventState extends State<EventRatingPageEvent> {
     );
   }
 
-  void releaseReviews(){
+  Future<void> releaseReviews() async {
     String author = Authentication.auth.currentUser!.uid;
     if (widget.review != null){
       setState(() {
@@ -134,7 +138,7 @@ class _EventRatingPageEventState extends State<EventRatingPageEvent> {
         widget.review!.rating = widget._rating;
       });
       if (widget._rating > 0){
-        Database.updateReview(widget.review);
+        await Database.updateReview(widget.review);
         Navigator.pop(context);
       }
     }

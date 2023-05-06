@@ -26,9 +26,8 @@ class EventRatingPageCompany extends StatefulWidget {
 }
 
 class _EventRatingPageCompanyState extends State<EventRatingPageCompany> {
-
   @override
-  Widget build(BuildContext context) {
+  void initState() {
     if(widget.review != null){
       setState(() {
         widget._rating = widget.review!.rating;
@@ -36,6 +35,11 @@ class _EventRatingPageCompanyState extends State<EventRatingPageCompany> {
         widget._review = widget.review!.review;
       });
     }
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text('Rate this Company'),
@@ -123,7 +127,7 @@ class _EventRatingPageCompanyState extends State<EventRatingPageCompany> {
     );
   }
 
-  void releaseReviews(){
+  Future<void> releaseReviews() async {
     String author = Authentication.auth.currentUser!.uid;
     if (widget.review != null){
       setState(() {
@@ -132,7 +136,7 @@ class _EventRatingPageCompanyState extends State<EventRatingPageCompany> {
         widget.review!.rating = widget._rating;
       });
       if (widget._rating > 0){
-        Database.updateReview(widget.review);
+        await Database.updateReview(widget.review);
         Navigator.pop(context);
       }
     }
