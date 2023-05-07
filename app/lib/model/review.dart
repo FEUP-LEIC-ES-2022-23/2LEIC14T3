@@ -12,6 +12,7 @@ class Review {
   int idEntity;
   bool anonymous;
   int votes;
+  String slug;
 
   Review({
     required this.title,
@@ -23,6 +24,7 @@ class Review {
     required this.entityOrigin,
     required this.votes,
     required this.anonymous,
+    this.slug = "",
     this.reviewRef,
   });
 }
@@ -39,6 +41,7 @@ Review reviewFromMap(Map<String, dynamic> data, String id){
       entityOrigin: data['entityOrigin'],
       votes: data['votes'],
       anonymous: data['anonymous'],
+      slug: data['slug']
   );
   return review;
 }

@@ -174,6 +174,7 @@ class _EventRatingPageCompanyState extends State<EventRatingPageCompany> {
         categoryIndex: 0,
         idEntity: widget.company.id,
         entityOrigin: widget.company.entityOrigin,
+        slug: widget.company.slug,
         votes: 0,
       );
 

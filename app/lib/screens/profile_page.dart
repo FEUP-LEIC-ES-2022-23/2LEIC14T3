@@ -9,6 +9,7 @@ import 'package:rate_it/cloud_storage/cloud_storage.dart';
 import 'package:rate_it/model/review.dart';
 import 'package:rate_it/screens/settings.dart';
 import 'package:rate_it/widgets/review_card.dart';
+import 'package:rate_it/widgets/review_card_profile.dart';
 import '../firestore/database.dart';
 import '../model/user.dart';
 import '../screens/settings-subclasses.dart';
@@ -166,7 +167,7 @@ class _ProfilePageState extends State<ProfilePage> {
                               itemBuilder: (context, index) {
                                 Review review = reviews[index];
                                 if (widget.user!.uid == uid || !review.anonymous) {
-                                  return ReviewCard(review: review);
+                                  return ReviewCardProfile(review: review);
                                 }
                                 return null;
                               },

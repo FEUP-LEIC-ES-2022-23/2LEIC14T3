@@ -52,6 +52,22 @@ Future<List<Event>> searchEvents(String query,{int limit=10, int page=1}) async 
   }
 }
 
+Future<Event> getEvent(int id) async {
+  String apiKey = '80ab3270aee92b0b9b864fa3ae812ee9';
+  String url = 'https://api.itjobs.pt/event/get.json?api_key=$apiKey';
+  url += '&id=$id';
+  final response = await http.get(Uri.parse(url));
+  if (response.statusCode == 200) {
+    Map<String, dynamic> result = jsonDecode(response.body);
+    Event event = Event.fromJson(result);
+    event.setAverageRating();
+    return event;
+  } else {
+    // If the server did not return a 200 OK response,
+    // then throw an exception.
+    throw Exception('Failed to load Companies');
+  }
+}
 
 class Event{
   final int entityOrigin; //0 if itjobs; 1 if RateIT

@@ -38,6 +38,7 @@ class Database{
         'entityOrigin': review.entityOrigin,
         'votes': review.votes,
         'anonymous': review.anonymous,
+        'slug': review.slug
       });
   }
 
@@ -193,6 +194,7 @@ class Database{
       'entityOrigin': review.entityOrigin,
       'votes': 0,
       'anonymous': review.anonymous,
+      'slug': review.slug
     }, SetOptions(merge: true));
   }
 
