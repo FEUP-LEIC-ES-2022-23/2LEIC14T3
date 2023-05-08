@@ -136,7 +136,22 @@ class _ProfilePageState extends State<ProfilePage> {
               const SizedBox(height: 8),
 
               if(widget.user!.isPrivate)
-                Text('This user has set their profile to private'),
+                Container(
+                  margin: EdgeInsets.only(top: 30.0),
+                  decoration: BoxDecoration(
+                    color: Colors.blue,
+                    borderRadius: BorderRadius.circular(10),
+
+                  ),
+                  padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                  child: Text(
+                    'This user has set their profile to private',
+                    style: TextStyle(fontSize: 25, color: Colors.white),
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+
+
 
               if(!widget.user!.isPrivate)
               SizedBox(
