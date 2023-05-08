@@ -84,6 +84,13 @@ class Database{
     db.collection("users").doc(uid).update({"isPrivate": value});
   }
 
+  static Future<bool> isPrivate(String uid) async {
+    var val = await db.collection("users").doc(uid).get();
+    Map<String,dynamic> map = val.data()!;
+    User user = userFromMap(map);
+    return user.isPrivate;
+  }
+
 
   static void updateUsername(String uid, String username) {
       db.collection("users").doc(uid).update({"username": username});

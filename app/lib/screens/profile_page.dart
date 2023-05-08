@@ -136,8 +136,9 @@ class _ProfilePageState extends State<ProfilePage> {
               const SizedBox(height: 8),
 
               if(widget.user!.isPrivate)
+                Text('This user has set their profile to private'),
 
-
+              if(!widget.user!.isPrivate)
               SizedBox(
                 height: 50,
                 child: AppBar(
@@ -156,7 +157,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 ),
               ),
 
-              // create widgets for each tab bar here
+              if(!widget.user!.isPrivate)
               Expanded(
                 child: TabBarView(
                   children: [
