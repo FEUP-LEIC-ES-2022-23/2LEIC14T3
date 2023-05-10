@@ -52,6 +52,23 @@ Future<List<Company>> fetchCompanies({int limit=10, int page=1}) async {
   }
 }
 
+Future<Company> getCompany(String slug) async {
+  String apiKey = '80ab3270aee92b0b9b864fa3ae812ee9';
+  String url = 'https://api.itjobs.pt/company/get.json?api_key=$apiKey';
+  url += '&slug=$slug';
+  final response = await http.get(Uri.parse(url));
+  if (response.statusCode == 200) {
+    Map<String, dynamic> result = jsonDecode(response.body);
+    Company company = Company.fromJson(result);
+    company.setAverageRating();
+    return company;
+  } else {
+    // If the server did not return a 200 OK response,
+    // then throw an exception.
+    throw Exception('Failed to load Companies');
+  }
+}
+
 
 class Company{
   final int entityOrigin; //0 if itjobs; 1 if RateIT
@@ -67,6 +84,7 @@ class Company{
   String url_twitter;
   String url_facebook;
   String url_linkedin;
+  String slug;
   double averageRating;
   Future<List<Review>> reviews;
 
@@ -85,6 +103,7 @@ class Company{
     this.url_facebook = "",
     this.url_linkedin = "",
     this.averageRating = 0,
+    this.slug = "",
     required this.reviews,
   });
 
@@ -103,6 +122,7 @@ class Company{
       url_twitter: json['url_twitter']??"",
       url_facebook: json['url_facebook']??"",
       url_linkedin: json['url_linkedin']??"",
+      slug: json['slug']??"",
       reviews: Database.fetchReviews(json['id'],0,0),
     );
   }

@@ -9,6 +9,7 @@ import 'package:rate_it/cloud_storage/cloud_storage.dart';
 import 'package:rate_it/model/review.dart';
 import 'package:rate_it/screens/settings.dart';
 import 'package:rate_it/widgets/review_card.dart';
+import 'package:rate_it/widgets/review_card_profile.dart';
 import '../firestore/database.dart';
 import '../model/user.dart';
 import '../screens/settings-subclasses.dart';
@@ -176,30 +177,28 @@ class _ProfilePageState extends State<ProfilePage> {
               Expanded(
                 child: TabBarView(
                   children: [
-                    for (int i=0; i<3; i++)
-                      FutureBuilder(
-                        future: Database.getUserReviews(widget.user!.uid, i),
+                    for (int i = 0; i < 3; i++)
+                      StreamBuilder<List<Review>>(
+                        stream: Database.getUserReviewsStream(widget.user!.uid, i),
                         builder: (context, snapshot) {
-                          if (snapshot.hasData){
+                          if (snapshot.hasData) {
                             List<Review> reviews = snapshot.data!;
                             return ListView.builder(
                               itemCount: reviews.length,
                               itemBuilder: (context, index) {
                                 Review review = reviews[index];
                                 if (widget.user!.uid == uid || !review.anonymous) {
-                                  return ReviewCard(review: review);
+                                  return ReviewCardProfile(review: review);
                                 }
-                                return null;
-                              },
+                                return SizedBox.shrink();
+                                },
                             );
-                          }
-                          else if (snapshot.hasError) {
+                          } else if (snapshot.hasError) {
                             return const Text('Something went wrong!');
+                          } else {
+                            return const Center(child: CircularProgressIndicator());
                           }
-                          else {
-                            return const Center(child:CircularProgressIndicator());
-                          }
-                        },
+                          },
                       ),
                   ],
                 ),
