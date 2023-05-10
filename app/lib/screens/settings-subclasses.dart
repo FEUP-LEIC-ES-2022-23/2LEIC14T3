@@ -232,7 +232,7 @@ class _ChangePhoneState extends State<ChangePhone> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Change Biography'),
+        title: Text('Change Phone'),
       ),
       body: Form(
         key: _formKey,
