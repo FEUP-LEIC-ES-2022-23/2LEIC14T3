@@ -53,7 +53,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                      builder: (context) => SettingsPage(),
+                      builder: (context) => SettingsPage(user: widget.user!),
                   )).then((_) async {
                     User updated = await Database.getUser(uid);
                     setState(() {
@@ -133,7 +133,28 @@ class _ProfilePageState extends State<ProfilePage> {
                     Text(widget.user!.phone),
                 ],
               ),
+
               const SizedBox(height: 8),
+
+              if(widget.user!.isPrivate)
+                Container(
+                  margin: EdgeInsets.only(top: 30.0),
+                  decoration: BoxDecoration(
+                    color: Colors.blue,
+                    borderRadius: BorderRadius.circular(10),
+
+                  ),
+                  padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                  child: Text(
+                    'This user has set their profile to private',
+                    style: TextStyle(fontSize: 25, color: Colors.white),
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+
+
+
+              if(!widget.user!.isPrivate)
               SizedBox(
                 height: 50,
                 child: AppBar(
@@ -150,7 +171,9 @@ class _ProfilePageState extends State<ProfilePage> {
                     ],
                   ),
                 ),
-              ), // create widgets for each tab bar here
+              ),
+
+              if(!widget.user!.isPrivate)
               Expanded(
                 child: TabBarView(
                   children: [

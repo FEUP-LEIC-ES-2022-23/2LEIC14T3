@@ -67,6 +67,7 @@ class Database{
       'photoURL': user.photoURL,
       'description': user.description,
       'phone': user.phone,
+      'isPrivate': user.isPrivate,
     });
   }
 
@@ -76,6 +77,18 @@ class Database{
     QuerySnapshot querySnapshot = await query.get();
     return querySnapshot.docs.isNotEmpty;
   }
+
+  static void changePrivate(String uid, bool value) {
+    db.collection("users").doc(uid).update({"isPrivate": value});
+  }
+
+  static Future<bool> isPrivate(String uid) async {
+    var val = await db.collection("users").doc(uid).get();
+    Map<String,dynamic> map = val.data()!;
+    User user = userFromMap(map);
+    return user.isPrivate;
+  }
+
 
   static void updateUsername(String uid, String username) {
       db.collection("users").doc(uid).update({"username": username});

@@ -4,11 +4,14 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:rate_it/auth/Authentication.dart';
 import 'package:rate_it/screens/settings-subclasses.dart';
 
+import '../firestore/database.dart';
+import '../model/user.dart';
 import 'login_page.dart';
 
 
 class SettingsPage extends StatefulWidget {
-  const SettingsPage({Key? key}) : super(key: key);
+  User user;
+  SettingsPage({Key? key, required this.user}) : super(key: key);
 
   @override
   State<SettingsPage> createState() => _SettingsPageState();
@@ -16,7 +19,6 @@ class SettingsPage extends StatefulWidget {
 
 class _SettingsPageState extends State<SettingsPage> {
   bool _isDark = false;
-  bool _isPriv = false;
   @override
   Widget build(BuildContext context) {
     return Theme(
@@ -47,11 +49,14 @@ class _SettingsPageState extends State<SettingsPage> {
                         title: "Private Profile",
                         icon: FontAwesomeIcons.shieldHalved,
                         trailing: Switch(
-                        value: _isPriv,
+                        value: widget.user.isPrivate,
                         onChanged: (value) {
                           setState(() {
-                            _isPriv = value;
+                            widget.user.isPrivate = value;
+
                           });
+                          String uid = Authentication.auth.currentUser!.uid;
+                          Database.changePrivate(uid, widget.user.isPrivate);
                       })
                     ),
                   ],
