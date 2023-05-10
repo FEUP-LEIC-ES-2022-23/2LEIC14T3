@@ -136,7 +136,7 @@ class _ProfilePageState extends State<ProfilePage> {
 
               const SizedBox(height: 8),
 
-              if(widget.user!.isPrivate)
+              if(widget.user!.isPrivate && widget.user!.uid != uid)
                 Container(
                   margin: EdgeInsets.only(top: 30.0),
                   decoration: BoxDecoration(
@@ -154,7 +154,7 @@ class _ProfilePageState extends State<ProfilePage> {
 
 
 
-              if(!widget.user!.isPrivate)
+              if(!widget.user!.isPrivate || widget.user!.uid == uid)
               SizedBox(
                 height: 50,
                 child: AppBar(
@@ -173,7 +173,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 ),
               ),
 
-              if(!widget.user!.isPrivate)
+              if(!widget.user!.isPrivate || widget.user!.uid == uid)
               Expanded(
                 child: TabBarView(
                   children: [
