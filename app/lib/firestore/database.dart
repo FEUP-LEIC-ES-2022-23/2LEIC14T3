@@ -144,19 +144,22 @@ class Database{
     );
   }
 
-  static Future<List<Review>> getUserReviews(String uid, int categoryIndex) async {
+  static Stream<List<Review>> getUserReviewsStream(String uid, int categoryIndex) {
     Query query = db.collection("reviews");
     query = query.where("categoryIndex", isEqualTo: categoryIndex);
     query = query.where("authorId", isEqualTo: uid);
-    QuerySnapshot querySnapshot = await query.get();
-    List<Review> lr = [];
-    for(var doc in querySnapshot.docs){
-      Map<String, dynamic> reviewData = doc.data() as Map<String, dynamic>;
-      Review review = reviewFromMap(reviewData, doc.id);
-      lr.add(review);
-    }
-    return lr;
+
+    return query.snapshots().map((querySnapshot) {
+      List<Review> lr = [];
+      for (var doc in querySnapshot.docs) {
+        Map<String, dynamic> reviewData = doc.data() as Map<String, dynamic>;
+        Review review = reviewFromMap(reviewData, doc.id);
+        lr.add(review);
+      }
+      return lr;
+    });
   }
+
 
   static Future<int> getVoting(String reviewRef) async {
     String uid = Authentication.auth.currentUser!.uid;

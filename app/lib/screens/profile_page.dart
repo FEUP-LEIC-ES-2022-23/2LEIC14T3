@@ -150,17 +150,15 @@ class _ProfilePageState extends State<ProfilePage> {
                     ],
                   ),
                 ),
-              ),
-
-              // create widgets for each tab bar here
+              ), // create widgets for each tab bar here
               Expanded(
                 child: TabBarView(
                   children: [
-                    for (int i=0; i<3; i++)
-                      FutureBuilder(
-                        future: Database.getUserReviews(widget.user!.uid, i),
+                    for (int i = 0; i < 3; i++)
+                      StreamBuilder<List<Review>>(
+                        stream: Database.getUserReviewsStream(widget.user!.uid, i),
                         builder: (context, snapshot) {
-                          if (snapshot.hasData){
+                          if (snapshot.hasData) {
                             List<Review> reviews = snapshot.data!;
                             return ListView.builder(
                               itemCount: reviews.length,
@@ -169,17 +167,15 @@ class _ProfilePageState extends State<ProfilePage> {
                                 if (widget.user!.uid == uid || !review.anonymous) {
                                   return ReviewCardProfile(review: review);
                                 }
-                                return null;
-                              },
+                                return SizedBox.shrink();
+                                },
                             );
-                          }
-                          else if (snapshot.hasError) {
+                          } else if (snapshot.hasError) {
                             return const Text('Something went wrong!');
+                          } else {
+                            return const Center(child: CircularProgressIndicator());
                           }
-                          else {
-                            return const Center(child:CircularProgressIndicator());
-                          }
-                        },
+                          },
                       ),
                   ],
                 ),
