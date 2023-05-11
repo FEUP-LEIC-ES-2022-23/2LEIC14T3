@@ -24,4 +24,8 @@ class Validation{
   static Future<bool> usedUsername(String value){
     return Database.isUsernameInUse(value);
   }
+
+  static Future<bool> usedEmail(String value){
+    return Database.isEmailInUse(value);
+  }
 }

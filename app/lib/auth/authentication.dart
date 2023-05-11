@@ -44,4 +44,7 @@ class Authentication{
     await FirebaseAuth.instance.signOut();
   }
 
+
+
+
 }

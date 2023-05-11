@@ -102,7 +102,14 @@ class _SettingsPageState extends State<SettingsPage> {
                   title: "Security",
                   children: [
                     _CustomListTile(
-                        title: "Change Email", icon: FontAwesomeIcons.envelope),
+                        title: "Change Email", icon: FontAwesomeIcons.envelope,
+                        onTap: (){
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => ChangeEmail(),
+                            ),
+                          );
+                        }),
                     _CustomListTile(
                         title: "Change Username", icon: FontAwesomeIcons.user,
                         onTap: (){
@@ -114,7 +121,15 @@ class _SettingsPageState extends State<SettingsPage> {
                         }),
 
                     _CustomListTile(
-                        title: "Change Password", icon: FontAwesomeIcons.key),
+                        title: "Change Password", icon: FontAwesomeIcons.key,
+                        /*
+                        onTap: (){
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => ChangePassword(),
+                            ),
+                          );
+                        }*/),
                   ],
                 ),
                 const Divider(),

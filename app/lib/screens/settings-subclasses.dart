@@ -216,6 +216,87 @@ class _ChangeUsernameState extends State<ChangeUsername> {
   }
 }
 
+class ChangeEmail extends StatefulWidget {
+  const ChangeEmail({Key? key}) : super(key: key);
+
+  @override
+  State<ChangeEmail> createState() => _ChangeEmailState();
+}
+
+class _ChangeEmailState extends State<ChangeEmail> {
+  final _formKey = GlobalKey<FormState>();
+  TextEditingController _emailController = TextEditingController();
+
+  bool _usedEmail = false;
+
+  Future<void> _checkEmail(String value) async {
+    bool ans = await Validation.usedEmail(value);
+    setState(() {
+      _usedEmail = ans;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Change Email'),
+      ),
+      body: Form(
+        key: _formKey,
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              TextFormField(
+                decoration: InputDecoration(
+                  labelText: 'Email',
+                  border: OutlineInputBorder(),
+                ),
+                controller: _emailController,
+                keyboardType: TextInputType.emailAddress,
+                validator: (value) {
+                  if (Validation.emptyField(value)) {
+                    return 'Please enter your email';
+                  }
+                  if (Validation.invalidEmail(value)) {
+                    return 'Please enter a valid email address';
+                  }
+                  if (_usedEmail) {
+                    return 'Email address already in use';
+                  }
+                  return null;
+                },
+                onChanged: (value) {
+                  _checkEmail(value);
+                },
+              ),
+              ElevatedButton(
+                onPressed: () async {
+                  String uid = Authentication.auth.currentUser!.uid;
+                  if (_formKey.currentState!.validate()) {
+                    String email = _emailController.text;
+                    Database.updateEmail(uid, email);
+                    await Authentication.auth.currentUser!.updateEmail(email);
+                    Navigator.pop(context);
+                  }
+                },
+                child: Text('Save changes'),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+
+
+
+
+
 class ChangePhone extends StatefulWidget {
   const ChangePhone({super.key});
 

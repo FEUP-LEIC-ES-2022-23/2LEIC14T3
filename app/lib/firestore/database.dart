@@ -94,6 +94,17 @@ class Database{
       db.collection("users").doc(uid).update({"username": username});
   }
 
+  static void updateEmail(String uid, String email) {
+      db.collection("users").doc(uid).update({"email": email});
+  }
+
+  static Future<bool> isEmailInUse(String email) async {
+    Query query = db.collection("users");
+    query = query.where("email", isEqualTo: email);
+    QuerySnapshot querySnapshot = await query.get();
+    return querySnapshot.docs.isNotEmpty;
+  }
+
   static void updateName(String uid, String firstName, String lastName) {
       db.collection("users").doc(uid).update({"firstName": firstName, "lastName": lastName});
   }
@@ -226,4 +237,9 @@ class Database{
     await deleteReviewUpDownvotes(review);
     await db.collection("reviews").doc(review.reviewRef).delete();
   }
+
+
+
+
+
 }
