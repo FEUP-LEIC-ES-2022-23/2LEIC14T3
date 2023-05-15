@@ -18,6 +18,8 @@ class CourseScreen extends StatefulWidget {
 }
 
 class _CourseScreenState extends State<CourseScreen> {
+  bool isExpanded = false;
+
   @override
   void initState() {
     super.initState();
@@ -111,6 +113,43 @@ class _CourseScreenState extends State<CourseScreen> {
                               style: TextStyle(fontSize: 16.0),
                             ),
                           ],
+                        ),
+                        SizedBox(height: 16.0),
+                        Row(
+                          children: [
+                            Icon(Icons.description),
+                            SizedBox(width: 8.0),
+                            AnimatedCrossFade(
+                              duration: Duration(milliseconds: 300),
+                              firstChild: Text(
+                                'test',
+                                style: TextStyle(fontSize: 16.0),
+                              ),
+                              secondChild: Text(
+                                'test123',
+                                style: TextStyle(fontSize: 16.0),
+                                maxLines: 3,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                              crossFadeState:
+                                isExpanded ? CrossFadeState.showSecond : CrossFadeState.showFirst,
+                            ),
+                            SizedBox(height: 8),
+                            Align(
+                              alignment: Alignment.centerRight,
+                              child: TextButton(
+                              onPressed: () {
+                              setState(() {
+                                isExpanded = !isExpanded;
+                                });
+                              },
+                              child: Text(
+                                 isExpanded ? 'Show Less' : 'Show More',
+                                  style: TextStyle(color: Colors.blue, fontSize: 16.0),
+                                  ),
+                                ),
+                              ),
+                            ],
                         ),
                         SizedBox(height: 16.0),
                         Row(

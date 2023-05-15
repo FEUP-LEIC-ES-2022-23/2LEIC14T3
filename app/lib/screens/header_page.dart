@@ -119,7 +119,7 @@ class _MyHomePageState extends State<MyHomePage> {
                             radius: 60,
                           ),
                           decoration: BoxDecoration(
-                            color: Colors.green,
+                            color: Colors.blue[400],
                           ),
                           onDetailsPressed: () async {
                             await _userProfile();
