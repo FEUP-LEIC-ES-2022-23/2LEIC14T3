@@ -34,7 +34,7 @@ class _ReviewCardState extends State<ReviewCard> {
       padding: EdgeInsets.all(16),
       margin: EdgeInsets.only(bottom: 16),
       decoration: BoxDecoration(
-        color: Colors.cyan,
+        color: Colors.blue[100],
         borderRadius: BorderRadius.circular(10),
       ),
       child: Column(
