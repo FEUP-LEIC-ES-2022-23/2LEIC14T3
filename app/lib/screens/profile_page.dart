@@ -1,6 +1,3 @@
-import 'dart:io';
-import 'dart:math';
-
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -8,11 +5,9 @@ import 'package:rate_it/auth/Authentication.dart';
 import 'package:rate_it/cloud_storage/cloud_storage.dart';
 import 'package:rate_it/model/review.dart';
 import 'package:rate_it/screens/settings.dart';
-import 'package:rate_it/widgets/review_card.dart';
 import 'package:rate_it/widgets/review_card_profile.dart';
 import '../firestore/database.dart';
 import '../model/user.dart';
-import '../screens/settings-subclasses.dart';
 
 class ProfilePage extends StatefulWidget {
   ProfilePage({

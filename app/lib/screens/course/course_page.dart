@@ -2,10 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:rate_it/screens/course/rating_page_course.dart';
 import 'package:rate_it/screens/course/reviews_page_course.dart';
 import '../../model/course.dart';
-import 'package:rate_it/screens/company/reviews_page_company.dart';
 import '../../firestore/database.dart';
 import '../../model/review.dart';
-import '../company/rating_page_company.dart';
 
 class CourseScreen extends StatefulWidget {
   final Course course;

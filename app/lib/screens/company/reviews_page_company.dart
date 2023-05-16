@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:rate_it/model/review.dart';
-import 'dart:math';
 import 'package:rate_it/model/company.dart';
 import 'package:rate_it/widgets/review_card.dart';
 
-import '../../auth/Authentication.dart';
-import '../../firestore/database.dart';
 
 class ReviewsPageCompany extends StatefulWidget {
   Company company;

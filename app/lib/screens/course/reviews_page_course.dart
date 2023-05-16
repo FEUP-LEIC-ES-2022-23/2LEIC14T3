@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:rate_it/model/review.dart';
-import 'dart:math';
-import 'package:rate_it/model/company.dart';
 import 'package:rate_it/widgets/review_card.dart';
 
-import '../../firestore/database.dart';
 import '../../model/course.dart';
 
 class ReviewsPageCourse extends StatefulWidget {

@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import '../firestore/database.dart';
 import '../model/event.dart';
 import '../model/review.dart';
-import '../screens/course/course_page.dart';
 import '../screens/event/event_page.dart';
 
 class EventCard extends StatefulWidget{

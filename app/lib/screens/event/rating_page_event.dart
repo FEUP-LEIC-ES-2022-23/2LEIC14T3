@@ -1,13 +1,10 @@
-import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:rate_it/auth/Authentication.dart';
 
 import '../../firestore/database.dart';
-import '../../model/company.dart';
 import '../../model/event.dart';
 import '../../model/review.dart';
-import '../home_page.dart';
 
 class EventRatingPageEvent extends StatefulWidget {
 

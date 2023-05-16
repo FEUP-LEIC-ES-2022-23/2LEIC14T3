@@ -1,6 +1,5 @@
 
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:rate_it/model/company.dart';
 import 'package:rate_it/widgets/review_card.dart';
 

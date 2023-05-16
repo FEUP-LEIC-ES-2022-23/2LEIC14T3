@@ -1,9 +1,7 @@
-import 'package:flutter/material.dart';
 import 'package:rate_it/model/company.dart';
 import 'package:rate_it/model/review.dart';
 import 'dart:async';
 import 'dart:convert';
-import 'dart:io';
 
 import 'package:http/http.dart' as http;
 
