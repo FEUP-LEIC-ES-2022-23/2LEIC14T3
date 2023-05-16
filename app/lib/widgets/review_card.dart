@@ -62,7 +62,13 @@ class _ReviewCardState extends State<ReviewCard> {
                         MaterialPageRoute(builder: (context) => ProfilePage(user: reviewUser)),
                       );
                     },
-                    child: Text('@${reviewUser.username}'),
+                    child: Text(
+                        '@${reviewUser.username}',
+                          style: const TextStyle(
+                          color: Color(0xFF1976D2),
+                          decoration: TextDecoration.underline,
+                        ),
+                    ),
                   );
                 } else {
                   return ImageFiltered(

@@ -110,7 +110,7 @@ class _EventScreenState extends State<EventScreen> {
                         SizedBox(height: 16.0),
                         Row(
                           children: [
-                            Icon(Icons.calendar_month_sharp),
+                            Icon(Icons.calendar_month_sharp,color: Colors.blue[600]),
                             SizedBox(width: 8.0),
                             Expanded(
                               child: Text(
@@ -123,7 +123,7 @@ class _EventScreenState extends State<EventScreen> {
                         SizedBox(height: 16.0),
                         Row(
                           children: [
-                            Icon(Icons.attach_money),
+                            Icon(Icons.attach_money,color: Colors.green[600]),
                             SizedBox(width: 8.0),
                             Text(
                               widget.event.isPaid ? 'Paid' : 'Free',
@@ -134,7 +134,7 @@ class _EventScreenState extends State<EventScreen> {
                         SizedBox(height: 16.0),
                         Row(
                           children: [
-                            Icon(Icons.location_on),
+                            Icon(Icons.location_on,color: Colors.red),
                             SizedBox(width: 8.0),
                             Text(
                               widget.event.place,
@@ -145,7 +145,7 @@ class _EventScreenState extends State<EventScreen> {
                         SizedBox(height: 16.0),
                         Row(
                           children: [
-                            Icon(Icons.star),
+                            Icon(Icons.star,color: Colors.yellow[700],),
                             SizedBox(width: 8.0),
                             Text(
                               widget.event.averageRating.toStringAsFixed(1),

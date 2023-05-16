@@ -54,7 +54,7 @@ class _EventCardState extends State<EventCard> {
                           SizedBox(height: 8.0),
                           Row(
                             children: [
-                              Icon(Icons.calendar_month_sharp),
+                              Icon(Icons.calendar_month_sharp,color: Colors.blue[600],),
                               SizedBox(width: 8.0),
                               Expanded(
                                 child: Text(
@@ -67,7 +67,7 @@ class _EventCardState extends State<EventCard> {
                           SizedBox(height: 8.0),
                           Row(
                             children: [
-                              Icon(Icons.place),
+                              Icon(Icons.place,color: Colors.red,),
                               SizedBox(width: 8.0),
                               Expanded(
                                 child: Text(
@@ -85,7 +85,7 @@ class _EventCardState extends State<EventCard> {
                                 List<Review> rendReviews = snapshot.data!;
                                 return Row(
                                   children: [
-                                    Icon(Icons.star),
+                                    Icon(Icons.star, color: Colors.yellow[700],),
                                     SizedBox(width: 8.0),
                                     Text(
                                       widget.event.averageRating

@@ -112,20 +112,23 @@ class _CompanyScreenState extends State<CompanyScreen> {
                         ),
                       ),
                       SizedBox(height: 16.0),
-                      Row(
-                        children: [
-                          Icon(Icons.location_on),
-                          SizedBox(width: 8.0),
-                          Text(
-                            widget.company.address,
-                            style: TextStyle(fontSize: 16.0),
-                          ),
-                        ],
+                      Visibility(
+                        visible: widget.company.address != null && widget.company.address.isNotEmpty,
+                        child: Row(
+                          children: [
+                            Icon(Icons.location_on, color: Colors.red),
+                            SizedBox(width: 8.0),
+                            Text(
+                              widget.company.address,
+                              style: TextStyle(fontSize: 16.0),
+                            ),
+                          ],
+                        ),
                       ),
                       SizedBox(height: 16.0),
                       Row(
                         children: [
-                          Icon(Icons.star),
+                          Icon(Icons.star, color: Colors.yellow[700]),
                           SizedBox(width: 8.0),
                           Text(
                             widget.company.averageRating.toStringAsFixed(1),

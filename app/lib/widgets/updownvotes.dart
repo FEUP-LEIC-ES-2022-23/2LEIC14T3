@@ -64,13 +64,13 @@ class _UpDownVotesState extends State<UpDownVotes> {
   }
 
   Widget upvoteIcon(int userVote){
-    if (userVote == 1) return Icon(FontAwesomeIcons.solidThumbsUp);
-    else return Icon(FontAwesomeIcons.thumbsUp);
+    if (userVote == 1) return Icon(FontAwesomeIcons.solidThumbsUp, color: Color(0xFF1976D2),);
+    else return Icon(FontAwesomeIcons.thumbsUp, color: Color(0xFF1976D2),);
   }
 
   Widget downvoteIcon(int userVote){
-    if (userVote == -1) return Icon(FontAwesomeIcons.solidThumbsDown);
-    else return Icon(FontAwesomeIcons.thumbsDown);
+    if (userVote == -1) return Icon(FontAwesomeIcons.solidThumbsDown, color: Color(0xFF1976D2),);
+    else return Icon(FontAwesomeIcons.thumbsDown, color: Color(0xFF1976D2),);
   }
 
   void updownvoteDynamic(int upOrdown){
