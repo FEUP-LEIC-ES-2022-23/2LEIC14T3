@@ -59,6 +59,55 @@ class _CourseScreenState extends State<CourseScreen> {
                               fontSize: 24.0, fontWeight: FontWeight.bold),
                         ),
                         SizedBox(height: 16.0),
+                        SingleChildScrollView(
+                          child: Column(
+                            children: [
+                              SizedBox(width: 8.0),
+                              if (widget.course.company.description != null && widget.course.company.description.isNotEmpty)
+                                Container(
+                                  child: AnimatedCrossFade(
+                                    duration: Duration(milliseconds: 300),
+                                    firstChild: Flexible(
+                                      child: Text(
+                                        widget.course.company.description,
+                                        maxLines: 3,
+                                        style: TextStyle(fontSize: 16.0),
+                                      ),
+                                    ),
+                                    secondChild: Text(
+                                      widget.course.company.description,
+                                      style: TextStyle(fontSize: 16.0),
+                                    ),
+                                    crossFadeState: isExpanded ? CrossFadeState.showSecond : CrossFadeState.showFirst,
+                                    firstCurve: Curves.easeIn,
+                                  ),
+                                ),
+                              if (widget.course.company.description != null && widget.course.company.description.isNotEmpty)
+                                Align(
+                                  alignment: Alignment.bottomLeft,
+                                  child: TextButton(
+                                    onPressed: () {
+                                      setState(() {
+                                        isExpanded = !isExpanded;
+                                      });
+                                    },
+                                    child: Text(
+                                      isExpanded ? 'Show Less' : 'Show More',
+                                      style: TextStyle(color: Colors.blue, fontSize: 16.0),
+                                    ),
+                                  ),
+                                ),
+                              if (widget.course.company.description == null || widget.course.company.description.isEmpty)
+                                Container(
+                                  child: Text(
+                                    'No description available',
+                                    style: TextStyle(fontSize: 16.0),
+                                  ),
+                                ),
+                            ],
+                          ),
+                        ),
+                        SizedBox(height: 16.0),
                         Text(
                           widget.course.body,
                           style: TextStyle(fontSize: 16.0),
@@ -113,43 +162,6 @@ class _CourseScreenState extends State<CourseScreen> {
                               style: TextStyle(fontSize: 16.0),
                             ),
                           ],
-                        ),
-                        SizedBox(height: 16.0),
-                        Row(
-                          children: [
-                            Icon(Icons.description),
-                            SizedBox(width: 8.0),
-                            AnimatedCrossFade(
-                              duration: Duration(milliseconds: 300),
-                              firstChild: Text(
-                                'test',
-                                style: TextStyle(fontSize: 16.0),
-                              ),
-                              secondChild: Text(
-                                'test123',
-                                style: TextStyle(fontSize: 16.0),
-                                maxLines: 3,
-                                overflow: TextOverflow.ellipsis,
-                              ),
-                              crossFadeState:
-                                isExpanded ? CrossFadeState.showSecond : CrossFadeState.showFirst,
-                            ),
-                            SizedBox(height: 8),
-                            Align(
-                              alignment: Alignment.centerRight,
-                              child: TextButton(
-                              onPressed: () {
-                              setState(() {
-                                isExpanded = !isExpanded;
-                                });
-                              },
-                              child: Text(
-                                 isExpanded ? 'Show Less' : 'Show More',
-                                  style: TextStyle(color: Colors.blue, fontSize: 16.0),
-                                  ),
-                                ),
-                              ),
-                            ],
                         ),
                         SizedBox(height: 16.0),
                         Row(

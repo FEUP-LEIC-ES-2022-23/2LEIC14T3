@@ -112,6 +112,11 @@ class _CourseCardState extends State<CourseCard> {
                         ],
                       ),
                     ),
+                    Container(
+                      height: 125,
+                      width: 125,
+                      child: Image.network(widget.course.company.logo),
+                    ),
                   ],
                 ),
               ),

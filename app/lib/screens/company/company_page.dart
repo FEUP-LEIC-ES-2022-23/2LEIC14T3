@@ -19,6 +19,8 @@ class CompanyScreen extends StatefulWidget {
 }
 
 class _CompanyScreenState extends State<CompanyScreen> {
+  bool isExpanded = false;
+
   @override
   void initState() {
     super.initState();
@@ -61,9 +63,53 @@ class _CompanyScreenState extends State<CompanyScreen> {
                             fontSize: 24.0, fontWeight: FontWeight.bold),
                       ),
                       SizedBox(height: 16.0),
-                      Text(
-                        widget.company.description,
-                        style: TextStyle(fontSize: 16.0),
+                      SingleChildScrollView(
+                        child: Column(
+                          children: [
+                            SizedBox(width: 8.0),
+                            if (widget.company.description != null && widget.company.description.isNotEmpty)
+                              Container(
+                                child: AnimatedCrossFade(
+                                  duration: Duration(milliseconds: 300),
+                                  firstChild: Flexible(
+                                    child: Text(
+                                      widget.company.description,
+                                      maxLines: 3,
+                                      style: TextStyle(fontSize: 16.0),
+                                    ),
+                                  ),
+                                  secondChild: Text(
+                                    widget.company.description,
+                                    style: TextStyle(fontSize: 16.0),
+                                  ),
+                                  crossFadeState: isExpanded ? CrossFadeState.showSecond : CrossFadeState.showFirst,
+                                  firstCurve: Curves.easeIn,
+                                ),
+                              ),
+                            if (widget.company.description != null && widget.company.description.isNotEmpty)
+                              Align(
+                                alignment: Alignment.bottomLeft,
+                                child: TextButton(
+                                  onPressed: () {
+                                    setState(() {
+                                      isExpanded = !isExpanded;
+                                    });
+                                  },
+                                  child: Text(
+                                    isExpanded ? 'Show Less' : 'Show More',
+                                    style: TextStyle(color: Colors.blue, fontSize: 16.0),
+                                  ),
+                                ),
+                              ),
+                            if (widget.company.description == null || widget.company.description.isEmpty)
+                              Container(
+                                child: Text(
+                                  'No description available',
+                                  style: TextStyle(fontSize: 16.0),
+                                ),
+                              ),
+                          ],
+                        ),
                       ),
                       SizedBox(height: 16.0),
                       Row(

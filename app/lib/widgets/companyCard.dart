@@ -100,8 +100,8 @@ class _CompanyCardState extends State<CompanyCard> {
                       ),
                     ),
                     Container(
-                      height: 200,
-                      width: 200,
+                      height: 125,
+                      width: 125,
                       child: Image.network(widget.company.logo),
                     ),
                   ],

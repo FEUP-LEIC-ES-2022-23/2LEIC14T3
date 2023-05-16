@@ -5,6 +5,7 @@ import '../../firestore/database.dart';
 import '../../model/event.dart';
 import '../../model/review.dart';
 
+
 class EventScreen extends StatefulWidget {
   final Event event;
   Review? userReviewOnEvent;
@@ -17,6 +18,8 @@ class EventScreen extends StatefulWidget {
 }
 
 class _EventScreenState extends State<EventScreen> {
+  bool isExpanded = false;
+
   @override
   void initState() {
     super.initState();
@@ -54,6 +57,55 @@ class _EventScreenState extends State<EventScreen> {
                           widget.event.title,
                           style: TextStyle(
                               fontSize: 24.0, fontWeight: FontWeight.bold),
+                        ),
+                        SizedBox(height: 16.0),
+                        SingleChildScrollView(
+                          child: Column(
+                            children: [
+                              SizedBox(width: 8.0),
+                              if (widget.event.description != null && widget.event.description.isNotEmpty)
+                                Container(
+                                  child: AnimatedCrossFade(
+                                    duration: Duration(milliseconds: 300),
+                                    firstChild: Flexible(
+                                      child: Text(
+                                        widget.event.description,
+                                        maxLines: 3,
+                                        style: TextStyle(fontSize: 16.0),
+                                      ),
+                                    ),
+                                    secondChild: Text(
+                                      widget.event.description,
+                                      style: TextStyle(fontSize: 16.0),
+                                    ),
+                                    crossFadeState: isExpanded ? CrossFadeState.showSecond : CrossFadeState.showFirst,
+                                    firstCurve: Curves.easeIn,
+                                  ),
+                                ),
+                              if (widget.event.description != null && widget.event.description.isNotEmpty)
+                                Align(
+                                  alignment: Alignment.bottomLeft,
+                                  child: TextButton(
+                                    onPressed: () {
+                                      setState(() {
+                                        isExpanded = !isExpanded;
+                                      });
+                                    },
+                                    child: Text(
+                                      isExpanded ? 'Show Less' : 'Show More',
+                                      style: TextStyle(color: Colors.blue, fontSize: 16.0),
+                                    ),
+                                  ),
+                                ),
+                              if (widget.event.description == null || widget.event.description.isEmpty)
+                                Container(
+                                  child: Text(
+                                    'No description available',
+                                    style: TextStyle(fontSize: 16.0),
+                                  ),
+                                ),
+                            ],
+                          ),
                         ),
                         SizedBox(height: 16.0),
                         Row(
