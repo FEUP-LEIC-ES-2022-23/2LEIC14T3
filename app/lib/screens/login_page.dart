@@ -29,28 +29,21 @@ class _LoginPageState extends State<LoginPage> {
               RichText(
                 textAlign: TextAlign.center,
                 text: const TextSpan(
-                  text: 'Welcome to ',
+                  text: 'Login to ',
                   style: TextStyle(fontSize: 32.0, color: Colors.black),
                   children: [
                     TextSpan(
-                      text: 'RateIt',
+                      text: 'RateIT',
                       style: TextStyle(
                         fontSize: 32.0,
                         fontWeight: FontWeight.bold,
                         color: Colors.blue,
-                        decoration: TextDecoration.underline,
                       ),
                     ),
                   ],
                 ),
               ),
-              const SizedBox(height: 36.0),
-              const Text(
-                'Login',
-                style: TextStyle(fontSize: 32.0),
-                textAlign: TextAlign.center,
-              ),
-              SizedBox(height: 32.0),
+              SizedBox(height: 42.0),
               TextFormField(
                 controller: _emailController,
                 keyboardType: TextInputType.emailAddress,
