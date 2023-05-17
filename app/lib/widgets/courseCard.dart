@@ -57,11 +57,25 @@ class _CourseCardState extends State<CourseCard> {
                               Icon(Icons.calendar_month_sharp, color: Colors.blue[600],),
                               SizedBox(width: 8.0),
                               Expanded(
-                                child: Text(
-                                  '${widget.course.dateStart} -> ${widget.course.dateEnd}',
-                                  style: TextStyle(fontSize: 16.0),
+                                child: Row(
+                                  children: [
+                                    Text(
+                                      '${widget.course.dateStart}',
+                                      style: TextStyle(fontSize: 16.0),
+                                    ),
+                                    Icon(
+                                      Icons.arrow_forward,
+                                      size: 20.0,
+                                      color: Colors.blueAccent,
+                                    ),
+                                    Text(
+                                      '${widget.course.dateEnd}',
+                                      style: TextStyle(fontSize: 16.0),
+                                    ),
+                                  ],
                                 ),
                               ),
+
                             ],
                           ),
                           SizedBox(height: 8.0),

@@ -57,9 +57,22 @@ class _EventCardState extends State<EventCard> {
                               Icon(Icons.calendar_month_sharp,color: Colors.blue[600],),
                               SizedBox(width: 8.0),
                               Expanded(
-                                child: Text(
-                                  '${widget.event.dateStart} -> ${widget.event.dateEnd}',
-                                  style: TextStyle(fontSize: 16.0),
+                                child: Row(
+                                  children: [
+                                    Text(
+                                      '${widget.event.dateStart}',
+                                      style: TextStyle(fontSize: 16.0),
+                                    ),
+                                    Icon(
+                                      Icons.arrow_forward,
+                                      size: 20.0,
+                                      color: Colors.blueAccent,
+                                    ),
+                                    Text(
+                                      '${widget.event.dateEnd}',
+                                      style: TextStyle(fontSize: 16.0),
+                                    ),
+                                  ],
                                 ),
                               ),
                             ],
