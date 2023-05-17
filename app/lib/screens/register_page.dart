@@ -41,6 +41,25 @@ class _RegisterPageState extends State<RegisterPage> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
+              RichText(
+                textAlign: TextAlign.center,
+                text: const TextSpan(
+                  text: 'Welcome to ',
+                  style: TextStyle(fontSize: 32.0, color: Colors.black),
+                  children: [
+                    TextSpan(
+                      text: 'RateIt',
+                      style: TextStyle(
+                        fontSize: 32.0,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.blue,
+                        decoration: TextDecoration.underline,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(height: 10.0),
               Text(
                 'Register',
                 style: TextStyle(fontSize: 32.0),
@@ -148,7 +167,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   return null;
                 },
               ),
-              SizedBox(height: 32.0),
+              SizedBox(height: 16.0),
               ElevatedButton(
                 onPressed: () async {
                   await checkUsername(_usernameController.text);
@@ -185,7 +204,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 child: Text('Register'),
               ),
 
-              SizedBox(height: 16.0),
+              SizedBox(height: 8.0),
               TextButton(
                 onPressed: () {
                   // navigate to login page

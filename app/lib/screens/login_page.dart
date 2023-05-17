@@ -26,7 +26,26 @@ class _LoginPageState extends State<LoginPage> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              Text(
+              RichText(
+                textAlign: TextAlign.center,
+                text: const TextSpan(
+                  text: 'Welcome to ',
+                  style: TextStyle(fontSize: 32.0, color: Colors.black),
+                  children: [
+                    TextSpan(
+                      text: 'RateIt',
+                      style: TextStyle(
+                        fontSize: 32.0,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.blue,
+                        decoration: TextDecoration.underline,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(height: 36.0),
+              const Text(
                 'Login',
                 style: TextStyle(fontSize: 32.0),
                 textAlign: TextAlign.center,
@@ -43,8 +62,7 @@ class _LoginPageState extends State<LoginPage> {
                 validator: (value) {
                   if (Validation.emptyField(value)) {
                     return 'Please enter your email';
-                  }
-                  else if (Validation.invalidEmail(value)) {
+                  } else if (Validation.invalidEmail(value)) {
                     return 'Invalid email format';
                   }
                   return null;
@@ -74,24 +92,27 @@ class _LoginPageState extends State<LoginPage> {
                     String email = _emailController.text;
                     String password = _passwordController.text;
                     String msg = await Authentication.login(email, password);
-                    if (msg == "No user found for that email."){
+                    if (msg == "No user found for that email.") {
                       showDialog(
-                          context: context,
-                          builder: (_) => PopupMessage(title: "Unknown User",message: msg)
+                        context: context,
+                        builder: (_) => PopupMessage(
+                          title: "Unknown User",
+                          message: msg,
+                        ),
                       );
-                    }
-                    else if (msg == "Wrong password provided for that user."){
+                    } else if (msg == "Wrong password provided for that user.") {
                       showDialog(
-                          context: context,
-                          builder: (_) => PopupMessage(title: "Wrong Credentials",message: msg)
+                        context: context,
+                        builder: (_) => PopupMessage(
+                          title: "Wrong Credentials",
+                          message: msg,
+                        ),
                       );
-                    }
-                    else if (msg == "successful-login"){
+                    } else if (msg == "successful-login") {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) =>
-                              MyHomePage(),
+                          builder: (context) => MyHomePage(),
                         ),
                       );
                     }
@@ -116,4 +137,5 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 }
+
 
