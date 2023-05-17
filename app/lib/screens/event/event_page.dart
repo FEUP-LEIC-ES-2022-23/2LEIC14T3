@@ -177,7 +177,14 @@ class _EventScreenState extends State<EventScreen> {
                                     _fetchReview();
                                   });
                                 },
-                                child: Text('Edit your review'),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text('Edit your review', style: TextStyle(color: Colors.white)),
+                                    SizedBox(width: 8.0),
+                                    Icon(Icons.edit, color: Colors.white),
+                                  ],
+                                ),
                               ),
                             if (widget.userReviewOnEvent == null)
                               ElevatedButton(
@@ -193,7 +200,14 @@ class _EventScreenState extends State<EventScreen> {
                                     _fetchReview();
                                   });
                                 },
-                                child: Text('Rate this event'),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text('Rate this event', style: TextStyle(color: Colors.white)),
+                                    SizedBox(width: 8.0),
+                                    Icon(Icons.star, color: Colors.white),
+                                  ],
+                                ),
                               ),
                             ElevatedButton(
                               onPressed: () {
@@ -205,7 +219,14 @@ class _EventScreenState extends State<EventScreen> {
                                   ),
                                 );
                               },
-                              child: Text('Check Reviews'),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text('Check Reviews', style: TextStyle(color: Colors.white)),
+                                  SizedBox(width: 8.0),
+                                  Icon(Icons.remove_red_eye, color: Colors.white),
+                                ],
+                              ),
                             ),
                           ],
 

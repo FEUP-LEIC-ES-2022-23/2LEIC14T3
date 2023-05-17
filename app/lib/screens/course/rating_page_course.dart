@@ -102,7 +102,14 @@ class _EventRatingPageCourseState extends State<EventRatingPageCourse> {
                 children: [
                   ElevatedButton(
                     onPressed: releaseReview,
-                    child: Text('Submit'),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text('Submit', style: TextStyle(color: Colors.white)),
+                        SizedBox(width: 8.0),
+                        Icon(Icons.send_rounded, color: Colors.white),
+                      ],
+                    ),
                   ),
                   if (widget.review != null)
                     ElevatedButton(
@@ -110,7 +117,7 @@ class _EventRatingPageCourseState extends State<EventRatingPageCourse> {
                       style: ElevatedButton.styleFrom(
                         primary: Colors.red,
                         shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10.0),
+                          borderRadius: BorderRadius.circular(6.0),
                         ),
                       ),
                       child: Row(
