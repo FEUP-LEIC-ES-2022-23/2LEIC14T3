@@ -71,6 +71,7 @@ class _EventScreenState extends State<EventScreen> {
                                       child: Text(
                                         widget.event.description,
                                         maxLines: 3,
+                                        overflow: TextOverflow.ellipsis,
                                         style: TextStyle(fontSize: 16.0),
                                       ),
                                     ),

@@ -75,6 +75,7 @@ class _CompanyScreenState extends State<CompanyScreen> {
                                     child: Text(
                                       widget.company.description,
                                       maxLines: 3,
+                                      overflow: TextOverflow.ellipsis,
                                       style: TextStyle(fontSize: 16.0),
                                     ),
                                   ),

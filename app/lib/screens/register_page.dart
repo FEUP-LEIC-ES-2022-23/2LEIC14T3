@@ -57,6 +57,7 @@ class _RegisterPageState extends State<RegisterPage> {
                         keyboardType: TextInputType.name,
                         decoration: InputDecoration(
                           labelText: 'First Name',
+                          prefixIcon: Icon(Icons.person),
                           border: OutlineInputBorder(),
                         ),
                         validator: (value) {
@@ -76,6 +77,7 @@ class _RegisterPageState extends State<RegisterPage> {
                         keyboardType: TextInputType.name,
                         decoration: InputDecoration(
                           labelText: 'Last Name',
+                          prefixIcon: Icon(Icons.person),
                           border: OutlineInputBorder(),
                         ),
                         validator: (value) {
@@ -95,6 +97,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 controller: _usernameController,
                 decoration: InputDecoration(
                   labelText: 'Username',
+                  prefixIcon: Icon(Icons.edit),
                   border: OutlineInputBorder(),
                 ),
                 validator: (value) {
@@ -113,6 +116,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 keyboardType: TextInputType.emailAddress,
                 decoration: InputDecoration(
                   labelText: 'Email',
+                  prefixIcon: Icon(Icons.email),
                   border: OutlineInputBorder(),
                 ),
                 validator: (value) {
@@ -131,6 +135,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 obscureText: true,
                 decoration: InputDecoration(
                   labelText: 'Password',
+                  prefixIcon: Icon(Icons.lock),
                   border: OutlineInputBorder(),
                 ),
                 validator: (value) {

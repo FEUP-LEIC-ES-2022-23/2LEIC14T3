@@ -37,6 +37,7 @@ class _LoginPageState extends State<LoginPage> {
                 keyboardType: TextInputType.emailAddress,
                 decoration: InputDecoration(
                   labelText: 'Email',
+                  prefixIcon: Icon(Icons.email),
                   border: OutlineInputBorder(),
                 ),
                 validator: (value) {
@@ -55,6 +56,7 @@ class _LoginPageState extends State<LoginPage> {
                 obscureText: true,
                 decoration: InputDecoration(
                   labelText: 'Password',
+                  prefixIcon: Icon(Icons.lock),
                   border: OutlineInputBorder(),
                 ),
                 validator: (value) {

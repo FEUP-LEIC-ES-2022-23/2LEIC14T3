@@ -69,6 +69,7 @@ class _CourseScreenState extends State<CourseScreen> {
                                       child: Text(
                                         widget.course.company.description,
                                         maxLines: 3,
+                                        overflow: TextOverflow.ellipsis,
                                         style: TextStyle(fontSize: 16.0),
                                       ),
                                     ),
