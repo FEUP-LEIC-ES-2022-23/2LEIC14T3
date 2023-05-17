@@ -104,6 +104,21 @@ class _ReviewCardState extends State<ReviewCard> {
             children: [
               SizedBox(width: 8.0),
               Text(
+                'Reviewed to:',
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              ),
+              SizedBox(width: 8.0),
+              Text(
+                '${widget.review.idEntity}',
+                style: TextStyle(fontSize: 18),
+              ),
+            ],
+          ),
+          SizedBox(height: 8),
+          Row(
+            children: [
+              SizedBox(width: 8.0),
+              Text(
                 'Rating:',
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               ),
