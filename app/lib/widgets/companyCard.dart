@@ -52,17 +52,20 @@ class _CompanyCardState extends State<CompanyCard> {
                                 fontWeight: FontWeight.bold),
                           ),
                           SizedBox(height: 8.0),
-                          Row(
-                            children: [
-                              Icon(Icons.location_on),
-                              SizedBox(width: 8.0),
-                              Expanded(
-                                child: Text(
-                                  widget.company.address,
-                                  style: TextStyle(fontSize: 16.0),
+                          Visibility(
+                            visible: widget.company.address != null && widget.company.address.isNotEmpty,
+                            child: Row(
+                              children: [
+                                Icon(Icons.location_on, color: Colors.red),
+                                SizedBox(width: 8.0),
+                                Expanded(
+                                  child: Text(
+                                    widget.company.address,
+                                    style: TextStyle(fontSize: 16.0),
+                                  ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
                           SizedBox(height: 8.0),
                           FutureBuilder<List<Review>>(
@@ -72,7 +75,7 @@ class _CompanyCardState extends State<CompanyCard> {
                                 List<Review> rendReviews = snapshot.data!;
                                 return Row(
                                   children: [
-                                    Icon(Icons.star),
+                                    Icon(Icons.star, color: Colors.yellow[700],),
                                     SizedBox(width: 8.0),
                                     Text(
                                       widget.company.averageRating

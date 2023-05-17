@@ -75,6 +75,7 @@ class _CompanyScreenState extends State<CompanyScreen> {
                                     child: Text(
                                       widget.company.description,
                                       maxLines: 3,
+                                      overflow: TextOverflow.ellipsis,
                                       style: TextStyle(fontSize: 16.0),
                                     ),
                                   ),
@@ -112,20 +113,23 @@ class _CompanyScreenState extends State<CompanyScreen> {
                         ),
                       ),
                       SizedBox(height: 16.0),
-                      Row(
-                        children: [
-                          Icon(Icons.location_on),
-                          SizedBox(width: 8.0),
-                          Text(
-                            widget.company.address,
-                            style: TextStyle(fontSize: 16.0),
-                          ),
-                        ],
+                      Visibility(
+                        visible: widget.company.address != null && widget.company.address.isNotEmpty,
+                        child: Row(
+                          children: [
+                            Icon(Icons.location_on, color: Colors.red),
+                            SizedBox(width: 8.0),
+                            Text(
+                              widget.company.address,
+                              style: TextStyle(fontSize: 16.0),
+                            ),
+                          ],
+                        ),
                       ),
                       SizedBox(height: 16.0),
                       Row(
                         children: [
-                          Icon(Icons.star),
+                          Icon(Icons.star, color: Colors.yellow[700]),
                           SizedBox(width: 8.0),
                           Text(
                             widget.company.averageRating.toStringAsFixed(1),
@@ -156,7 +160,14 @@ class _CompanyScreenState extends State<CompanyScreen> {
                                       _fetchReview();
                                     });
                                 },
-                              child: Text('Edit your review'),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text('Edit your review', style: TextStyle(color: Colors.white)),
+                                  SizedBox(width: 8.0),
+                                  Icon(Icons.edit, color: Colors.white),
+                                ],
+                              ),
                             ),
                           if (widget.userReviewOnCompany == null)
                             ElevatedButton(
@@ -172,7 +183,14 @@ class _CompanyScreenState extends State<CompanyScreen> {
                                       _fetchReview();
                                     });
                                 },
-                              child: Text('Rate this company'),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text('Rate this company', style: TextStyle(color: Colors.white)),
+                                  SizedBox(width: 8.0),
+                                  Icon(Icons.star, color: Colors.white),
+                                ],
+                              ),
                             ),
                           ElevatedButton(
                             onPressed: () {
@@ -184,7 +202,14 @@ class _CompanyScreenState extends State<CompanyScreen> {
                                 ),
                               );
                             },
-                            child: Text('Check Reviews'),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text('Check Reviews', style: TextStyle(color: Colors.white)),
+                                SizedBox(width: 8.0),
+                                Icon(Icons.remove_red_eye, color: Colors.white),
+                              ],
+                            ),
                           ),
                         ],
 

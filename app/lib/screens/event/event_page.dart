@@ -71,6 +71,7 @@ class _EventScreenState extends State<EventScreen> {
                                       child: Text(
                                         widget.event.description,
                                         maxLines: 3,
+                                        overflow: TextOverflow.ellipsis,
                                         style: TextStyle(fontSize: 16.0),
                                       ),
                                     ),
@@ -110,7 +111,7 @@ class _EventScreenState extends State<EventScreen> {
                         SizedBox(height: 16.0),
                         Row(
                           children: [
-                            Icon(Icons.calendar_month_sharp),
+                            Icon(Icons.calendar_month_sharp,color: Colors.blue[600]),
                             SizedBox(width: 8.0),
                             Expanded(
                               child: Text(
@@ -123,7 +124,7 @@ class _EventScreenState extends State<EventScreen> {
                         SizedBox(height: 16.0),
                         Row(
                           children: [
-                            Icon(Icons.attach_money),
+                            Icon(Icons.attach_money,color: Colors.green[600]),
                             SizedBox(width: 8.0),
                             Text(
                               widget.event.isPaid ? 'Paid' : 'Free',
@@ -134,7 +135,7 @@ class _EventScreenState extends State<EventScreen> {
                         SizedBox(height: 16.0),
                         Row(
                           children: [
-                            Icon(Icons.location_on),
+                            Icon(Icons.location_on,color: Colors.red),
                             SizedBox(width: 8.0),
                             Text(
                               widget.event.place,
@@ -145,7 +146,7 @@ class _EventScreenState extends State<EventScreen> {
                         SizedBox(height: 16.0),
                         Row(
                           children: [
-                            Icon(Icons.star),
+                            Icon(Icons.star,color: Colors.yellow[700],),
                             SizedBox(width: 8.0),
                             Text(
                               widget.event.averageRating.toStringAsFixed(1),
@@ -176,7 +177,14 @@ class _EventScreenState extends State<EventScreen> {
                                     _fetchReview();
                                   });
                                 },
-                                child: Text('Edit your review'),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text('Edit your review', style: TextStyle(color: Colors.white)),
+                                    SizedBox(width: 8.0),
+                                    Icon(Icons.edit, color: Colors.white),
+                                  ],
+                                ),
                               ),
                             if (widget.userReviewOnEvent == null)
                               ElevatedButton(
@@ -192,7 +200,14 @@ class _EventScreenState extends State<EventScreen> {
                                     _fetchReview();
                                   });
                                 },
-                                child: Text('Rate this event'),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text('Rate this event', style: TextStyle(color: Colors.white)),
+                                    SizedBox(width: 8.0),
+                                    Icon(Icons.star, color: Colors.white),
+                                  ],
+                                ),
                               ),
                             ElevatedButton(
                               onPressed: () {
@@ -204,7 +219,14 @@ class _EventScreenState extends State<EventScreen> {
                                   ),
                                 );
                               },
-                              child: Text('Check Reviews'),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text('Check Reviews', style: TextStyle(color: Colors.white)),
+                                  SizedBox(width: 8.0),
+                                  Icon(Icons.remove_red_eye, color: Colors.white),
+                                ],
+                              ),
                             ),
                           ],
 

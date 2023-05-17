@@ -103,15 +103,22 @@ class _ProfilePageState extends State<ProfilePage> {
               ),
               Text('@${widget.user!.username}'),
               const SizedBox(height: 16),
-              Text(
-                '${widget.user!.description}',
-                textAlign: TextAlign.center,
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(Icons.edit, color: Colors.blue[700]),
+                  const SizedBox(width: 8),
+                  Text(
+                    '${widget.user!.description}',
+                    textAlign: TextAlign.center,
+                  ),
+                ],
               ),
               const SizedBox(height: 16),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Icon(Icons.email),
+                  Icon(Icons.email, color: Colors.blue[700]),
                   const SizedBox(width: 8),
                   Text('${widget.user!.email}'),
                 ],
@@ -121,7 +128,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   if(widget.user!.phone != "")
-                    Icon(Icons.phone),
+                    Icon(Icons.phone, color: Colors.blue[700]),
                   if(widget.user!.phone != "")
                     const SizedBox(width: 8),
                   if(widget.user!.phone != "")

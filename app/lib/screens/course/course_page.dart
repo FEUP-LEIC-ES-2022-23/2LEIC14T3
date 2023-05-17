@@ -69,6 +69,7 @@ class _CourseScreenState extends State<CourseScreen> {
                                       child: Text(
                                         widget.course.company.description,
                                         maxLines: 3,
+                                        overflow: TextOverflow.ellipsis,
                                         style: TextStyle(fontSize: 16.0),
                                       ),
                                     ),
@@ -113,7 +114,7 @@ class _CourseScreenState extends State<CourseScreen> {
                         SizedBox(height: 16.0),
                         Row(
                           children: [
-                            Icon(Icons.calendar_month_sharp),
+                            Icon(Icons.calendar_month_sharp,color: Colors.blue[600]),
                             SizedBox(width: 8.0),
                             Expanded(
                               child: Text(
@@ -126,7 +127,7 @@ class _CourseScreenState extends State<CourseScreen> {
                         SizedBox(height: 16.0),
                         Row(
                           children: [
-                            Icon(Icons.attach_money),
+                            Icon(Icons.attach_money,color: Colors.green[600]),
                             SizedBox(width: 8.0),
                             Text(
                               widget.course.price == 0 ? 'Paid' : 'Free',
@@ -137,7 +138,7 @@ class _CourseScreenState extends State<CourseScreen> {
                         SizedBox(height: 16.0),
                         Row(
                           children: [
-                            Icon(Icons.location_on),
+                            Icon(Icons.location_on,color: Colors.red),
                             SizedBox(width: 8.0),
                             Text(
                               widget.course.place,
@@ -148,7 +149,7 @@ class _CourseScreenState extends State<CourseScreen> {
                         SizedBox(height: 16.0),
                         Row(
                           children: [
-                            Icon(Icons.star),
+                            Icon(Icons.star,color: Colors.yellow[700]),
                             SizedBox(width: 8.0),
                             Text(
                               widget.course.averageRating.toStringAsFixed(1),
@@ -179,7 +180,14 @@ class _CourseScreenState extends State<CourseScreen> {
                                     _fetchReview();
                                   });
                                 },
-                                child: Text('Edit your review'),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text('Edit your review', style: TextStyle(color: Colors.white)),
+                                    SizedBox(width: 8.0),
+                                    Icon(Icons.edit, color: Colors.white),
+                                  ],
+                                ),
                               ),
                             if (widget.userReviewOnCourse == null)
                               ElevatedButton(
@@ -195,7 +203,14 @@ class _CourseScreenState extends State<CourseScreen> {
                                     _fetchReview();
                                   });
                                 },
-                                child: Text('Rate this course'),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text('Rate this course', style: TextStyle(color: Colors.white)),
+                                    SizedBox(width: 8.0),
+                                    Icon(Icons.star, color: Colors.white),
+                                  ],
+                                ),
                               ),
                             ElevatedButton(
                               onPressed: () {
@@ -207,7 +222,14 @@ class _CourseScreenState extends State<CourseScreen> {
                                   ),
                                 );
                               },
-                              child: Text('Check Reviews'),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text('Check Reviews', style: TextStyle(color: Colors.white)),
+                                  SizedBox(width: 8.0),
+                                  Icon(Icons.remove_red_eye, color: Colors.white),
+                                ],
+                              ),
                             ),
                           ],
 

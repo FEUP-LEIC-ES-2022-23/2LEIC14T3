@@ -41,12 +41,24 @@ class _RegisterPageState extends State<RegisterPage> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              Text(
-                'Register',
-                style: TextStyle(fontSize: 32.0),
+              RichText(
                 textAlign: TextAlign.center,
+                text: const TextSpan(
+                  text: 'Register to ',
+                  style: TextStyle(fontSize: 32.0, color: Colors.black),
+                  children: [
+                    TextSpan(
+                      text: 'RateIT',
+                      style: TextStyle(
+                        fontSize: 32.0,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.blue,
+                      ),
+                    ),
+                  ],
+                ),
               ),
-              SizedBox(height: 32.0),
+              SizedBox(height: 42.0),
               Row(
                 children: [
                   Expanded(
@@ -57,6 +69,7 @@ class _RegisterPageState extends State<RegisterPage> {
                         keyboardType: TextInputType.name,
                         decoration: InputDecoration(
                           labelText: 'First Name',
+                          prefixIcon: Icon(Icons.person),
                           border: OutlineInputBorder(),
                         ),
                         validator: (value) {
@@ -76,6 +89,7 @@ class _RegisterPageState extends State<RegisterPage> {
                         keyboardType: TextInputType.name,
                         decoration: InputDecoration(
                           labelText: 'Last Name',
+                          prefixIcon: Icon(Icons.person),
                           border: OutlineInputBorder(),
                         ),
                         validator: (value) {
@@ -95,6 +109,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 controller: _usernameController,
                 decoration: InputDecoration(
                   labelText: 'Username',
+                  prefixIcon: Icon(Icons.edit),
                   border: OutlineInputBorder(),
                 ),
                 validator: (value) {
@@ -113,6 +128,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 keyboardType: TextInputType.emailAddress,
                 decoration: InputDecoration(
                   labelText: 'Email',
+                  prefixIcon: Icon(Icons.email),
                   border: OutlineInputBorder(),
                 ),
                 validator: (value) {
@@ -131,6 +147,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 obscureText: true,
                 decoration: InputDecoration(
                   labelText: 'Password',
+                  prefixIcon: Icon(Icons.lock),
                   border: OutlineInputBorder(),
                 ),
                 validator: (value) {
@@ -143,7 +160,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   return null;
                 },
               ),
-              SizedBox(height: 32.0),
+              SizedBox(height: 16.0),
               ElevatedButton(
                 onPressed: () async {
                   await checkUsername(_usernameController.text);
@@ -180,7 +197,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 child: Text('Register'),
               ),
 
-              SizedBox(height: 16.0),
+              SizedBox(height: 8.0),
               TextButton(
                 onPressed: () {
                   // navigate to login page

@@ -41,6 +41,7 @@ class _ChangeNameState extends State<ChangeName> {
                       keyboardType: TextInputType.name,
                       decoration: InputDecoration(
                         labelText: 'First Name',
+                        prefixIcon: Icon(Icons.person),
                         border: OutlineInputBorder(),
                       ),
                       validator: (value) {
@@ -60,6 +61,7 @@ class _ChangeNameState extends State<ChangeName> {
                       keyboardType: TextInputType.name,
                       decoration: InputDecoration(
                         labelText: 'Last Name',
+                        prefixIcon: Icon(Icons.person),
                         border: OutlineInputBorder(),
                       ),
                       validator: (value) {
@@ -121,6 +123,7 @@ class _ChangeBioState extends State<ChangeBio> {
               TextField(
                 decoration: InputDecoration(
                   labelText: 'Biography',
+                  prefixIcon: Icon(Icons.edit),
                   border: OutlineInputBorder(),
                 ),
                 controller: _bioController,
@@ -181,6 +184,7 @@ class _ChangeUsernameState extends State<ChangeUsername> {
                 TextFormField(
                   decoration: InputDecoration(
                     labelText: 'Username',
+                    prefixIcon: Icon(Icons.edit),
                     border: OutlineInputBorder(),
                   ),
                   controller: _usernameController,
@@ -252,6 +256,7 @@ class _ChangeEmailState extends State<ChangeEmail> {
               TextFormField(
                 decoration: InputDecoration(
                   labelText: 'Email',
+                  prefixIcon: Icon(Icons.email),
                   border: OutlineInputBorder(),
                 ),
                 controller: _emailController,
@@ -325,6 +330,7 @@ class _ChangePhoneState extends State<ChangePhone> {
               TextFormField(
                 decoration: InputDecoration(
                     labelText: 'Phone Number',
+                    prefixIcon: Icon(Icons.phone),
                   border: OutlineInputBorder(),
                 ),
                 controller: _phoneController,
