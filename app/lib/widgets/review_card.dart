@@ -34,6 +34,14 @@ class _ReviewCardState extends State<ReviewCard> {
       padding: EdgeInsets.all(16),
       margin: EdgeInsets.only(bottom: 16),
       decoration: BoxDecoration(
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.withOpacity(0.5),
+            spreadRadius: 1,
+            blurRadius: 5,
+            offset: const Offset(0, 2),
+          ),
+        ],
         color: Colors.blue[100],
         borderRadius: BorderRadius.circular(10),
       ),
