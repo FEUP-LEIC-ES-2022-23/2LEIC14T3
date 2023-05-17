@@ -27,6 +27,16 @@ class _ReviewsPageCompanyState extends State<ReviewsPageCompany> {
             return Center(child: CircularProgressIndicator());
           }
           final reviews = snapshot.data!;
+
+          if (reviews.isEmpty) {
+            return const Center(
+              child: Text(
+                'No reviews available',
+                style: TextStyle(fontSize: 30, color: Colors.grey),
+              ),
+            );
+          }
+
           return Container(
             padding: EdgeInsets.all(16),
             decoration: BoxDecoration(
