@@ -1,11 +1,14 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:rate_it/screens/company/reviews_page_company.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 import '../../firestore/database.dart';
 import '../../model/company.dart';
 import '../../model/review.dart';
 import 'rating_page_company.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 
 class CompanyScreen extends StatefulWidget {
@@ -33,6 +36,7 @@ class _CompanyScreenState extends State<CompanyScreen> {
       widget.userReviewOnCompany = r;
     });
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -60,34 +64,38 @@ class _CompanyScreenState extends State<CompanyScreen> {
                       Text(
                         widget.company.name,
                         style: TextStyle(
-                            fontSize: 24.0, fontWeight: FontWeight.bold),
+                          fontSize: 24.0,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                       SizedBox(height: 16.0),
                       SingleChildScrollView(
                         child: Column(
                           children: [
                             SizedBox(width: 8.0),
-                            if (widget.company.description != null && widget.company.description.isNotEmpty)
+                            if (widget.company.description != null &&
+                                widget.company.description.isNotEmpty)
                               Container(
                                 child: AnimatedCrossFade(
                                   duration: Duration(milliseconds: 300),
-                                  firstChild: Flexible(
-                                    child: Text(
-                                      widget.company.description,
-                                      maxLines: 3,
-                                      overflow: TextOverflow.ellipsis,
-                                      style: TextStyle(fontSize: 16.0),
-                                    ),
+                                  firstChild: Text(
+                                    widget.company.description,
+                                    maxLines: 3,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: TextStyle(fontSize: 16.0),
                                   ),
                                   secondChild: Text(
                                     widget.company.description,
                                     style: TextStyle(fontSize: 16.0),
                                   ),
-                                  crossFadeState: isExpanded ? CrossFadeState.showSecond : CrossFadeState.showFirst,
+                                  crossFadeState: isExpanded
+                                      ? CrossFadeState.showSecond
+                                      : CrossFadeState.showFirst,
                                   firstCurve: Curves.easeIn,
                                 ),
                               ),
-                            if (widget.company.description != null && widget.company.description.isNotEmpty)
+                            if (widget.company.description != null &&
+                                widget.company.description.isNotEmpty)
                               Align(
                                 alignment: Alignment.bottomLeft,
                                 child: TextButton(
@@ -98,11 +106,15 @@ class _CompanyScreenState extends State<CompanyScreen> {
                                   },
                                   child: Text(
                                     isExpanded ? 'Show Less' : 'Show More',
-                                    style: TextStyle(color: Colors.blue, fontSize: 16.0),
+                                    style: TextStyle(
+                                      color: Colors.blue,
+                                      fontSize: 16.0,
+                                    ),
                                   ),
                                 ),
                               ),
-                            if (widget.company.description == null || widget.company.description.isEmpty)
+                            if (widget.company.description == null ||
+                                widget.company.description.isEmpty)
                               Container(
                                 child: Text(
                                   'No description available',
@@ -119,14 +131,55 @@ class _CompanyScreenState extends State<CompanyScreen> {
                           children: [
                             Icon(Icons.location_on, color: Colors.red),
                             SizedBox(width: 8.0),
-                            Text(
-                              widget.company.address,
-                              style: TextStyle(fontSize: 16.0),
+                            Flexible(
+                              child: Text(
+                                widget.company.address,
+                                style: TextStyle(fontSize: 16.0),
+                              ),
                             ),
                           ],
                         ),
                       ),
                       SizedBox(height: 16.0),
+                      if (widget.company.phone != null && widget.company.phone.isNotEmpty) ...[
+                        Row(
+                          children: [
+                            Icon(Icons.phone, color: Colors.grey),
+                            SizedBox(width: 8.0),
+                            Text(
+                              widget.company.phone,
+                              style: TextStyle(fontSize: 16.0),
+                            ),
+                          ],
+                        ),
+                        SizedBox(height: 16.0),
+                      ],
+                      if (widget.company.fax != null && widget.company.fax.isNotEmpty) ...[
+                        Row(
+                          children: [
+                            Icon(Icons.fax, color: Colors.green),
+                            SizedBox(width: 8.0),
+                            Text(
+                              widget.company.fax,
+                              style: TextStyle(fontSize: 16.0),
+                            ),
+                          ],
+                        ),
+                        SizedBox(height: 16.0),
+                      ],
+                      if (widget.company.email != null && widget.company.email.isNotEmpty) ...[
+                        Row(
+                          children: [
+                            Icon(Icons.mail, color: Colors.redAccent),
+                            SizedBox(width: 8.0),
+                            Text(
+                              widget.company.email,
+                              style: TextStyle(fontSize: 16.0),
+                            ),
+                          ],
+                        ),
+                        SizedBox(height: 16.0),
+                      ],
                       Row(
                         children: [
                           Icon(Icons.star, color: Colors.yellow[700]),
@@ -142,28 +195,39 @@ class _CompanyScreenState extends State<CompanyScreen> {
                           ),
                         ],
                       ),
-                      SizedBox(height: 16.0),
+                      SizedBox(height: 32.0),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
                           if (widget.userReviewOnCompany != null)
                             ElevatedButton(
                               onPressed: () {
-                                Navigator.push(context,
-                                    MaterialPageRoute(
-                                      builder: (context) => EventRatingPageCompany(company: widget.company, review: widget.userReviewOnCompany),
-                                    )).then((_) {
-                                      setState(() {
-                                        widget.company.reviews = Database.fetchReviews(widget.company.id, widget.company.entityOrigin, 0);
-                                        widget.company.setAverageRating();
-                                      });
-                                      _fetchReview();
-                                    });
-                                },
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => EventRatingPageCompany(
+                                      company: widget.company,
+                                      review: widget.userReviewOnCompany,
+                                    ),
+                                  ),
+                                ).then((_) {
+                                  setState(() {
+                                    widget.company.reviews = Database.fetchReviews(
+                                        widget.company.id,
+                                        widget.company.entityOrigin,
+                                        0);
+                                    widget.company.setAverageRating();
+                                  });
+                                  _fetchReview();
+                                });
+                              },
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  Text('Edit your review', style: TextStyle(color: Colors.white)),
+                                  Text(
+                                    'Edit your review',
+                                    style: TextStyle(color: Colors.white),
+                                  ),
                                   SizedBox(width: 8.0),
                                   Icon(Icons.edit, color: Colors.white),
                                 ],
@@ -172,21 +236,31 @@ class _CompanyScreenState extends State<CompanyScreen> {
                           if (widget.userReviewOnCompany == null)
                             ElevatedButton(
                               onPressed: () {
-                                Navigator.push(context,
-                                    MaterialPageRoute(
-                                      builder: (context) => EventRatingPageCompany(company: widget.company),
-                                    )).then((_){
-                                      setState(() {
-                                        widget.company.reviews = Database.fetchReviews(widget.company.id, widget.company.entityOrigin, 0);
-                                        widget.company.setAverageRating();
-                                      });
-                                      _fetchReview();
-                                    });
-                                },
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => EventRatingPageCompany(
+                                      company: widget.company,
+                                    ),
+                                  ),
+                                ).then((_) {
+                                  setState(() {
+                                    widget.company.reviews = Database.fetchReviews(
+                                        widget.company.id,
+                                        widget.company.entityOrigin,
+                                        0);
+                                    widget.company.setAverageRating();
+                                  });
+                                  _fetchReview();
+                                });
+                              },
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  Text('Rate this company', style: TextStyle(color: Colors.white)),
+                                  Text(
+                                    'Rate this company',
+                                    style: TextStyle(color: Colors.white),
+                                  ),
                                   SizedBox(width: 8.0),
                                   Icon(Icons.star, color: Colors.white),
                                 ],
@@ -197,38 +271,102 @@ class _CompanyScreenState extends State<CompanyScreen> {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) =>
-                                      ReviewsPageCompany(company: widget.company),
+                                  builder: (context) => ReviewsPageCompany(
+                                    company: widget.company,
+                                  ),
                                 ),
                               );
                             },
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                Text('Check Reviews', style: TextStyle(color: Colors.white)),
+                                Text(
+                                  'Check Reviews',
+                                  style: TextStyle(color: Colors.white),
+                                ),
                                 SizedBox(width: 8.0),
                                 Icon(Icons.remove_red_eye, color: Colors.white),
                               ],
                             ),
                           ),
                         ],
-
                       ),
-
+                      SizedBox(height: 32.0),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          if (widget.company.url != null && widget.company.url.isNotEmpty) ...[
+                            Expanded(
+                              child: ElevatedButton(
+                                style: ButtonStyle(
+                                  elevation: MaterialStateProperty.all<double>(0),
+                                  backgroundColor: MaterialStateProperty.all<Color>(Colors.transparent),
+                                ),
+                                onPressed: () {
+                                  launchUrl(Uri.parse(widget.company.url));
+                                },
+                                child: const Icon(Icons.language, color: Colors.blue, size: 50.0),
+                              ),
+                            ),
+                          ],
+                          if (widget.company.url_facebook != null && widget.company.url_facebook.isNotEmpty) ...[
+                            Expanded(
+                              child: ElevatedButton(
+                                style: ButtonStyle(
+                                  elevation: MaterialStateProperty.all<double>(0),
+                                  backgroundColor: MaterialStateProperty.all<Color>(Colors.transparent),
+                                ),
+                                onPressed: () {
+                                  launchUrl(Uri.parse(widget.company.url_facebook));
+                                },
+                                child: const Icon(Icons.facebook, color: Color(0xFF4267B2), size: 50.0),
+                              ),
+                            ),
+                          ],
+                          if (widget.company.url_linkedin != null && widget.company.url_linkedin.isNotEmpty) ...[
+                            Expanded(
+                              child: ElevatedButton(
+                                style: ButtonStyle(
+                                  elevation: MaterialStateProperty.all<double>(0),
+                                  backgroundColor: MaterialStateProperty.all<Color>(Colors.transparent),
+                                ),
+                                onPressed: () {
+                                  launchUrl(Uri.parse(widget.company.url_linkedin));
+                                },
+                                child: const Icon(FontAwesomeIcons.linkedin, color: Color(0xFF0A66C2), size: 50.0),
+                              ),
+                            ),
+                          ],
+                          if (widget.company.url_twitter != null && widget.company.url_twitter.isNotEmpty) ...[
+                            Expanded(
+                              child: ElevatedButton(
+                                style: ButtonStyle(
+                                  elevation: MaterialStateProperty.all<double>(0),
+                                  backgroundColor: MaterialStateProperty.all<Color>(Colors.transparent),
+                                ),
+                                onPressed: () {
+                                  launchUrl(Uri.parse(widget.company.url_twitter));
+                                },
+                                child: const Icon(FontAwesomeIcons.twitter, color: Color(0xff1DA1F2), size: 50.0),
+                              ),
+                            ),
+                          ],
+                        ],
+                      ),
                     ],
                   ),
                 ),
               ],
             );
-          }
-          else if (snapshot.hasError) {
+          } else if (snapshot.hasError) {
             print('You have an error! ${snapshot.error.toString()}');
             return Text('Something went wrong!');
+          } else {
+            return Center(
+              child: CircularProgressIndicator(),
+            );
           }
-          else {
-            return Center( child: CircularProgressIndicator(),);
-          }
-        }
+        },
       ),
     );
   }
