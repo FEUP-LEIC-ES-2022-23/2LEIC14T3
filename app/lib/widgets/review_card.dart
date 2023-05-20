@@ -154,28 +154,50 @@ class _ReviewCardState extends State<ReviewCard> {
                       style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                     ),
                     Expanded(
-                      child: Text(
-                        widget.review.review,
-                        style: TextStyle(fontSize: 18),
-                        maxLines: showFullReview ? null : 2,
-                        overflow: TextOverflow.fade,
-                      ),
-                    ),
-                  ],
-                ),
-                SizedBox(height: 8),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    TextButton(
-                      onPressed: () {
-                        setState(() {
-                          showFullReview = !showFullReview;
-                        });
-                      },
-                      child: Text(
-                        showFullReview ? 'Mostrar menos' : 'Mostrar mais',
-                        style: TextStyle(fontSize: 18, color: Colors.blue),
+                      child: LayoutBuilder(
+                        builder: (context, constraints) {
+                          final textSpan = TextSpan(
+                            text: widget.review.review,
+                            style: TextStyle(fontSize: 18),
+                          );
+                          final textPainter = TextPainter(
+                            text: textSpan,
+                            textDirection: TextDirection.ltr,
+                            maxLines: 2,
+                          );
+                          textPainter.layout(maxWidth: constraints.maxWidth);
+
+                          final hasOverflow = textPainter.didExceedMaxLines;
+
+                          return Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                widget.review.review,
+                                style: TextStyle(fontSize: 18),
+                                maxLines: showFullReview || !hasOverflow ? null : 2,
+                                overflow: TextOverflow.fade,
+                              ),
+                              if (hasOverflow)
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  children: [
+                                    TextButton(
+                                      onPressed: () {
+                                        setState(() {
+                                          showFullReview = !showFullReview;
+                                        });
+                                      },
+                                      child: Text(
+                                        showFullReview ? 'Mostrar menos' : 'Mostrar mais',
+                                        style: TextStyle(fontSize: 18, color: Colors.blue),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                            ],
+                          );
+                        },
                       ),
                     ),
                   ],
