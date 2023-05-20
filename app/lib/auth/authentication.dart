@@ -44,27 +44,38 @@ class Authentication {
     await FirebaseAuth.instance.signOut();
   }
 
+  static Future<String> changeEmail(String newEmail) async {
+    try {
+      await Firebase.initializeApp();
+
+      uEmail = newEmail;
+      User? currentUser = auth.currentUser;
+      await currentUser?.updateEmail(newEmail);
+      await currentUser?.reload();
+
+      return "successful-change-email";
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'email-already-in-use') {
+        return 'The account already exists for that email.';
+      }
+      return e.code;
+    }
+  }
 
 
   static Future<bool> verifyPassword(String currentPassword) async {
     try {
       await Firebase.initializeApp();
 
-      // Get the currently logged-in user
       User? currentUser = auth.currentUser;
 
-      // Re-authenticate the user with the current password
       AuthCredential credential =
-      EmailAuthProvider.credential(email: uEmail, password: currentPassword);
+      EmailAuthProvider.credential(email: currentUser!.email!, password: currentPassword);
       await currentUser?.reauthenticateWithCredential(credential);
 
-      // If re-authentication is successful, the current password is correct
       return true;
-    } on FirebaseAuthException catch (e) {
-      // Handle any authentication errors, such as incorrect password
-      return false;
+
     } catch (e) {
-      // Handle other exceptions
       return false;
     }
   }
