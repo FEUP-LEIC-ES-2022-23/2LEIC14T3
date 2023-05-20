@@ -23,11 +23,14 @@ class ReviewCard extends StatefulWidget{
 
 class _ReviewCardState extends State<ReviewCard> {
   late Future<User> authorUser;
+  bool showFullReview = false;
+
   @override
   void initState() {
     authorUser = Database.getUser(widget.review.authorId);
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -62,11 +65,11 @@ class _ReviewCardState extends State<ReviewCard> {
               ),
               FutureBuilder(
                 future: authorUser,
-                builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
-                  if (snapshot.hasData){
+                builder: (BuildContext context, AsyncSnapshot<User> snapshot) {
+                  if (snapshot.hasData) {
                     User reviewUser = snapshot.data!;
                     String uid = Authentication.auth.currentUser!.uid;
-                    if(!widget.review.anonymous || widget.review.authorId == uid){
+                    if (!widget.review.anonymous || widget.review.authorId == uid) {
                       return TextButton(
                         style: TextButton.styleFrom(
                           textStyle: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
@@ -90,11 +93,11 @@ class _ReviewCardState extends State<ReviewCard> {
                         child: Text('@${reviewUser.username}'),
                       );
                     }
-                  }
-                  else if (snapshot.hasError){
+                  } else if (snapshot.hasError) {
                     return Text("User couldn't be fetched");
+                  } else {
+                    return LinearProgressIndicator();
                   }
-                  else return LinearProgressIndicator();
                 },
               ),
             ],
@@ -139,17 +142,43 @@ class _ReviewCardState extends State<ReviewCard> {
           SizedBox(height: 8),
           Visibility(
             visible: widget.review.review.isNotEmpty,
-            child: Row(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                SizedBox(width: 8.0),
-                Text(
-                  'Review:',
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(width: 8.0),
+                    Text(
+                      'Review: ',
+                      style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                    ),
+                    Expanded(
+                      child: Text(
+                        widget.review.review,
+                        style: TextStyle(fontSize: 18),
+                        maxLines: showFullReview ? null : 2,
+                        overflow: TextOverflow.fade,
+                      ),
+                    ),
+                  ],
                 ),
-                SizedBox(width: 8.0),
-                Text(
-                  '${widget.review.review}',
-                  style: TextStyle(fontSize: 18),
+                SizedBox(height: 8),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    TextButton(
+                      onPressed: () {
+                        setState(() {
+                          showFullReview = !showFullReview;
+                        });
+                      },
+                      child: Text(
+                        showFullReview ? 'Mostrar menos' : 'Mostrar mais',
+                        style: TextStyle(fontSize: 18, color: Colors.blue),
+                      ),
+                    ),
+                  ],
                 ),
               ],
             ),
@@ -164,3 +193,4 @@ class _ReviewCardState extends State<ReviewCard> {
     );
   }
 }
+
