@@ -14,6 +14,7 @@ class EventRatingPageCompany extends StatefulWidget {
 
   int _rating = 0;
   String _review = "";
+  String _title = "";
   bool _anonymous = false;
 
   @override
@@ -21,6 +22,10 @@ class EventRatingPageCompany extends StatefulWidget {
 
   void setReview(String value) {
     _review = value;
+  }
+
+  void setTitle(String value) {
+    _title = value;
   }
 }
 
@@ -43,60 +48,75 @@ class _EventRatingPageCompanyState extends State<EventRatingPageCompany> {
       appBar: AppBar(
         title: Text('Rate this Company'),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              'How many stars would you give this company?',
-              style: TextStyle(fontSize: 18),
-            ),
-            SizedBox(height: 16),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                _buildStarButton(1),
-                _buildStarButton(2),
-                _buildStarButton(3),
-                _buildStarButton(4),
-                _buildStarButton(5),
-              ],
-            ),
-            SizedBox(height: 32),
-            Text(
-              'Write a review:',
-              style: TextStyle(fontSize: 18),
-            ),
-            SizedBox(height: 16),
-            TextFormField(
-              decoration: InputDecoration(
-                hintText: 'Enter your review here...',
-                border: OutlineInputBorder(),
+      body: SingleChildScrollView( // Adicionado SingleChildScrollView
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'How many stars would you give this company?',
+                style: TextStyle(fontSize: 18),
               ),
-              maxLines: 3,
-              onChanged: widget.setReview,
-            ),
-            SizedBox(height: 32),
-            Row(
-              children: [
-                Text(
-                  'Anonymous Review:',
-                  style: TextStyle(fontSize: 18),
+              SizedBox(height: 16),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  _buildStarButton(1),
+                  _buildStarButton(2),
+                  _buildStarButton(3),
+                  _buildStarButton(4),
+                  _buildStarButton(5),
+                ],
+              ),
+              SizedBox(height: 32),
+              Text(
+                'Title:',
+                style: TextStyle(fontSize: 18),
+              ),
+              SizedBox(height: 16),
+              TextFormField(
+                decoration: InputDecoration(
+                  hintText: 'Enter your title here...',
+                  border: OutlineInputBorder(),
                 ),
-                SizedBox(width: 16),
-                Switch(
-                  value: widget._anonymous,
-                  onChanged: (bool newValue) {
-                    setState(() {
-                      widget._anonymous = newValue;
-                    });
-                  },
+                maxLines: 1,
+                onChanged: widget.setTitle,
+              ),
+              SizedBox(height: 16),
+              Text(
+                'Write a review:',
+                style: TextStyle(fontSize: 18),
+              ),
+              SizedBox(height: 16),
+              TextFormField(
+                decoration: InputDecoration(
+                  hintText: 'Enter your review here...',
+                  border: OutlineInputBorder(),
                 ),
-              ],
-            ),
-            SizedBox(height: 32),
-            Row(
+                maxLines: 3,
+                onChanged: widget.setReview,
+              ),
+              SizedBox(height: 32),
+              Row(
+                children: [
+                  Text(
+                    'Anonymous Review:',
+                    style: TextStyle(fontSize: 18),
+                  ),
+                  SizedBox(width: 16),
+                  Switch(
+                    value: widget._anonymous,
+                    onChanged: (bool newValue) {
+                      setState(() {
+                        widget._anonymous = newValue;
+                      });
+                    },
+                  ),
+                ],
+              ),
+              SizedBox(height: 32),
+              Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   ElevatedButton(
@@ -127,10 +147,11 @@ class _EventRatingPageCompanyState extends State<EventRatingPageCompany> {
                           Text('Delete Review', style: TextStyle(color: Colors.white)),
                         ],
                       ),
-                    )
-            ]
-            )
-          ],
+                    ),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -160,18 +181,19 @@ class _EventRatingPageCompanyState extends State<EventRatingPageCompany> {
     String author = Authentication.auth.currentUser!.uid;
     if (widget.review != null){
       setState(() {
+        widget.review!.title = widget._title;
         widget.review!.review = widget._review;
         widget.review!.anonymous = widget._anonymous;
         widget.review!.rating = widget._rating;
       });
-      if (widget._rating > 0){
+      if (widget._rating > 0 && widget._title != ""){
         await Database.updateReview(widget.review);
         Navigator.pop(context);
       }
     }
     else{
       Review newReview = Review(
-        title: 'Review',
+        title: widget._title,
         rating: widget._rating,
         review: widget._review,
         authorId: author,
@@ -183,12 +205,13 @@ class _EventRatingPageCompanyState extends State<EventRatingPageCompany> {
         votes: 0,
       );
 
-      if (widget._rating > 0) {
+      if (widget._rating > 0 && widget._title != "") {
         Database.addReview(newReview);
         Navigator.pop(context);
       }
     }
   }
+
   Future<void> deleteReview() async {
     await Database.deleteReview(widget.review!);
     Navigator.pop(context);
