@@ -2,9 +2,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
-class Authentication{
+class Authentication {
   static final FirebaseAuth auth = FirebaseAuth.instance;
-  static String uEmail="", uPassword="";
+  static String uEmail = "";
+  static String uPassword = "";
 
   static Future<String> register(String email, String password) async {
     await Firebase.initializeApp();
@@ -27,7 +28,6 @@ class Authentication{
 
       uEmail = email;
       uPassword = password;
-
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
         return 'No user found for that email.';
@@ -46,5 +46,26 @@ class Authentication{
 
 
 
+  static Future<bool> verifyPassword(String currentPassword) async {
+    try {
+      await Firebase.initializeApp();
 
+      // Get the currently logged-in user
+      User? currentUser = auth.currentUser;
+
+      // Re-authenticate the user with the current password
+      AuthCredential credential =
+      EmailAuthProvider.credential(email: uEmail, password: currentPassword);
+      await currentUser?.reauthenticateWithCredential(credential);
+
+      // If re-authentication is successful, the current password is correct
+      return true;
+    } on FirebaseAuthException catch (e) {
+      // Handle any authentication errors, such as incorrect password
+      return false;
+    } catch (e) {
+      // Handle other exceptions
+      return false;
+    }
+  }
 }

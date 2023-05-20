@@ -18,11 +18,11 @@ class SettingsPage extends StatefulWidget {
 }
 
 class _SettingsPageState extends State<SettingsPage> {
-  bool _isDark = false;
+
   @override
   Widget build(BuildContext context) {
     return Theme(
-      data: _isDark ? ThemeData.dark() : ThemeData.light(),
+      data: ThemeData.light(),
       child: Scaffold(
         appBar: AppBar(
           title: const Text("Settings"),
@@ -35,16 +35,6 @@ class _SettingsPageState extends State<SettingsPage> {
                 _SingleSection(
                   title: "General",
                   children: [
-                    _CustomListTile(
-                        title: "Dark Mode",
-                        icon: FontAwesomeIcons.moon,
-                        trailing: Switch(
-                            value: _isDark,
-                            onChanged: (value) {
-                              setState(() {
-                                _isDark = value;
-                              });
-                            })),
                     _CustomListTile(
                         title: "Private Profile",
                         icon: FontAwesomeIcons.shieldHalved,
@@ -122,14 +112,14 @@ class _SettingsPageState extends State<SettingsPage> {
 
                     _CustomListTile(
                         title: "Change Password", icon: FontAwesomeIcons.key,
-                        /*
+
                         onTap: (){
                           Navigator.push(
                             context,
                             MaterialPageRoute(builder: (context) => ChangePassword(),
                             ),
                           );
-                        }*/),
+                        }),
                   ],
                 ),
                 const Divider(),
