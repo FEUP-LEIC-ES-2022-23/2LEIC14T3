@@ -165,6 +165,19 @@ class _EventScreenState extends State<EventScreen> {
                         ],
                       ),
                     ),
+                    if (widget.event.email != null && widget.event.email.isNotEmpty) ...[
+                      SizedBox(height: 16.0),
+                      Row(
+                        children: [
+                          Icon(Icons.mail, color: Colors.redAccent),
+                          SizedBox(width: 8.0),
+                          Text(
+                            widget.event.email,
+                            style: TextStyle(fontSize: 16.0),
+                          ),
+                        ],
+                      ),
+                    ],
                     SizedBox(height: 16.0),
                     Row(
                       children: [

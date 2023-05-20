@@ -144,6 +144,10 @@ class _CourseScreenState extends State<CourseScreen> {
                                 '${widget.course.dateEnd}',
                                 style: TextStyle(fontSize: 16.0),
                               ),
+                              Text(
+                                ' (Time: ${widget.course.hours} hours)',
+                                style: TextStyle(fontSize: 16.0),
+                              ),
                             ],
                           ),
                         ),
