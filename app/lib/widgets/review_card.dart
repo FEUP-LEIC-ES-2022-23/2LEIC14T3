@@ -51,73 +51,22 @@ class _ReviewCardState extends State<ReviewCard> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Row(
-            children: [
-              SizedBox(width: 8.0),
-              Text(
-                widget.review.title,
-                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-              ),
-              SizedBox(width: 8.0),
-              const Text(
-                'by',
-                style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
-              ),
-              FutureBuilder(
-                future: authorUser,
-                builder: (BuildContext context, AsyncSnapshot<User> snapshot) {
-                  if (snapshot.hasData) {
-                    User reviewUser = snapshot.data!;
-                    String uid = Authentication.auth.currentUser!.uid;
-                    if (!widget.review.anonymous || widget.review.authorId == uid) {
-                      return TextButton(
-                        style: TextButton.styleFrom(
-                          textStyle: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
-                        ),
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) => ProfilePage(user: reviewUser)),
-                          );
-                        },
-                        child: Text(
-                          '${reviewUser.username}',
-                          style: const TextStyle(
-                            color: Color(0xFF1976D2),
-                          ),
-                        ),
-                      );
-                    } else {
-                      return ImageFiltered(
-                        imageFilter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
-                        child: Text('@${reviewUser.username}'),
-                      );
-                    }
-                  } else if (snapshot.hasError) {
-                    return Text("User couldn't be fetched");
-                  } else {
-                    return LinearProgressIndicator();
-                  }
-                },
-              ),
-            ],
-          ),
           SizedBox(height: 8),
           Row(
             children: [
-              SizedBox(width: 8.0),
-              Text(
-                'Reviewed to:',
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-              ),
-              SizedBox(width: 8.0),
-              Text(
-                '${widget.review.idEntity}',
-                style: TextStyle(fontSize: 18),
+              SizedBox(height: 8),
+              Row(
+                children: [
+                  SizedBox(width: 8.0),
+                  Text(
+                    '${widget.review.title}',
+                    style: TextStyle(fontSize: 26, fontWeight: FontWeight.bold),
+                  ),
+                ],
               ),
             ],
           ),
-          SizedBox(height: 8),
+          SizedBox(height: 16),
           Row(
             children: [
               SizedBox(width: 8.0),
@@ -205,7 +154,55 @@ class _ReviewCardState extends State<ReviewCard> {
               ],
             ),
           ),
-          SizedBox(height: 8),
+          Row(
+            children: [
+              SizedBox(width: 8.0),
+              const Text(
+                'Review by',
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              ),
+              Expanded(
+                child: FutureBuilder(
+                  future: authorUser,
+                  builder: (BuildContext context, AsyncSnapshot<User> snapshot) {
+                    if (snapshot.hasData) {
+                      User reviewUser = snapshot.data!;
+                      String uid = Authentication.auth.currentUser!.uid;
+                      if (!widget.review.anonymous || widget.review.authorId == uid) {
+                        return TextButton(
+                          style: TextButton.styleFrom(
+                            textStyle: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                          ),
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => ProfilePage(user: reviewUser)),
+                            );
+                          },
+                          child: Text(
+                            '${reviewUser.username}',
+                            style: const TextStyle(
+                              color: Color(0xFF1976D2),
+                            ),
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        );
+                      } else {
+                        return ImageFiltered(
+                          imageFilter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
+                          child: Text('@${reviewUser.username}'),
+                        );
+                      }
+                    } else if (snapshot.hasError) {
+                      return Text("User couldn't be fetched");
+                    } else {
+                      return LinearProgressIndicator();
+                    }
+                  },
+                ),
+              ),
+            ],
+          ),
           Align(
             alignment: Alignment.bottomRight,
             child: UpDownVotes(review: widget.review),
