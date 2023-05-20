@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:rate_it/screens/course/rating_page_course.dart';
 import 'package:rate_it/screens/course/reviews_page_course.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../../model/course.dart';
 import '../../firestore/database.dart';
 import '../../model/review.dart';
@@ -128,9 +129,22 @@ class _CourseScreenState extends State<CourseScreen> {
                         Icon(Icons.calendar_month_sharp, color: Colors.blue[600]),
                         SizedBox(width: 8.0),
                         Expanded(
-                          child: Text(
-                            '${widget.course.dateStart} -> ${widget.course.dateEnd}',
-                            style: TextStyle(fontSize: 16.0),
+                          child: Row(
+                            children: [
+                              Text(
+                                '${widget.course.dateStart}',
+                                style: TextStyle(fontSize: 16.0),
+                              ),
+                              Icon(
+                                Icons.arrow_forward,
+                                size: 20.0,
+                                color: Colors.blueAccent,
+                              ),
+                              Text(
+                                '${widget.course.dateEnd}',
+                                style: TextStyle(fontSize: 16.0),
+                              ),
+                            ],
                           ),
                         ),
                       ],
@@ -147,15 +161,20 @@ class _CourseScreenState extends State<CourseScreen> {
                       ],
                     ),
                     SizedBox(height: 16.0),
-                    Row(
-                      children: [
-                        Icon(Icons.location_on, color: Colors.red),
-                        SizedBox(width: 8.0),
-                        Text(
-                          widget.course.place,
-                          style: TextStyle(fontSize: 16.0),
-                        ),
-                      ],
+                    Visibility(
+                      visible: widget.course.place != null && widget.course.place.isNotEmpty,
+                      child: Row(
+                        children: [
+                          Icon(Icons.location_on, color: Colors.red),
+                          SizedBox(width: 8.0),
+                          Flexible(
+                            child: Text(
+                              widget.course.place,
+                              style: TextStyle(fontSize: 16.0),
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                     SizedBox(height: 16.0),
                     Row(
@@ -245,6 +264,26 @@ class _CourseScreenState extends State<CourseScreen> {
                             ],
                           ),
                         ),
+                      ],
+                    ),
+                    SizedBox(height: 32.0),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        if (widget.course.url != null && widget.course.url.isNotEmpty) ...[
+                          Expanded(
+                            child: ElevatedButton(
+                              style: ButtonStyle(
+                                elevation: MaterialStateProperty.all<double>(0),
+                                backgroundColor: MaterialStateProperty.all<Color>(Colors.transparent),
+                              ),
+                              onPressed: () {
+                                launchUrl(Uri.parse(widget.course.url));
+                              },
+                              child: const Icon(Icons.language, color: Colors.blue, size: 50.0),
+                            ),
+                          ),
+                        ],
                       ],
                     ),
                   ],

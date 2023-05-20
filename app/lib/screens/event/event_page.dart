@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:rate_it/screens/event/rating_page_event.dart';
 import 'package:rate_it/screens/event/reviews_page_event.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../../firestore/database.dart';
 import '../../model/event.dart';
 import '../../model/review.dart';
@@ -117,9 +118,22 @@ class _EventScreenState extends State<EventScreen> {
                             color: Colors.blue[600]),
                         SizedBox(width: 8.0),
                         Expanded(
-                          child: Text(
-                            '${widget.event.dateStart} -> ${widget.event.dateEnd}',
-                            style: TextStyle(fontSize: 16.0),
+                          child: Row(
+                            children: [
+                              Text(
+                                '${widget.event.dateStart}',
+                                style: TextStyle(fontSize: 16.0),
+                              ),
+                              Icon(
+                                Icons.arrow_forward,
+                                size: 20.0,
+                                color: Colors.blueAccent,
+                              ),
+                              Text(
+                                '${widget.event.dateEnd}',
+                                style: TextStyle(fontSize: 16.0),
+                              ),
+                            ],
                           ),
                         ),
                       ],
@@ -136,15 +150,20 @@ class _EventScreenState extends State<EventScreen> {
                       ],
                     ),
                     SizedBox(height: 16.0),
-                    Row(
-                      children: [
-                        Icon(Icons.location_on, color: Colors.red),
-                        SizedBox(width: 8.0),
-                        Text(
-                          widget.event.place,
-                          style: TextStyle(fontSize: 16.0),
-                        ),
-                      ],
+                    Visibility(
+                      visible: widget.event.place != null && widget.event.place.isNotEmpty,
+                      child: Row(
+                        children: [
+                          Icon(Icons.location_on, color: Colors.red),
+                          SizedBox(width: 8.0),
+                          Flexible(
+                            child: Text(
+                              widget.event.place,
+                              style: TextStyle(fontSize: 16.0),
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                     SizedBox(height: 16.0),
                     Row(
@@ -253,6 +272,26 @@ class _EventScreenState extends State<EventScreen> {
                             ],
                           ),
                         ),
+                      ],
+                    ),
+                    SizedBox(height: 32.0),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        if (widget.event.url != null && widget.event.url.isNotEmpty) ...[
+                          Expanded(
+                            child: ElevatedButton(
+                              style: ButtonStyle(
+                                elevation: MaterialStateProperty.all<double>(0),
+                                backgroundColor: MaterialStateProperty.all<Color>(Colors.transparent),
+                              ),
+                              onPressed: () {
+                                launchUrl(Uri.parse(widget.event.url));
+                              },
+                              child: const Icon(Icons.language, color: Colors.blue, size: 50.0),
+                            ),
+                          ),
+                        ],
                       ],
                     ),
                   ],

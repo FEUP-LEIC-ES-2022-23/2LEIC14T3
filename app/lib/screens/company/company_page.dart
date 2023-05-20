@@ -1,11 +1,15 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:rate_it/screens/company/reviews_page_company.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 import '../../firestore/database.dart';
 import '../../model/company.dart';
 import '../../model/review.dart';
 import 'rating_page_company.dart';
+import 'package:url_launcher/url_launcher.dart';
+
 
 class CompanyScreen extends StatefulWidget {
   final Company company;
@@ -122,15 +126,16 @@ class _CompanyScreenState extends State<CompanyScreen> {
                       ),
                       SizedBox(height: 16.0),
                       Visibility(
-                        visible: widget.company.address != null &&
-                            widget.company.address.isNotEmpty,
+                        visible: widget.company.address != null && widget.company.address.isNotEmpty,
                         child: Row(
                           children: [
                             Icon(Icons.location_on, color: Colors.red),
                             SizedBox(width: 8.0),
-                            Text(
-                              widget.company.address,
-                              style: TextStyle(fontSize: 16.0),
+                            Flexible(
+                              child: Text(
+                                widget.company.address,
+                                style: TextStyle(fontSize: 16.0),
+                              ),
                             ),
                           ],
                         ),
@@ -151,7 +156,7 @@ class _CompanyScreenState extends State<CompanyScreen> {
                           ),
                         ],
                       ),
-                      SizedBox(height: 16.0),
+                      SizedBox(height: 32.0),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
@@ -245,6 +250,68 @@ class _CompanyScreenState extends State<CompanyScreen> {
                               ],
                             ),
                           ),
+                        ],
+                      ),
+                      SizedBox(height: 32.0),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          if (widget.company.url != null && widget.company.url.isNotEmpty) ...[
+                            Expanded(
+                              child: ElevatedButton(
+                                style: ButtonStyle(
+                                  elevation: MaterialStateProperty.all<double>(0),
+                                  backgroundColor: MaterialStateProperty.all<Color>(Colors.transparent),
+                                ),
+                                onPressed: () {
+                                  launchUrl(Uri.parse(widget.company.url));
+                                },
+                                child: const Icon(Icons.language, color: Colors.blue, size: 50.0),
+                              ),
+                            ),
+                          ],
+                          if (widget.company.url_facebook != null && widget.company.url_facebook.isNotEmpty) ...[
+                            Expanded(
+                              child: ElevatedButton(
+                                style: ButtonStyle(
+                                  elevation: MaterialStateProperty.all<double>(0),
+                                  backgroundColor: MaterialStateProperty.all<Color>(Colors.transparent),
+                                ),
+                                onPressed: () {
+                                  launchUrl(Uri.parse(widget.company.url_facebook));
+                                },
+                                child: const Icon(Icons.facebook, color: Color(0xFF4267B2), size: 50.0),
+                              ),
+                            ),
+                          ],
+                          if (widget.company.url_linkedin != null && widget.company.url_linkedin.isNotEmpty) ...[
+                            Expanded(
+                              child: ElevatedButton(
+                                style: ButtonStyle(
+                                  elevation: MaterialStateProperty.all<double>(0),
+                                  backgroundColor: MaterialStateProperty.all<Color>(Colors.transparent),
+                                ),
+                                onPressed: () {
+                                  launchUrl(Uri.parse(widget.company.url_linkedin));
+                                },
+                                child: const Icon(FontAwesomeIcons.linkedin, color: Color(0xFF0A66C2), size: 50.0),
+                              ),
+                            ),
+                          ],
+                          if (widget.company.url_twitter != null && widget.company.url_twitter.isNotEmpty) ...[
+                            Expanded(
+                              child: ElevatedButton(
+                                style: ButtonStyle(
+                                  elevation: MaterialStateProperty.all<double>(0),
+                                  backgroundColor: MaterialStateProperty.all<Color>(Colors.transparent),
+                                ),
+                                onPressed: () {
+                                  launchUrl(Uri.parse(widget.company.url_twitter));
+                                },
+                                child: const Icon(FontAwesomeIcons.twitter, color: Color(0xff1DA1F2), size: 50.0),
+                              ),
+                            ),
+                          ],
                         ],
                       ),
                     ],
