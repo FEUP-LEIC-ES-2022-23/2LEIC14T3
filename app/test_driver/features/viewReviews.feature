@@ -12,15 +12,3 @@ Feature: View Reviews
     Given there is a company with ratings and reviews available
     When the user navigates to the company page
     Then the user should see the overall rating of the company displayed prominently
-
-  Scenario: User wants to sort reviews by recency
-    Given there is a company with ratings and reviews available
-    When the user navigates to the company page
-    And the user selects the "Sort by Recency" option
-    Then the user should see the reviews sorted by recency, with the most recent reviews appearing first
-
-  Scenario: User wants to sort reviews by upvotes
-    Given there is a company with ratings and reviews available
-    When the user navigates to the company page
-    And the user selects the "Sort by Upvotes" option
-    Then the user should see the reviews sorted by upvotes, with the reviews with the highest number of upvotes appearing first

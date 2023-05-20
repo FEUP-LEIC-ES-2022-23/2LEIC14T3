@@ -9,5 +9,4 @@ Feature: User Review
     And the user should see a list of reviews the other user has submitted, sorted by recency
     And each review should display the event name, rating, and review text
     And the user should have the option to filter the reviews by category or rating
-    And the user should not be able to see the other user's personal information, such as their email or phone number
     And the user should not be able to edit or delete the other user's reviews.

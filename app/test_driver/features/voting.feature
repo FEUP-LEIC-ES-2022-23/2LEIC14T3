@@ -1,6 +1,6 @@
 Feature: Voting
 
-  Scenario: User wants to upvote/downvote a review
+  Scenario: User wants to upvote a review
     Given the user is logged in and viewing a review
     And the review has a current vote count of 3
     When the user selects the "Upvote" button
