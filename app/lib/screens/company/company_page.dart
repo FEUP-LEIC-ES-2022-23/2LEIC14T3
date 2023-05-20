@@ -141,6 +141,45 @@ class _CompanyScreenState extends State<CompanyScreen> {
                         ),
                       ),
                       SizedBox(height: 16.0),
+                      if (widget.company.phone != null && widget.company.phone.isNotEmpty) ...[
+                        Row(
+                          children: [
+                            Icon(Icons.phone, color: Colors.grey),
+                            SizedBox(width: 8.0),
+                            Text(
+                              widget.company.phone,
+                              style: TextStyle(fontSize: 16.0),
+                            ),
+                          ],
+                        ),
+                        SizedBox(height: 16.0),
+                      ],
+                      if (widget.company.fax != null && widget.company.fax.isNotEmpty) ...[
+                        Row(
+                          children: [
+                            Icon(Icons.fax, color: Colors.green),
+                            SizedBox(width: 8.0),
+                            Text(
+                              widget.company.fax,
+                              style: TextStyle(fontSize: 16.0),
+                            ),
+                          ],
+                        ),
+                        SizedBox(height: 16.0),
+                      ],
+                      if (widget.company.email != null && widget.company.email.isNotEmpty) ...[
+                        Row(
+                          children: [
+                            Icon(Icons.mail, color: Colors.redAccent),
+                            SizedBox(width: 8.0),
+                            Text(
+                              widget.company.email,
+                              style: TextStyle(fontSize: 16.0),
+                            ),
+                          ],
+                        ),
+                        SizedBox(height: 16.0),
+                      ],
                       Row(
                         children: [
                           Icon(Icons.star, color: Colors.yellow[700]),
