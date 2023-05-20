@@ -189,7 +189,7 @@ class _ReviewCardState extends State<ReviewCard> {
                                         });
                                       },
                                       child: Text(
-                                        showFullReview ? 'Mostrar menos' : 'Mostrar mais',
+                                        showFullReview ? 'Show Less' : 'Show More',
                                         style: TextStyle(fontSize: 18, color: Colors.blue),
                                       ),
                                     ),
