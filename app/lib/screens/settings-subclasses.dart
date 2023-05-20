@@ -283,7 +283,7 @@ class _ChangeEmailState extends State<ChangeEmail> {
                   if (_formKey.currentState!.validate()) {
                     String email = _emailController.text;
                     Database.updateEmail(uid, email);
-                    await Authentication.auth.currentUser!.updateEmail(email);
+                    await Authentication.changeEmail(email);
                     Navigator.pop(context);
                   }
                 },
