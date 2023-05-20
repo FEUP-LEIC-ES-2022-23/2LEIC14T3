@@ -297,7 +297,134 @@ class _ChangeEmailState extends State<ChangeEmail> {
   }
 }
 
+class ChangePassword extends StatefulWidget {
+  const ChangePassword({Key? key}) : super(key: key);
 
+  @override
+  State<ChangePassword> createState() => _ChangePasswordState();
+}
+
+class _ChangePasswordState extends State<ChangePassword> {
+  final _formKey = GlobalKey<FormState>();
+  TextEditingController _currentPasswordController = TextEditingController();
+  TextEditingController _newPasswordController = TextEditingController();
+  TextEditingController _confirmPasswordController = TextEditingController();
+
+  @override
+  void dispose() {
+    _currentPasswordController.dispose();
+    _newPasswordController.dispose();
+    _confirmPasswordController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Change Password'),
+      ),
+      body: Form(
+        key: _formKey,
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              TextFormField(
+                decoration: InputDecoration(
+                  labelText: 'Current Password',
+                  prefixIcon: Icon(Icons.lock),
+                  border: OutlineInputBorder(),
+                ),
+                controller: _currentPasswordController,
+                obscureText: true,
+                validator: (value) {
+                  if (Validation.emptyField(value)) {
+                    return 'Please enter your current password';
+                  }
+                  // Add your own validation logic here if needed
+                  return null;
+                },
+              ),
+              SizedBox(height: 16.0),
+              TextFormField(
+                decoration: InputDecoration(
+                  labelText: 'New Password',
+                  prefixIcon: Icon(Icons.lock),
+                  border: OutlineInputBorder(),
+                ),
+                controller: _newPasswordController,
+                obscureText: true,
+                validator: (value) {
+                  if (Validation.emptyField(value)) {
+                    return 'Please enter a new password';
+                  }
+                  // Add your own validation logic here if needed
+                  return null;
+                },
+              ),
+              SizedBox(height: 16.0),
+              TextFormField(
+                decoration: InputDecoration(
+                  labelText: 'Confirm Password',
+                  prefixIcon: Icon(Icons.lock),
+                  border: OutlineInputBorder(),
+                ),
+                controller: _confirmPasswordController,
+                obscureText: true,
+                validator: (value) {
+                  if (Validation.emptyField(value)) {
+                    return 'Please confirm your new password';
+                  }
+                  if (value != _newPasswordController.text) {
+                    return 'Passwords do not match';
+                  }
+                  return null;
+                },
+              ),
+              SizedBox(height: 16.0),
+              ElevatedButton(
+                onPressed: () async {
+                  if (_formKey.currentState!.validate()) {
+                    String newPassword = _newPasswordController.text;
+                    String confirmPassword = _confirmPasswordController.text;
+                    String currentPassword = _currentPasswordController.text;
+
+                    // Compare the current password with the stored password hash
+                    bool isCurrentPasswordValid = await Authentication.verifyPassword(currentPassword);
+                    if (!isCurrentPasswordValid) {
+                      showDialog(
+                        context: context,
+                        builder: (context) => AlertDialog(
+                          title: Text('Password Change Failed'),
+                          content: Text('The current password entered is incorrect.'),
+                          actions: [
+                            TextButton(
+                              onPressed: () => Navigator.pop(context),
+                              child: Text('OK'),
+                            ),
+                          ],
+                        ),
+                      );
+                      return;
+                    }
+
+                    // Continue with the password change logic
+                    await Authentication.auth.currentUser!.updatePassword(newPassword);
+                    Navigator.pop(context);
+                  }
+                },
+                child: Text('Save changes'),
+              ),
+
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
 
 
 
