@@ -15,8 +15,7 @@ You can find here details about the product (or mini-app or module), from a high
   * [Physical architecture](docs/ArchitectureAndDesign.md#Physical-architecture)
   * [Vertical prototype](docs/ArchitectureAndDesign.md#Vertical-prototype)
 * Implementation
-* Test
-* Configuration and change management
+* [Test](app/test)
 * [Project management](docs/ProjectManagement.md)
 
 So far, contributions are exclusively made by the initial team, but we hope to open them to the community, in all areas and topics: requirements, technologies, development, experimentation, testing, etc.
