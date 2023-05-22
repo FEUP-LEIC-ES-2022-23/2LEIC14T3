@@ -50,6 +50,7 @@ dependencies:
   flutter_gherkin: ^2.0.0
   firebase_storage: ^11.1.1
   file_picker: ^5.2.11
+  glob: ^2.1.2
 dev_dependencies:
   flutter_test:
     sdk: flutter
