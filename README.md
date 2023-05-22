@@ -6,7 +6,7 @@ You can find here details about the product (or mini-app or module), from a high
 
 * Business modeling 
   * [Product Vision](docs/ProductVision.md)
-  * Elevator Pitch
+  * [Elevator Pitch](docs/ElevatorPitch.md)
 * Requirements
   * [User stories](https://github.com/FEUP-LEIC-ES-2022-23/2LEIC14T3/issues)
   * [Domain model](docs/requirements.md#Domain-model)
