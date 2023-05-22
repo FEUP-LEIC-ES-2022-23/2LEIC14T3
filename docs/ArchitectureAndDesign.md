@@ -15,7 +15,7 @@ In summary, the models package contains the data and business logic, the widgets
 ![LogicalView](../images/logicalArchitecture.png)
 
 ### Physical architecture
-Our physical architecture is very simple. We just have two main entities featured: the client with the Rate IT app installed, and the database hosted by a Firebase server, where the user can retrieve all his important data.
+We have two principle external entities in our project: Firebase and ITJobs. From ITJobs we fetch the data present in its API through an HTTP protocol, and then the information is stored locally in the devices. On the other hand, we use Firebase Firestore to store our users reviews and other profile informations, such as their biography. Then with Firebase Authentication we let the users register or log in in the application. Finally, with Firebase Cloud Storage we are able to store the profile pictures of our users!
 
 ![DeploymentView](../images/physicalArchitecture.png)
 
