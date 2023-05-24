@@ -1,5 +1,5 @@
 Feature: Credits Page
-  Scenario: User wants to log in to their account
+  Scenario: User wants to see the creators of the app
     Given I see "emailfield"
     And I see "passfield"
     And I see "LoginButton"

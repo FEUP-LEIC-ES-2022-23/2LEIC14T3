@@ -168,6 +168,7 @@ class _MyHomePageState extends State<MyHomePage> {
               title: Visibility(
                 visible: _selectedIndex == 0,
                 child: RoundedSearchBar(
+                  key: Key("searchBar"),
                   controller: _searchController, onSubmitted: _onSearchSubmitted,),
               ),
               actions: [
