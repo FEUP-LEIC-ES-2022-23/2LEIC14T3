@@ -141,6 +141,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     },
                   ),
                   ListTile(
+                    key: Key("creditsButton"),
                     leading: Icon(FontAwesomeIcons.peopleGroup),
                     title: Text("Credits"),
                     onTap: () {

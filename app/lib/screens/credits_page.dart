@@ -6,6 +6,7 @@ class CreditsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: Key("CreditsPage"),
       body: Center(
         child: Container(
           padding: const EdgeInsets.all(16),

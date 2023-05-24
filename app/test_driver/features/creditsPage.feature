@@ -1,4 +1,4 @@
-Feature: User Login
+Feature: Credits Page
   Scenario: User wants to log in to their account
     Given I see "emailfield"
     And I see "passfield"
@@ -7,5 +7,9 @@ Feature: User Login
     And I fill the "passfield" field with "esof2223"
     And I tap the "LoginButton" button
     And I wait 5 seconds
-    Then I see "MyHomePage"
-
+    And I see "MyHomePage"
+    And I open the drawer
+    And I see "creditsButton"
+    And I tap the "creditsButton" button
+    And I wait 5 seconds
+    Then I see "CreditsPage"
