@@ -66,6 +66,7 @@ class _SettingsPageState extends State<SettingsPage> {
                       },
                     ),
                     _CustomListTile(
+                      key: Key("changeBio"),
                       title: "Change Biography", icon: FontAwesomeIcons.pencil,
                       onTap: (){
                         Navigator.push(

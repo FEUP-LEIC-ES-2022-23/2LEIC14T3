@@ -121,6 +121,7 @@ class _ChangeBioState extends State<ChangeBio> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               TextField(
+                key: Key("bioChanger"),
                 decoration: InputDecoration(
                   labelText: 'Biography',
                   prefixIcon: Icon(Icons.edit),
@@ -132,6 +133,7 @@ class _ChangeBioState extends State<ChangeBio> {
                 maxLines: 5,
               ),
               ElevatedButton(
+                key: Key("submitBio"),
                 onPressed: () async {
                   String uid = Authentication.auth.currentUser!.uid;
                   String bio = _bioController.text;

@@ -1,4 +1,4 @@
-Feature: Credits Page
+Feature: Logout
   Scenario: User wants to logout of his account
     Given I see "emailfield"
     And I see "passfield"

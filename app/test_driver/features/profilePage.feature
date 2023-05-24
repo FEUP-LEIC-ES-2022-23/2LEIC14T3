@@ -1,5 +1,5 @@
 Feature: Profile Page
-  Scenario: User wants to log in to their account
+  Scenario: User wants to access his profile page
     Given I see "emailfield"
     And I see "passfield"
     And I see "LoginButton"

@@ -12,7 +12,7 @@ import 'steps/step_widget_present_end.dart';
 
 Future<void> main() {
   final config = FlutterTestConfiguration()
-    ..features = [Glob(r"test_driver/features/changeEmail.feature")]
+    ..features = [Glob(r"test_driver/features/**.feature")]
     ..reporters = [
       ProgressReporter(),
       TestRunSummaryReporter(),

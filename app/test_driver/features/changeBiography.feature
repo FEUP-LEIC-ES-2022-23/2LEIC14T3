@@ -1,5 +1,5 @@
-Feature: Change Email
-  Scenario: User wants to change his email
+Feature: Change Biography
+  Scenario: User wants to change his profile bio
     Given I see "emailfield"
     And I see "passfield"
     And I see "LoginButton"
@@ -13,18 +13,18 @@ Feature: Change Email
     And I wait 5 seconds
     And I see "settings"
     And I tap the "settings" button
-    And I see "changeEmail"
-    And I tap the "changeEmail" button
-    And I see "emailChanger"
-    And I fill the "emailChanger" field with "teste-sucedido@gmail.com"
-    And I tap the "submitEmail" button
+    And I see "changeBio"
+    And I tap the "changeBio" button
+    And I see "bioChanger"
+    And I fill the "bioChanger" field with "Gherkin Test well succeed!"
+    And I tap the "submitBio" button
     And I wait 5 seconds
     And I tap the back button
     And I wait 3 seconds
-    Then I expect the text "teste-sucedido@gmail.com" to be present
+    Then I expect the text "Gherkin Test well succeed!" to be present
     And I tap the "settings" button
-    And I tap the "changeEmail" button
-    And I see "emailChanger"
-    And I fill the "emailChanger" field with "a@g.com"
-    And I tap the "submitEmail" button
+    And I tap the "changeBio" button
+    And I see "bioChanger"
+    And I fill the "bioChanger" field with "Hello World!"
+    And I tap the "submitBio" button
 
