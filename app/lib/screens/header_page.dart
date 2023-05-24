@@ -102,6 +102,7 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+            key: Key("MyHomePage"),
             drawerEdgeDragWidth: 50,
             drawer: Drawer(
               child: ListView(
@@ -170,6 +171,7 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
               actions: [
                 IconButton(
+                  key: Key("profileButton"),
                   onPressed: () async {
                     await _userProfile();
                   },

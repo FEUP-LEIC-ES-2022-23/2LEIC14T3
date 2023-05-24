@@ -45,6 +45,7 @@ class _LoginPageState extends State<LoginPage> {
               ),
               SizedBox(height: 42.0),
               TextFormField(
+                key: Key("emailfield"),
                 controller: _emailController,
                 keyboardType: TextInputType.emailAddress,
                 decoration: InputDecoration(
@@ -63,6 +64,7 @@ class _LoginPageState extends State<LoginPage> {
               ),
               SizedBox(height: 16.0),
               TextFormField(
+                key: Key("passfield"),
                 controller: _passwordController,
                 obscureText: true,
                 decoration: InputDecoration(
@@ -79,6 +81,7 @@ class _LoginPageState extends State<LoginPage> {
               ),
               SizedBox(height: 32.0),
               ElevatedButton(
+                key: Key("LoginButton"),
                 onPressed: () async {
                   if (_formKey.currentState!.validate()) {
                     // perform login

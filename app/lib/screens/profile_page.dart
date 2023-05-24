@@ -39,6 +39,7 @@ class _ProfilePageState extends State<ProfilePage> {
     return DefaultTabController(
       length: 3,
       child: Scaffold(
+        key: Key("profilePage"),
         appBar: AppBar(
           title: Text("${widget.user!.firstName}'s Profile"),
           actions: [
