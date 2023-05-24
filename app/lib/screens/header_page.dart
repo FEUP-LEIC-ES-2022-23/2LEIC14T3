@@ -149,6 +149,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     },
                   ),
                   ListTile(
+                    key: Key("logoutButton"),
                     leading: Icon(FontAwesomeIcons.doorOpen),
                     title: Text("Log Out"),
                     onTap: () {
