@@ -256,6 +256,7 @@ class _ChangeEmailState extends State<ChangeEmail> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               TextFormField(
+                key: Key("emailChanger"),
                 decoration: InputDecoration(
                   labelText: 'Email',
                   prefixIcon: Icon(Icons.email),
@@ -280,6 +281,7 @@ class _ChangeEmailState extends State<ChangeEmail> {
                 },
               ),
               ElevatedButton(
+                key: Key("submitEmail"),
                 onPressed: () async {
                   String uid = Authentication.auth.currentUser!.uid;
                   if (_formKey.currentState!.validate()) {

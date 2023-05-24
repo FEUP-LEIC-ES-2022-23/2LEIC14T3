@@ -92,6 +92,7 @@ class _SettingsPageState extends State<SettingsPage> {
                   title: "Security",
                   children: [
                     _CustomListTile(
+                        key: Key("changeEmail"),
                         title: "Change Email", icon: FontAwesomeIcons.envelope,
                         onTap: (){
                           Navigator.push(
