@@ -45,6 +45,7 @@ class _ProfilePageState extends State<ProfilePage> {
           actions: [
             if(uid == widget.user!.uid)
               IconButton(
+                key: Key("settings"),
                 onPressed: () {
                   Navigator.push(
                       context,

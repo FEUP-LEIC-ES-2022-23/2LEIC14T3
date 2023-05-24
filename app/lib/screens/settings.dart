@@ -101,6 +101,7 @@ class _SettingsPageState extends State<SettingsPage> {
                           );
                         }),
                     _CustomListTile(
+                      key: Key("changeNickname"),
                         title: "Change Username", icon: FontAwesomeIcons.user,
                         onTap: (){
                           Navigator.push(

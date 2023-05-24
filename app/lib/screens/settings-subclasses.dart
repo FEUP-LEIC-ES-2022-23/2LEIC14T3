@@ -182,6 +182,7 @@ class _ChangeUsernameState extends State<ChangeUsername> {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 TextFormField(
+                  key: Key("nicknameChanger"),
                   decoration: InputDecoration(
                     labelText: 'Username',
                     prefixIcon: Icon(Icons.edit),
@@ -202,6 +203,7 @@ class _ChangeUsernameState extends State<ChangeUsername> {
                   },
                 ),
                 ElevatedButton(
+                  key: Key("submitNickname"),
                   onPressed: () async {
                     String uid = Authentication.auth.currentUser!.uid;
                     if (_formKey.currentState!.validate()) {
