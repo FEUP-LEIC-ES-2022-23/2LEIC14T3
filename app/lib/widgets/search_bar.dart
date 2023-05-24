@@ -44,6 +44,7 @@ class _RoundedSearchBarState extends State<RoundedSearchBar> {
         controller: widget.controller,
         decoration: InputDecoration(
           prefixIcon: IconButton(
+            key: Key("searchButton"),
               icon: Icon(FontAwesomeIcons.magnifyingGlass),
             onPressed: () {
                 widget.onSubmitted(widget.controller.text);

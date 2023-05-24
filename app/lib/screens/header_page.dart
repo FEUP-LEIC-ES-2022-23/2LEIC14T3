@@ -102,6 +102,7 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+            key: Key("MyHomePage"),
             drawerEdgeDragWidth: 50,
             drawer: Drawer(
               child: ListView(
@@ -140,6 +141,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     },
                   ),
                   ListTile(
+                    key: Key("creditsButton"),
                     leading: Icon(FontAwesomeIcons.peopleGroup),
                     title: Text("Credits"),
                     onTap: () {
@@ -147,6 +149,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     },
                   ),
                   ListTile(
+                    key: Key("logoutButton"),
                     leading: Icon(FontAwesomeIcons.doorOpen),
                     title: Text("Log Out"),
                     onTap: () {
@@ -166,10 +169,12 @@ class _MyHomePageState extends State<MyHomePage> {
               title: Visibility(
                 visible: _selectedIndex == 0,
                 child: RoundedSearchBar(
+                  key: Key("searchBar"),
                   controller: _searchController, onSubmitted: _onSearchSubmitted,),
               ),
               actions: [
                 IconButton(
+                  key: Key("profileButton"),
                   onPressed: () async {
                     await _userProfile();
                   },

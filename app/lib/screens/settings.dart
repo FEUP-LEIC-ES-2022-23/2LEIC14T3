@@ -66,6 +66,7 @@ class _SettingsPageState extends State<SettingsPage> {
                       },
                     ),
                     _CustomListTile(
+                      key: Key("changeBio"),
                       title: "Change Biography", icon: FontAwesomeIcons.pencil,
                       onTap: (){
                         Navigator.push(
@@ -92,6 +93,7 @@ class _SettingsPageState extends State<SettingsPage> {
                   title: "Security",
                   children: [
                     _CustomListTile(
+                        key: Key("changeEmail"),
                         title: "Change Email", icon: FontAwesomeIcons.envelope,
                         onTap: (){
                           Navigator.push(
@@ -101,6 +103,7 @@ class _SettingsPageState extends State<SettingsPage> {
                           );
                         }),
                     _CustomListTile(
+                      key: Key("changeNickname"),
                         title: "Change Username", icon: FontAwesomeIcons.user,
                         onTap: (){
                           Navigator.push(

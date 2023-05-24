@@ -1,23 +1,16 @@
-Feature: Formation Search
-  As a student, I want to search for specific IT formations, companies and events so that I can see the ratings of the events.
-
-  Scenario: User searches for an IT formation
-    Given "Ibiscus Day" is an IT formation
-    When the user types "Ibiscus Day" in the search bar and taps the search button
-    Then "Ibiscus Day" should appear in the search results
-    And the user should be able to click on "Ibiscus Day" to view its event page
-    And the event page should display the ratings and reviews submitted by attendees
-
-  Scenario: User searches for a company
-    Given "Worten" is a company
-    When the user types "Worten" in the search bar and taps the search button
-    Then "Worten" should appear in the search results
-    And the user should be able to click on "Worten" to view its event page
-    And the event page should display the ratings and reviews submitted by attendees
-
-  Scenario: User searches for an event
-    Given "Tech days" is an event
-    When the user types "Tech days" in the search bar and taps the search button
-    Then "Tech days" should appear in the search results
-    And the user should be able to click on "Tech days" to view its event page
-    And the event page should display the ratings and reviews submitted by attendees
+Feature: Search Bar
+  Scenario: User wants to search for Deloitte
+    Given I see "emailfield"
+    And I see "passfield"
+    And I see "LoginButton"
+    When I fill the "emailfield" field with "a@g.com"
+    And I fill the "passfield" field with "esof2223"
+    And I tap the "LoginButton" button
+    And I wait 5 seconds
+    And I see "MyHomePage"
+    And I see "searchBar"
+    And I tap the "searchBar" button
+    And I fill the "searchBar" field with "Deloitte"
+    And I tap the "searchButton" button
+    And I wait 3 seconds
+    Then I expect the text "Deloitte Portugal" to be present

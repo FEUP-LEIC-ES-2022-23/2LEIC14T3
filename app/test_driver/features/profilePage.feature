@@ -1,5 +1,5 @@
-Feature: User Login
-  Scenario: User wants to log in to their account
+Feature: Profile Page
+  Scenario: User wants to access his profile page
     Given I see "emailfield"
     And I see "passfield"
     And I see "LoginButton"
@@ -7,5 +7,9 @@ Feature: User Login
     And I fill the "passfield" field with "esof2223"
     And I tap the "LoginButton" button
     And I wait 5 seconds
-    Then I see "MyHomePage"
+    And I see "MyHomePage"
+    And I see "profileButton"
+    And I tap the "profileButton" button
+    And I wait 5 seconds
+    Then I see "ProfilePage"
 

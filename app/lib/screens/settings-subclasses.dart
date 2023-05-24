@@ -121,6 +121,7 @@ class _ChangeBioState extends State<ChangeBio> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               TextField(
+                key: Key("bioChanger"),
                 decoration: InputDecoration(
                   labelText: 'Biography',
                   prefixIcon: Icon(Icons.edit),
@@ -132,6 +133,7 @@ class _ChangeBioState extends State<ChangeBio> {
                 maxLines: 5,
               ),
               ElevatedButton(
+                key: Key("submitBio"),
                 onPressed: () async {
                   String uid = Authentication.auth.currentUser!.uid;
                   String bio = _bioController.text;
@@ -182,6 +184,7 @@ class _ChangeUsernameState extends State<ChangeUsername> {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 TextFormField(
+                  key: Key("nicknameChanger"),
                   decoration: InputDecoration(
                     labelText: 'Username',
                     prefixIcon: Icon(Icons.edit),
@@ -202,6 +205,7 @@ class _ChangeUsernameState extends State<ChangeUsername> {
                   },
                 ),
                 ElevatedButton(
+                  key: Key("submitNickname"),
                   onPressed: () async {
                     String uid = Authentication.auth.currentUser!.uid;
                     if (_formKey.currentState!.validate()) {
@@ -254,6 +258,7 @@ class _ChangeEmailState extends State<ChangeEmail> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               TextFormField(
+                key: Key("emailChanger"),
                 decoration: InputDecoration(
                   labelText: 'Email',
                   prefixIcon: Icon(Icons.email),
@@ -278,6 +283,7 @@ class _ChangeEmailState extends State<ChangeEmail> {
                 },
               ),
               ElevatedButton(
+                key: Key("submitEmail"),
                 onPressed: () async {
                   String uid = Authentication.auth.currentUser!.uid;
                   if (_formKey.currentState!.validate()) {
